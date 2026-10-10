@@ -1,0 +1,414 @@
+"use client";
+
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  AUTH_SESSION_ERROR,
+  AUTH_SESSION_LOADING,
+  changePassword,
+  clearAuthSession,
+  getAuthSessionSnapshot,
+  getDashboardPath,
+  getServerAuthSnapshot,
+  logout,
+  refreshAuthSession,
+  subscribeToAuthSession,
+} from "../../lib/auth";
+import {
+  Activity, Bell, BriefcaseBusiness, Building2, CalendarDays,
+  ChevronDown, ClipboardList, Factory, FileText, Inbox, Layers, LayoutDashboard,
+  LockKeyhole, Mail, Menu, Quote, Search, Settings2, ShieldCheck, UsersRound, Wallet, X,
+} from "lucide-react";
+import { getUnreadContactCount } from "../../lib/adminApi";
+import { styles } from "./admin-styles";
+import ContactMessagesPanel from "./contact-messages-panel";
+import DashboardOverview from "./dashboard-overview";
+import EnquiriesPanel from "./enquiries-panel";
+import IndustriesPanel from "./industries-panel";
+import ClientsPanel from "./clients-panel";
+import ServicesPanel from "./services-panel";
+import TestimonialsPanel from "./testimonials-panel";
+
+const navigation = [
+  { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
+  { label: "Clients", view: "clients", icon: Building2, section: "main" },
+  { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main", badge: "7" },
+  { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
+  { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
+  { label: "Recruitment", view: "recruitment", icon: BriefcaseBusiness, section: "WORKFORCE" },
+  { label: "Workers", view: "workers", icon: UsersRound, section: "WORKFORCE" },
+  { label: "Attendance", view: "attendance", icon: CalendarDays, section: "WORKFORCE" },
+  { label: "Payroll", view: "payroll", icon: Wallet, section: "FINANCE" },
+  { label: "Invoices", view: "invoices", icon: FileText, section: "FINANCE" },
+  { label: "Industries", view: "industries", icon: Factory, section: "WEBSITE" },
+  { label: "Services", view: "services", icon: Layers, section: "WEBSITE" },
+  { label: "Testimonials", view: "testimonials", icon: Quote, section: "WEBSITE" },
+  { label: "Compliance", view: "compliance", icon: ShieldCheck, section: "ADMIN", badge: "3" },
+  { label: "Audit log", view: "audit", icon: Activity, section: "ADMIN" },
+  { label: "Settings", view: "settings", icon: Settings2, section: "ADMIN" },
+];
+
+const sectionOrder = ["main", "LEADS", "WORKFORCE", "FINANCE", "WEBSITE", "ADMIN"];
+const sectionLabels = { LEADS: "LEADS", WORKFORCE: "WORKFORCE", FINANCE: "FINANCE", WEBSITE: "WEBSITE CONTENT", ADMIN: "ADMIN" };
+
+function Brand() {
+  return (
+    <Link href="/" className={styles.brand}>
+      <span className={styles.brandMark}>S</span>
+      <span><strong>Shakti Manpower</strong><small>Admin Console</small></span>
+    </Link>
+  );
+}
+
+function ModulePlaceholder({ label }) {
+  return (
+    <div className="cmPlaceholder">
+      <h1>{label}</h1>
+      <p>This module is part of the workforce console preview and is not connected yet.</p>
+    </div>
+  );
+}
+
+export default function AdminDashboard() {
+  const router = useRouter();
+  const sessionState = useSyncExternalStore(
+    subscribeToAuthSession,
+    getAuthSessionSnapshot,
+    getServerAuthSnapshot,
+  );
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [activeView, setActiveView] = useState("dashboard");
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [passwordSessionInvalid, setPasswordSessionInvalid] = useState(false);
+  const [passwordChanged, setPasswordChanged] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const [unreadRefreshToken, setUnreadRefreshToken] = useState(0);
+
+  const refreshUnreadCount = useCallback(() => {
+    setUnreadRefreshToken((token) => token + 1);
+  }, []);
+
+  useEffect(() => {
+    if (sessionState === AUTH_SESSION_LOADING) return;
+    if (sessionState === AUTH_SESSION_ERROR || (sessionState && "error" in sessionState)) return;
+    if (!sessionState) {
+      router.replace("/login");
+      return;
+    }
+    const dashboardPath = getDashboardPath(sessionState);
+    if (dashboardPath !== "/admin") router.replace(dashboardPath);
+  }, [router, sessionState]);
+
+  useEffect(() => {
+    if (!(sessionState && typeof sessionState === "object" && sessionState.accessToken)) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const count = await getUnreadContactCount();
+        if (!cancelled) setUnreadCount(Number.isFinite(count) ? count : 0);
+      } catch {
+        // Non-fatal: the badge keeps its previous value.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [sessionState, unreadRefreshToken]);
+
+  useEffect(() => {
+    if (!sessionState || typeof sessionState !== "object" || !sessionState.accessToken) return;
+    const timeout = window.setTimeout(async () => {
+      const refreshed = await refreshAuthSession();
+      if (refreshed) return;
+      try {
+        clearAuthSession();
+      } catch (error) {
+        setLogoutError(error instanceof Error ? error.message : "Could not clear the expired session.");
+      }
+      router.replace("/login");
+    }, Math.max(0, sessionState.expiresAt - Date.now()));
+    return () => window.clearTimeout(timeout);
+  }, [router, sessionState]);
+
+  async function handleLogout(allDevices = false) {
+    if (!sessionState || isLoggingOut) return;
+    setLogoutError("");
+    setIsLoggingOut(true);
+    try {
+      await logout(sessionState, allDevices);
+      router.replace("/login");
+    } catch (error) {
+      setLogoutError(error instanceof Error ? error.message : "Logout failed. Please try again.");
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }
+
+  function openChangePassword() {
+    setProfileOpen(false);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+    setPasswordSuccess("");
+    setPasswordSessionInvalid(false);
+    setPasswordChanged(false);
+    setChangePasswordOpen(true);
+  }
+
+  function closeChangePassword() {
+    if (isChangingPassword || passwordSessionInvalid) return;
+    setChangePasswordOpen(false);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+    setPasswordSuccess("");
+    setPasswordChanged(false);
+  }
+
+  async function handleChangePassword(event) {
+    event.preventDefault();
+    if (passwordChanged) return;
+    setPasswordError("");
+    setPasswordSuccess("");
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError("Current password, new password and confirm password are all required.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New password and confirm password do not match.");
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      const payload = await changePassword(sessionState, currentPassword, newPassword);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setPasswordChanged(true);
+      setPasswordSuccess(
+        payload && typeof payload.message === "string" && payload.message.trim()
+          ? payload.message.trim()
+          : "Password changed successfully.",
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Password change failed. Please try again.";
+      setPasswordError(message);
+      if (error && (error.status === 401 || error.status === 403)) {
+        setPasswordSessionInvalid(true);
+      }
+    } finally {
+      setIsChangingPassword(false);
+    }
+  }
+
+  function handleReturnToSignIn() {
+    try {
+      clearAuthSession();
+    } catch {
+      setLogoutError("The session could not be cleared from this browser.");
+      return;
+    }
+    router.replace("/login");
+  }
+
+  if (sessionState === AUTH_SESSION_LOADING) {
+    return <main className={styles.loadingScreen}>Checking administrator session…</main>;
+  }
+
+  if (sessionState === AUTH_SESSION_ERROR || (sessionState && "error" in sessionState)) {
+    return <main className={styles.loadingScreen} role="alert">{sessionState.error}</main>;
+  }
+
+  if (!sessionState) {
+    return <main className={styles.loadingScreen}>Redirecting to sign in…</main>;
+  }
+
+  const session = sessionState;
+  const fullName = session.user.fullName || session.user.email;
+  const roleName = session.user.roles.includes("SUPER_ADMIN") ? "Super Admin" : "Admin";
+  const initials = fullName.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase();
+
+  let content;
+  if (activeView === "clients") content = <ClientsPanel />;
+  else if (activeView === "industries") content = <IndustriesPanel />;
+  else if (activeView === "services") content = <ServicesPanel />;
+  else if (activeView === "testimonials") content = <TestimonialsPanel />;
+  else if (activeView === "contact-messages") content = <ContactMessagesPanel onUnreadChange={refreshUnreadCount} />;
+  else if (activeView === "enquiries") content = <EnquiriesPanel />;
+  else if (activeView === "dashboard") content = <DashboardOverview session={session} />;
+  else {
+    const activeNav = navigation.find((item) => item.view === activeView);
+    content = <ModulePlaceholder label={activeNav ? activeNav.label : "Module"} />;
+  }
+
+  return (
+    <main className={styles.adminShell}>
+      {sidebarOpen && <button className={styles.backdrop} aria-label="Close sidebar" onClick={() => setSidebarOpen(false)} />}
+      <aside className={`${styles.sidebar}${sidebarOpen ? ` ${styles.sidebarOpen}` : ""}`}>
+        <Brand />
+        <nav className={styles.sideNav} aria-label="Admin navigation">
+          {sectionOrder.map((section) => {
+            const items = navigation.filter((item) => item.section === section);
+            if (!items.length) return null;
+            return (
+              <div className={styles.navGroup} key={section}>
+                {section !== "main" && <div className={styles.navSection}>{sectionLabels[section]}</div>}
+                {items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeView === item.view;
+                  const badge = item.view === "contact-messages"
+                    ? (unreadCount > 0 ? String(unreadCount) : null)
+                    : item.badge;
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={() => {
+                        setActiveView(item.view);
+                        setSidebarOpen(false);
+                      }}
+                      className={`${styles.navItem}${isActive ? ` ${styles.navActive}` : ""}`}
+                    >
+                      <Icon size={17} strokeWidth={1.8} />
+                      <span>{item.label}</span>
+                      {badge && <b>{badge}</b>}
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </nav>
+        <div className={styles.payrollNotice}>
+          <strong>FY 2026–27 · October</strong>
+          <span>Payroll cut-off in 4 days</span>
+          <small>Lock attendance for 32 sites before 10-10-2026.</small>
+        </div>
+        <button className={styles.signOut} type="button" onClick={() => handleLogout()} disabled={isLoggingOut}>
+          <LockKeyhole size={15} />{isLoggingOut ? "Signing out…" : "Sign out"}
+        </button>
+      </aside>
+
+      <section className={styles.mainArea} id="dashboard">
+        <header className={styles.topbar}>
+          <button className={styles.mobileMenu} onClick={() => setSidebarOpen(!sidebarOpen)} aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}>
+            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+          <label className={styles.searchBox}>
+            <Search size={17} />
+            <input type="search" placeholder="Search workers, clients, invoices..." aria-label="Search workers, clients, invoices" />
+          </label>
+          <div className={styles.userActions}>
+            <button
+              className={styles.notification}
+              aria-label={unreadCount > 0 ? `${unreadCount} unread contact messages` : "Notifications"}
+              onClick={() => { setActiveView("contact-messages"); setSidebarOpen(false); }}
+            >
+              <Bell size={18} />
+              {unreadCount > 0 ? <b className="notifBadge">{unreadCount > 99 ? "99+" : unreadCount}</b> : <i />}
+            </button>
+            <button className={styles.userProfile} aria-expanded={profileOpen} onClick={() => setProfileOpen(!profileOpen)}>
+              <span className={styles.avatar}>{initials}</span>
+              <span><strong>{fullName}</strong><small>{roleName}</small></span>
+              <ChevronDown size={15} />
+            </button>
+            {profileOpen && (
+              <div className={styles.profileMenu}>
+                <button type="button" className={styles.profileMenuItem} onClick={openChangePassword}>Change password</button>
+                <Link href="/sessions" className={styles.profileMenuItem}>Active sessions</Link>
+                <button type="button" className={styles.profileMenuItem} onClick={() => handleLogout(false)} disabled={isLoggingOut}>Sign out</button>
+                <button type="button" className={styles.profileMenuItem} onClick={() => handleLogout(true)} disabled={isLoggingOut}>Sign out all devices</button>
+              </div>
+            )}
+          </div>
+        </header>
+
+        <div className={styles.dashboardContent}>
+          {logoutError && <p className={styles.actionError} role="alert">{logoutError}</p>}
+          {content}
+        </div>
+      </section>
+
+      {changePasswordOpen && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalCard} role="dialog" aria-modal="true" aria-labelledby="change-password-title">
+            <div className={styles.modalHeader}>
+              <div>
+                <h2 id="change-password-title">Change password</h2>
+                <p>Update the password for your administrator account.</p>
+              </div>
+              {!passwordChanged && !passwordSessionInvalid && (
+                <button type="button" className={styles.modalClose} aria-label="Close change password" onClick={closeChangePassword} disabled={isChangingPassword}>
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+            {passwordSuccess && <p className={styles.actionSuccess} role="status">{passwordSuccess}</p>}
+            {passwordError && <p className={styles.actionError} role="alert">{passwordError}</p>}
+            <form className={styles.passwordForm} onSubmit={handleChangePassword}>
+              <label htmlFor="current-password">Current password</label>
+              <input
+                id="current-password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Enter your current password"
+                value={currentPassword}
+                onChange={(event) => setCurrentPassword(event.target.value)}
+                disabled={passwordChanged || isChangingPassword || passwordSessionInvalid}
+              />
+              <label htmlFor="new-password">New password</label>
+              <input
+                id="new-password"
+                type="password"
+                autoComplete="new-password"
+                placeholder="Enter a new password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                disabled={passwordChanged || isChangingPassword || passwordSessionInvalid}
+              />
+              <label htmlFor="confirm-password">Confirm new password</label>
+              <input
+                id="confirm-password"
+                type="password"
+                autoComplete="new-password"
+                placeholder="Re-enter the new password"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                disabled={passwordChanged || isChangingPassword || passwordSessionInvalid}
+              />
+              <div className={styles.modalActions}>
+                {passwordChanged ? (
+                  <button type="button" className={styles.primaryButton} onClick={handleReturnToSignIn}>Sign in again</button>
+                ) : passwordSessionInvalid ? (
+                  <button type="button" className={styles.primaryButton} onClick={handleReturnToSignIn}>Return to sign in</button>
+                ) : (
+                  <>
+                    <button type="button" className={styles.secondaryButton} onClick={closeChangePassword} disabled={isChangingPassword}>Cancel</button>
+                    <button type="submit" className={styles.primaryButton} disabled={isChangingPassword}>
+                      {isChangingPassword ? "Changing…" : "Change password"}
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}

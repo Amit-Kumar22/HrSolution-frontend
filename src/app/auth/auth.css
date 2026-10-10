@@ -1,0 +1,399 @@
+/* Shared styles for authentication flows (registration, verification,
+   password reset, sessions and role account pages). */
+
+.authPage {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(340px, 0.8fr) minmax(480px, 1.2fr);
+  background: #fff;
+  color: #102b4e;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.authAside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 46px clamp(30px, 4vw, 56px);
+  background: #0c2748;
+  color: #fff;
+}
+
+.authBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  color: #fff;
+  text-decoration: none;
+}
+.authBrandMark {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #f9a006;
+  color: #0c2748;
+  font-size: 18px;
+  font-weight: 800;
+}
+.authBrandCopy { display: flex; flex-direction: column; gap: 2px; }
+.authBrandCopy strong { font-size: 15px; }
+.authBrandCopy small { color: #96a8be; font-size: 9px; letter-spacing: 0.1em; }
+
+.authAsideBody { max-width: 420px; margin: 40px 0; }
+.authAsideBody h2 {
+  margin: 0 0 22px;
+  color: #fff;
+  font-size: clamp(28px, 2.6vw, 38px);
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+}
+.authAsideList {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #d5deea;
+  font-size: 13px;
+}
+.authAsideList li { display: flex; align-items: center; gap: 9px; }
+.authAsideList svg {
+  width: 21px;
+  height: 21px;
+  padding: 4px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #f9a006;
+  color: #0c2748;
+  stroke-width: 3;
+}
+.authCopyright { color: #657a95; font-size: 11px; }
+
+.authMain { display: grid; place-items: center; padding: 46px 40px; }
+.authCard { width: min(100%, 430px); }
+.authCard h1 {
+  margin: 0 0 8px;
+  color: #0c2748;
+  font-size: 27px;
+  letter-spacing: -0.03em;
+}
+.authSubtitle { margin: 0 0 26px; color: #63748b; font-size: 13px; line-height: 1.55; }
+.authMobileBrand { display: none; }
+
+.authForm { display: flex; flex-direction: column; }
+.authGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.authField { display: flex; flex-direction: column; margin-bottom: 16px; }
+.authField--full { grid-column: 1 / -1; }
+.authLabel { margin: 0 0 5px; color: #243b59; font-size: 12px; font-weight: 650; }
+.authInput,
+.authSelect {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #dce4ee;
+  border-radius: 7px;
+  outline: none;
+  background: #fff;
+  color: #192d49;
+  font-size: 13px;
+}
+.authSelect { padding-right: 8px; }
+.authInput:focus,
+.authSelect:focus { border-color: #0c2748; box-shadow: 0 0 0 2px #0c274820; }
+.authInput::placeholder { color: #9aa9bb; }
+.authInput:disabled,
+.authSelect:disabled { background: #f5f7fa; color: #8496ad; cursor: not-allowed; }
+
+.authInputError { border-color: #e0a0a0; }
+.authFieldError { margin-top: 4px; color: #d52626; font-size: 11px; }
+.field-error { display: block; margin-top: 4px; color: #d52626; font-size: 11px; }
+
+.authPasswordHint { margin: -8px 0 14px; color: #8496ad; font-size: 11px; line-height: 1.5; }
+
+.authCheckboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 4px 0 16px;
+  color: #4a5c74;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.authCheckboxRow input { width: 15px; height: 15px; margin: 1px 0 0; accent-color: #0c2748; flex: 0 0 auto; }
+.authCheckboxRow a { color: #c95800; font-weight: 650; }
+
+.authButton {
+  height: 44px;
+  border: 0;
+  border-radius: 7px;
+  background: #0c2748;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.authButton:hover { background: #173b64; }
+.authButton:disabled { opacity: 0.7; cursor: wait; }
+.authButtonSecondary {
+  height: 44px;
+  border: 1px solid #8192a8;
+  border-radius: 7px;
+  background: #fff;
+  color: #29415e;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.authButtonSecondary:hover { background: #f4f7fa; }
+.authButtonSecondary:disabled { opacity: 0.6; cursor: not-allowed; }
+.authButtonRow { display: flex; gap: 10px; }
+.authButtonRow > * { flex: 1; }
+
+.authAlert {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.authAlert svg { flex: 0 0 auto; margin-top: 1px; }
+.authAlert--error { background: #fee5e5; color: #d52626; }
+.authAlert--success { background: #e4f8ec; color: #00743c; }
+.authAlert--info { background: #eaf1fb; color: #29415e; }
+
+.authLinks { margin-top: 20px; color: #63748b; font-size: 12px; text-align: center; }
+.authLinks a { color: #c95800; font-weight: 700; text-decoration: none; }
+.authLinks a:hover { text-decoration: underline; }
+.authInlineLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  margin-top: 18px;
+}
+.authInlineLinks a,
+.authInlineLinks button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #29415e;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.authNote { margin: 14px 0 0; color: #8496ad; font-size: 11px; line-height: 1.55; text-align: center; }
+
+.authCenter { text-align: center; }
+.authStatusIcon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+}
+.authStatusIcon--success { background: #e4f8ec; color: #00743c; }
+.authStatusIcon--error { background: #fee5e5; color: #d52626; }
+.authStatusIcon--info { background: #eaf1fb; color: #29415e; }
+
+.authSteps { display: grid; gap: 12px; margin: 22px 0 0; padding: 0; list-style: none; }
+.authSteps li { display: flex; gap: 10px; color: #4a5c74; font-size: 12px; line-height: 1.5; }
+.authSteps b {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #eaf1fb;
+  color: #0c2748;
+  font-size: 11px;
+}
+
+/* --------------------------- Sessions --------------------------- */
+
+.sessionsShell { min-height: 100vh; background: #f4f7fa; color: #102b4e; font-family: Arial, Helvetica, sans-serif; }
+.sessionsTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px clamp(20px, 4vw, 44px);
+  background: #0c2748;
+  color: #fff;
+}
+.sessionsBrand { display: inline-flex; align-items: center; gap: 9px; color: #fff; text-decoration: none; font-weight: 700; }
+.sessionsBrandMark {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: #f9a006;
+  color: #0c2748;
+  font-weight: 800;
+}
+.sessionsTopActions { display: flex; align-items: center; gap: 10px; }
+.sessionsTopLink { color: #cfe0f5; font-size: 12px; text-decoration: none; }
+.sessionsTopLink:hover { text-decoration: underline; }
+.sessionsTopButton {
+  padding: 8px 14px;
+  border: 1px solid #35527a;
+  border-radius: 7px;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.sessionsTopButton:hover { background: #173b64; }
+
+.sessionsContainer { max-width: 860px; margin: 0 auto; padding: 34px clamp(18px, 4vw, 40px) 60px; }
+.sessionsHeader { margin-bottom: 22px; }
+.sessionsHeader h1 { margin: 0 0 6px; font-size: 24px; letter-spacing: -0.02em; }
+.sessionsHeader p { margin: 0; color: #63748b; font-size: 13px; line-height: 1.55; }
+
+.sessionList { display: grid; gap: 12px; }
+.sessionCard {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  background: #fff;
+}
+.sessionCard--current { border-color: #0c2748; box-shadow: 0 6px 20px rgba(12, 39, 72, 0.08); }
+.sessionMain { min-width: 0; }
+.sessionTitle { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; font-size: 14px; }
+.sessionBadge {
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: #e4f8ec;
+  color: #00743c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.sessionMeta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; }
+.sessionMeta li { display: flex; align-items: center; gap: 6px; color: #63748b; font-size: 12px; }
+.sessionMeta svg { color: #92a2b6; }
+.sessionActions { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex: 0 0 auto; }
+.sessionRevoke {
+  padding: 8px 13px;
+  border: 1px solid #e0a0a0;
+  border-radius: 7px;
+  background: #fff;
+  color: #d52626;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.sessionRevoke:hover { background: #fee5e5; }
+.sessionRevoke:disabled { opacity: 0.6; cursor: wait; }
+.sessionCurrentNote { color: #8496ad; font-size: 11px; text-align: right; }
+
+.sessionsState {
+  padding: 40px 20px;
+  border: 1px dashed #cfd9e5;
+  border-radius: 12px;
+  background: #fff;
+  color: #63748b;
+  font-size: 13px;
+  text-align: center;
+}
+.sessionsState--error { border-color: #e0a0a0; color: #d52626; }
+
+/* ------------------------ Account pages ------------------------- */
+
+.accountShell { min-height: 100vh; background: #f4f7fa; color: #102b4e; font-family: Arial, Helvetica, sans-serif; }
+.accountContainer { max-width: 960px; margin: 0 auto; padding: 34px clamp(18px, 4vw, 40px) 60px; }
+.accountHeading { margin-bottom: 24px; }
+.accountHeading h1 { margin: 0 0 6px; font-size: 25px; letter-spacing: -0.02em; }
+.accountHeading p { margin: 0; color: #63748b; font-size: 13px; }
+
+.accountGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.accountCard {
+  padding: 20px;
+  border: 1px solid #e1e7ef;
+  border-radius: 12px;
+  background: #fff;
+}
+.accountCard h2 { margin: 0 0 14px; font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; color: #63748b; }
+.accountField { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid #f0f3f7; font-size: 13px; }
+.accountField:last-child { border-bottom: 0; }
+.accountField dt { color: #8496ad; margin: 0; }
+.accountField dd { margin: 0; color: #192d49; font-weight: 600; text-align: right; word-break: break-word; }
+.accountStatus {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.accountStatus--active { background: #e4f8ec; color: #00743c; }
+.accountStatus--pending { background: #fff4e0; color: #a35c00; }
+.accountStatus--blocked { background: #fee5e5; color: #d52626; }
+.accountTags { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.accountTags li {
+  padding: 5px 11px;
+  border: 1px solid #dce4ee;
+  border-radius: 20px;
+  color: #29415e;
+  font-size: 11px;
+}
+.accountActions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.accountActionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: 1px solid #8192a8;
+  border-radius: 8px;
+  color: #29415e;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.accountActionLink:hover { background: #eef3f9; }
+.accountActionLink--primary { border-color: #0c2748; background: #0c2748; color: #fff; }
+.accountActionLink--primary:hover { background: #173b64; }
+
+@media (max-width: 850px) {
+  .authPage { grid-template-columns: minmax(280px, 0.85fr) minmax(360px, 1.15fr); }
+  .authAside { padding: 34px 28px; }
+  .authMain { padding: 34px 26px; }
+}
+
+@media (max-width: 650px) {
+  .authPage { display: block; min-height: 100vh; }
+  .authAside { display: none; }
+  .authMain { display: block; padding: 30px 20px 40px; }
+  .authCard { max-width: 460px; margin: 0 auto; }
+  .authMobileBrand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 34px;
+    color: #0c2748;
+    text-decoration: none;
+  }
+  .authMobileBrand strong { font-size: 15px; }
+  .authGrid { grid-template-columns: 1fr; }
+  .sessionCard { flex-direction: column; }
+  .sessionActions { align-items: flex-start; }
+  .sessionCurrentNote { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .authButton { transition: none; }
+}

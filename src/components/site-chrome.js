@@ -1,0 +1,311 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import {
+  AlertCircle,
+  Camera,
+  ChevronDown,
+  Clock3,
+  Hash,
+  Link2,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  ThumbsUp,
+  X,
+} from "lucide-react";
+import PublicImage from "./public-image";
+import { resolvePublicFileUrl, toTelHref } from "@/lib/publicApi";
+import { useSite } from "./site-provider";
+
+const DEFAULT_NAME = "Shree Manpower";
+const DEFAULT_FOOTER_TEXT =
+  "Reliable manpower supply, recruitment and statutory compliance for growing businesses.";
+
+const NAV_ITEMS = [
+  ["Home", "/#home"],
+  ["About Us", "/#about"],
+  ["Services", "/#services"],
+  ["Industries", "/#industries"],
+  ["Manpower", "/#manpower"],
+  ["Contact Us", "/#contact"],
+];
+
+export function companyNameOf(profile) {
+  return profile?.tradeName || profile?.legalName || DEFAULT_NAME;
+}
+
+export function legalNameOf(profile) {
+  return profile?.legalName || profile?.tradeName || DEFAULT_NAME;
+}
+
+export function buildAddress(profile) {
+  if (!profile) return "";
+  const locality = [profile.city, profile.state].filter(Boolean).join(", ");
+  const localityWithPin = [locality, profile.pincode].filter(Boolean).join(" ");
+  return [
+    profile.addressLine1,
+    profile.addressLine2,
+    localityWithPin,
+    profile.country,
+  ]
+    .filter(Boolean)
+    .join(", ");
+}
+
+const SITE_YEAR = new Date().getFullYear();
+
+export function Brand({ footer = false }) {
+  const { profile } = useSite();
+  const name = companyNameOf(profile);
+  const logoUrl = resolvePublicFileUrl(profile?.logoUrl);
+  const letter = (name.trim()[0] || "M").toUpperCase();
+
+  return (
+    <Link href="/#home" className={`brand${footer ? " brand-footer" : ""}`} aria-label={`${name} home`}>
+      <span className="brand-mark">
+        <PublicImage src={logoUrl} alt="" className="brand-logo" fallback={letter} />
+      </span>
+      <span className="brand-copy">
+        <strong>{name}</strong>
+        {!footer && <small>HR SOLUTIONS · SINCE 2012</small>}
+      </span>
+    </Link>
+  );
+}
+
+function Topbar() {
+  const { profile } = useSite();
+  const phone = profile?.phone;
+  const email = profile?.supportEmail || profile?.email;
+  const location = [profile?.city, profile?.state].filter(Boolean).join(", ");
+
+  return (
+    <div className="topbar">
+      <div className="container topbar-inner">
+        <div className="topbar-contact">
+          {phone && (
+            <a href={toTelHref(phone)}>
+              <Phone size={13} /> {phone}
+            </a>
+          )}
+          {email && (
+            <a href={`mailto:${email}`}>
+              <Mail size={13} /> {email}
+            </a>
+          )}
+        </div>
+        <p>
+          Mon–Sat · 9:30 AM–6:30 PM {location && <><span>│</span> {location}</>}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export function Navbar() {
+  const [open, setOpen] = useState(false);
+  const { openEnquiry } = useSite();
+
+  return (
+    <>
+      <Topbar />
+      <header className="site-header">
+        <div className="container nav-inner">
+          <Brand />
+          <nav className={`main-nav${open ? " nav-open" : ""}`} aria-label="Main navigation">
+            {NAV_ITEMS.map(([label, href]) => (
+              <a key={label} href={href} onClick={() => setOpen(false)}>
+                {label}
+                {label === "Services" && <ChevronDown size={14} />}
+              </a>
+            ))}
+            <div className="nav-actions">
+              <a className="button button-outline nav-login" href="/login" onClick={() => setOpen(false)}>
+                Login
+              </a>
+              <button
+                type="button"
+                className="button button-primary nav-cta"
+                onClick={() => {
+                  setOpen(false);
+                  openEnquiry();
+                }}
+              >
+                Request Manpower
+              </button>
+            </div>
+          </nav>
+          <button
+            className="menu-toggle"
+            type="button"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={open}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </header>
+    </>
+  );
+}
+
+export function ProfileBanner() {
+  const { profileError, loading, reload } = useSite();
+  if (!profileError) return null;
+
+  return (
+    <div className="api-banner" role="alert">
+      <span>
+        <AlertCircle size={14} /> {profileError}
+      </span>
+      <button type="button" onClick={reload} disabled={loading}>
+        {loading ? "Retrying…" : "Retry"}
+      </button>
+    </div>
+  );
+}
+
+export function Footer() {
+  const { profile, services, loading, servicesError, reload } = useSite();
+  const name = companyNameOf(profile);
+  const legalName = legalNameOf(profile);
+  const address = buildAddress(profile);
+  const phone = profile?.phone;
+  const email = profile?.supportEmail || profile?.email;
+  const tagline = profile?.tagline?.trim() || DEFAULT_FOOTER_TEXT;
+  const year = SITE_YEAR;
+
+  const socials = [
+    ["LinkedIn", profile?.linkedinUrl, Link2],
+    ["Facebook", profile?.facebookUrl, ThumbsUp],
+    ["Twitter", profile?.twitterUrl, Hash],
+    ["Instagram", profile?.instagramUrl, Camera],
+  ].filter(([, url]) => typeof url === "string" && url.trim());
+
+  const complianceTags = [
+    profile?.gstin && `GSTIN ${profile.gstin}`,
+    profile?.pan && `PAN ${profile.pan}`,
+    profile?.cin && `CIN ${profile.cin}`,
+  ].filter(Boolean);
+
+  const showServicesError = Boolean(servicesError) && !loading;
+  const showServicesColumn = loading || showServicesError || services.length > 0;
+
+  return (
+    <footer className="site-footer">
+      <div className="container footer-main">
+        <div className="footer-company">
+          <Brand footer />
+          <p>{tagline}</p>
+          <ul className="footer-contact">
+            {address && (
+              <li>
+                <MapPin size={15} />
+                {address}
+              </li>
+            )}
+            {phone && (
+              <li>
+                <Phone size={15} />
+                <a href={toTelHref(phone)}>{phone}</a>
+              </li>
+            )}
+            {email && (
+              <li>
+                <Mail size={15} />
+                <a href={`mailto:${email}`}>{email}</a>
+              </li>
+            )}
+            <li>
+              <Clock3 size={15} />
+              Mon–Sat · 9:30 AM–6:30 PM
+            </li>
+          </ul>
+          {socials.length > 0 && (
+            <div className="footer-social">
+              {socials.map(([label, url, Icon]) => (
+                <a key={label} href={url} target="_blank" rel="noopener noreferrer" aria-label={label}>
+                  <Icon size={15} />
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="footer-column">
+          <h3>COMPANY</h3>
+          <Link href="/#about">About us</Link>
+          <Link href="/#industries">Industries</Link>
+          <Link href="/#contact">Contact</Link>
+          <a href="/login">Admin login</a>
+        </div>
+
+        {showServicesColumn && (
+          <div className="footer-column">
+            <h3>SERVICES</h3>
+            {loading && !services.length
+              ? [0, 1, 2, 3].map((index) => <span className="skeleton-line" key={index} />)
+              : services.map((service) =>
+                  service.slug ? (
+                    <Link
+                      key={service.slug}
+                      href={`/services/${encodeURIComponent(service.slug)}`}
+                    >
+                      {service.title}
+                    </Link>
+                  ) : (
+                    <span key={service.title}>{service.title}</span>
+                  ),
+                )}
+            {showServicesError && (
+              <button
+                type="button"
+                className="footer-retry"
+                onClick={reload}
+              >
+                Services unavailable — retry
+              </button>
+            )}
+          </div>
+        )}
+
+        <div className="footer-column">
+          <h3>FOR JOB SEEKERS</h3>
+          <Link href="/#contact">Current openings</Link>
+          <Link href="/register/candidate">Register as candidate</Link>
+          <Link href="/#contact">Worker support</Link>
+          <Link href="/#contact">FAQs</Link>
+        </div>
+        <div className="footer-column">
+          <h3>FOR EMPLOYERS</h3>
+          <Link href="/register/client">Register your company</Link>
+          <Link href="/#contact">Request manpower</Link>
+          <Link href="/login">Client sign in</Link>
+        </div>
+      </div>
+
+      {complianceTags.length > 0 && (
+        <div className="compliance-tags">
+          {complianceTags.map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
+        </div>
+      )}
+
+      <div className="container footer-bottom">
+        <p>
+          © {year} {legalName}. All rights reserved.
+        </p>
+        <div>
+          <Link href="/#contact">Privacy Policy</Link>
+          <Link href="/#contact">Terms of Service</Link>
+          <Link href="/#contact">Grievance Officer</Link>
+        </div>
+      </div>
+    </footer>
+  );
+}
