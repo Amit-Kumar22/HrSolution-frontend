@@ -261,6 +261,24 @@
 .cmIconButton:hover { background: #f2f5f9; color: var(--navy); }
 .cmIconDanger:hover { background: #fff0f0; border-color: #f2b8b8; color: #c0392b; }
 
+.cmLinkButton { padding: 0; border: 0; background: transparent; color: #1d5fbf; font-size: 13px; cursor: pointer; text-decoration: none; }
+.cmLinkButton:hover { text-decoration: underline; }
+.cmLinkButton:disabled { opacity: .6; cursor: wait; }
+
+.cmCheckList { display: grid; gap: 8px; max-height: 340px; overflow-y: auto; padding: 2px; }
+.cmCheckItem { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border: 1px solid #e6ecf4; border-radius: 10px; background: #fff; cursor: pointer; }
+.cmCheckItem:hover { border-color: #c9d5e4; background: #f9fbfd; }
+.cmCheckItem input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.cmCheckBox { width: 18px; height: 18px; flex: 0 0 auto; display: grid; place-items: center; border: 1.5px solid #c2cede; border-radius: 5px; background: #fff; transition: background .15s, border-color .15s; }
+.cmCheckBox::after { content: ""; width: 10px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); margin-top: -2px; opacity: 0; }
+.cmCheckItem input:checked + .cmCheckBox { background: #0c2748; border-color: #0c2748; }
+.cmCheckItem input:checked + .cmCheckBox::after { opacity: 1; }
+.cmCheckItem input:focus-visible + .cmCheckBox { box-shadow: 0 0 0 3px #0c274833; }
+.cmCheckChecked { border-color: #0c274820; background: #f6f9fd; }
+.cmCheckText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.cmCheckText strong { color: #24384f; font-size: 13px; }
+.cmCheckText small { color: #8b9db5; font-size: 11px; line-height: 1.45; }
+
 .cmSwitch { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; user-select: none; }
 .cmSwitch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .cmSwitchTrack { position: relative; width: 38px; height: 22px; flex: 0 0 auto; border-radius: 12px; background: #cbd5e1; transition: background .18s; }

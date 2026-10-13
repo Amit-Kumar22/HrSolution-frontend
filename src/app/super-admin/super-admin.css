@@ -1,0 +1,411 @@
+/* Super Admin console + role dashboards.
+   Reuses the design tokens and cm* component classes from admin.css and only
+   adds the pieces unique to account / role / permission management. */
+
+.adminShell.adminShellSuper .consoleBrandMark {
+  background: #7c3aed;
+  color: #fff;
+}
+
+.saHeaderMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.saSectionLabel {
+  margin: 26px 0 12px;
+  color: #172b48;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.saAccountCell {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+
+.saAccountCell strong {
+  display: block;
+  color: #24384f;
+  font-size: 13px;
+}
+
+.saAccountCell small {
+  display: block;
+  margin-top: 2px;
+  color: #8b9db5;
+  font-size: 11.5px;
+  word-break: break-word;
+}
+
+.saRoleTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.saRoleTag {
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: #ece7fb;
+  color: #5b21b6;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.saRoleTagSuper {
+  background: #fde8cf;
+  color: #9a4d00;
+}
+
+.saModuleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 15px;
+}
+
+.saModuleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 2px 6px #102b4e08;
+}
+
+.saModuleCard > i {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #e8eef7;
+  color: var(--navy);
+  font-style: normal;
+}
+
+.saModuleCard strong {
+  color: #172b48;
+  font-size: 14px;
+}
+
+.saModuleCard p {
+  margin: 0;
+  color: #6b7d95;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.saModuleCard small {
+  margin-top: auto;
+  color: #9aa8b9;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.saShares {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.saShare {
+  padding: 2px 7px;
+  border-radius: 9px;
+  background: #eef2f7;
+  color: #5b6f88;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.saPermGroups {
+  display: grid;
+  gap: 14px;
+}
+
+.saPermGroup {
+  border: 1px solid #e6ecf4;
+  border-radius: 11px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.saPermGroupHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 14px;
+  border-bottom: 1px solid #eef2f7;
+  background: #f9fbfd;
+}
+
+.saPermGroupHead strong {
+  color: #24384f;
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
+}
+
+.saPermGroupList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px;
+  padding: 12px 14px;
+}
+
+.saPermItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 8px 10px;
+  border: 1px solid #eef2f7;
+  border-radius: 9px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.saPermItem:hover {
+  border-color: #c9d5e4;
+  background: #f9fbfd;
+}
+
+.saPermItem input {
+  margin: 2px 0 0;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  accent-color: #0c2748;
+}
+
+.saPermItem span {
+  min-width: 0;
+}
+
+.saPermItem strong {
+  display: block;
+  color: #24384f;
+  font-size: 11.5px;
+  word-break: break-word;
+}
+
+.saPermItem small {
+  display: block;
+  margin-top: 2px;
+  color: #8b9db5;
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.saProfileHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.saProfileHead .cmAvatarFallback {
+  width: 58px;
+  height: 58px;
+  font-size: 18px;
+}
+
+.saProfileHead h2 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 19px;
+}
+
+.saProfileHead p {
+  margin: 3px 0 0;
+  color: #8b9db5;
+  font-size: 12px;
+}
+
+.saMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 20px;
+}
+
+.saMetaGrid > div {
+  min-width: 0;
+}
+
+.saMetaGrid dt {
+  margin: 0 0 3px;
+  color: #7a8ba1;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.saMetaGrid dd {
+  margin: 0;
+  color: #24384f;
+  font-size: 13px;
+  word-break: break-word;
+}
+
+.saInlineNote {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #d9e2ef;
+  border-radius: 10px;
+  background: #f4f8ff;
+  color: #35507a;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+.saDashboardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 15px;
+}
+
+.saDashboardCard {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 19px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 2px 6px #102b4e08;
+}
+
+.saDashboardCard header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.saDashboardCard h3 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 15px;
+}
+
+.saDashboardCard p {
+  margin: 0;
+  color: #6b7d95;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.saDashboardPath {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #2b4a6f;
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.saDashboardCard .cmBtn {
+  align-self: flex-start;
+  min-height: 36px;
+}
+
+.saSummaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+}
+
+.saSort {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.saSort svg {
+  color: #9aa8b9;
+}
+
+.saSortActive {
+  color: var(--navy);
+}
+
+.saSortActive svg {
+  color: #2b4a6f;
+}
+
+.saInlineStack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.saInlineStack small {
+  color: #9aa8b9;
+  font-size: 11px;
+}
+
+.saPermCheck {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 15px 17px;
+  border: 1px solid #d9e2ef;
+  border-radius: 12px;
+  background: #f7fafd;
+}
+
+.saPermCheck > i {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #e8eef7;
+  color: var(--navy);
+  font-style: normal;
+}
+
+.saPermCheck strong {
+  display: block;
+  color: #172b48;
+  font-size: 13px;
+}
+
+.saPermCheck p {
+  margin: 4px 0 0;
+  color: #5b6f88;
+  font-size: 12.5px;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+@media (max-width: 650px) {
+  .saMetaGrid {
+    grid-template-columns: 1fr;
+  }
+  .saPermGroupList {
+    grid-template-columns: 1fr;
+  }
+}

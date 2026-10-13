@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   Building2,
   Filter,
+  IndianRupee,
   ListFilter,
   MoreHorizontal,
   Pencil,
@@ -344,6 +345,9 @@ export default function ClientsPanel() {
                             </button>
                             <button type="button" className="cmIconButton" title="Manage users" onClick={() => { setDetailClient(client); setDetailActiveTab("users"); }}>
                               <UsersRound size={15} />
+                            </button>
+                            <button type="button" className="cmIconButton" title="Manage rate cards" onClick={() => { setDetailClient(client); setDetailActiveTab("rate-cards"); }}>
+                              <IndianRupee size={15} />
                             </button>
                             <button type="button" className="cmIconButton" title="Change status" onClick={() => setStatusTarget(client)}>
                               <ShieldCheck size={15} />

@@ -628,6 +628,191 @@ export async function listUsers({ search, status, role, page = 0, size = 100, so
   return normalizePage(payload, { page, size });
 }
 
+/* ------------------------------------------------------------------ */
+/* Accounts & access management (Super Admin)                          */
+/* ------------------------------------------------------------------ */
+
+export async function listAccounts({
+  search,
+  status,
+  role,
+  page = 0,
+  size = 20,
+  sort = ["createdAt,DESC"],
+} = {}) {
+  const payload = await adminRequest("/users", {
+    query: { search, status, role, page, size, sort: asArray(sort) },
+  });
+  return normalizePage(payload, { page, size });
+}
+
+export function getAccount(userId, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}`, init);
+}
+
+export function createAccount(body, init = {}) {
+  return adminRequest("/users", { method: "POST", body, ...init });
+}
+
+export function updateAccount(userId, body, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}`, { method: "PUT", body, ...init });
+}
+
+export function assignAccountRoles(userId, roles, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}/roles`, {
+    method: "PUT",
+    body: { roles: asArray(roles) },
+    ...init,
+  });
+}
+
+export function enableAccount(userId, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}/enable`, { method: "PATCH", ...init });
+}
+
+export function disableAccount(userId, reason, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}/disable`, {
+    method: "PATCH",
+    body: { reason: reason && reason.trim() ? reason.trim() : undefined },
+    ...init,
+  });
+}
+
+export function unlockAccount(userId, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}/unlock`, { method: "PATCH", ...init });
+}
+
+export function approveAccountClient(userId, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}/approve-client`, { method: "PATCH", ...init });
+}
+
+export function rejectAccountClient(userId, reason, init = {}) {
+  return adminRequest(`/users/${encodeURIComponent(userId)}/reject-client`, {
+    method: "PATCH",
+    query: { reason: reason && reason.trim() ? reason.trim() : undefined },
+    ...init,
+  });
+}
+
+export async function listRoles(init = {}) {
+  return asArray(await adminRequest("/roles", init));
+}
+
+export function getRole(roleId, init = {}) {
+  return adminRequest(`/roles/${encodeURIComponent(roleId)}`, init);
+}
+
+export async function listPermissions(init = {}) {
+  return asArray(await adminRequest("/roles/permissions", init));
+}
+
+export function updateRolePermissions(roleId, permissions, init = {}) {
+  return adminRequest(`/roles/${encodeURIComponent(roleId)}/permissions`, {
+    method: "PUT",
+    body: { permissions: asArray(permissions) },
+    ...init,
+  });
+}
+
+export function checkMyPermissions(init = {}) {
+  return adminRequest("/users/permissions-check", init);
+}
+
+/* ------------------------------------------------------------------ */
+/* Manpower categories & skills                                        */
+/* ------------------------------------------------------------------ */
+
 export async function listManpowerCategories(init = {}) {
   return asArray(await adminRequest("/manpower-categories", init));
+}
+
+export function getManpowerCategory(id, init = {}) {
+  return adminRequest(`/manpower-categories/${encodeURIComponent(id)}`, init);
+}
+
+export function createManpowerCategory(body, init = {}) {
+  return adminRequest("/manpower-categories", { method: "POST", body, ...init });
+}
+
+export function updateManpowerCategory(id, body, init = {}) {
+  return adminRequest(`/manpower-categories/${encodeURIComponent(id)}`, { method: "PUT", body, ...init });
+}
+
+export function activateManpowerCategory(id, init = {}) {
+  return adminRequest(`/manpower-categories/${encodeURIComponent(id)}/activate`, { method: "PATCH", ...init });
+}
+
+export function deactivateManpowerCategory(id, init = {}) {
+  return adminRequest(`/manpower-categories/${encodeURIComponent(id)}/deactivate`, { method: "PATCH", ...init });
+}
+
+export async function listManpowerCategorySkills(categoryId, init = {}) {
+  return asArray(await adminRequest(`/manpower-categories/${encodeURIComponent(categoryId)}/skills`, init));
+}
+
+export function replaceManpowerCategorySkills(categoryId, skillIds, init = {}) {
+  return adminRequest(`/manpower-categories/${encodeURIComponent(categoryId)}/skills`, {
+    method: "PUT",
+    body: { skillIds },
+    ...init,
+  });
+}
+
+export async function listSkills({ includeInactive = false } = {}) {
+  return asArray(await adminRequest("/skills", { query: { includeInactive: includeInactive ? "true" : "false" } }));
+}
+
+export function getSkill(id, init = {}) {
+  return adminRequest(`/skills/${encodeURIComponent(id)}`, init);
+}
+
+export function createSkill(body, init = {}) {
+  return adminRequest("/skills", { method: "POST", body, ...init });
+}
+
+export function updateSkill(id, body, init = {}) {
+  return adminRequest(`/skills/${encodeURIComponent(id)}`, { method: "PUT", body, ...init });
+}
+
+export function setSkillActive(id, active, init = {}) {
+  return adminRequest(`/skills/${encodeURIComponent(id)}/active`, {
+    method: "PATCH",
+    query: { active: active ? "true" : "false" },
+    ...init,
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* Rate cards                                                          */
+/* ------------------------------------------------------------------ */
+
+export async function listClientRateCards(clientId, init = {}) {
+  return asArray(await adminRequest(`/clients/${encodeURIComponent(clientId)}/rate-cards`, init));
+}
+
+export function createClientRateCard(clientId, body, init = {}) {
+  return adminRequest(`/clients/${encodeURIComponent(clientId)}/rate-cards`, { method: "POST", body, ...init });
+}
+
+export function resolveClientRateCard(clientId, { categoryId, siteId, onDate } = {}, init = {}) {
+  return adminRequest(`/clients/${encodeURIComponent(clientId)}/rate-cards/resolve`, {
+    query: {
+      categoryId,
+      siteId: siteId == null || siteId === "" ? undefined : siteId,
+      onDate,
+    },
+    ...init,
+  });
+}
+
+export function getRateCard(rateCardId, init = {}) {
+  return adminRequest(`/rate-cards/${encodeURIComponent(rateCardId)}`, init);
+}
+
+export function updateRateCard(rateCardId, body, init = {}) {
+  return adminRequest(`/rate-cards/${encodeURIComponent(rateCardId)}`, { method: "PUT", body, ...init });
+}
+
+export function deleteRateCard(rateCardId, init = {}) {
+  return adminRequest(`/rate-cards/${encodeURIComponent(rateCardId)}`, { method: "DELETE", ...init });
 }

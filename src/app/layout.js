@@ -2,6 +2,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import "./login/login.css";
 import "./admin/admin.css";
+import "./super-admin/super-admin.css";
 import "./auth/auth.css";
 import AuthBootstrap from "@/components/auth-bootstrap";
 import { getCompanyProfile } from "@/lib/publicApi";

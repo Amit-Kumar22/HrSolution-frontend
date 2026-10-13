@@ -12,6 +12,7 @@ export const INTERNAL_ROLES = Object.freeze([
   "HR",
   "RECRUITER",
   "OPERATIONS",
+  "OPERATOR",
   "ACCOUNTS",
   "SUPERVISOR",
 ]);
@@ -577,10 +578,24 @@ export function isCandidateRole(sessionOrUser) {
   return hasRole(sessionOrUser, CANDIDATE_ROLES);
 }
 
+/* Maps a backend role to the dashboard that serves it. The first matching
+   entry wins, so privileged roles are listed before the generic fallback. */
+export const ROLE_DASHBOARDS = Object.freeze([
+  { roles: ["SUPER_ADMIN"], path: "/super-admin", label: "Super Admin Dashboard" },
+  { roles: ["HR", "HR_RECRUITER", "HR_MANAGER"], path: "/hr", label: "HR Dashboard" },
+  { roles: ["OPERATOR", "OPERATIONS", "SECURITY_GUARD"], path: "/operator", label: "Operator Dashboard" },
+  { roles: ["ACCOUNTS", "ACCOUNTANT"], path: "/accounts", label: "Accounts Dashboard" },
+  { roles: ["SUPERVISOR"], path: "/supervisor", label: "Supervisor Dashboard" },
+  { roles: ["ADMIN", "MANAGER", "RECRUITER"], path: "/admin", label: "Admin Dashboard" },
+]);
+
 export function getDashboardPath(sessionOrUser) {
   const roles = rolesOf(sessionOrUser);
   if (roles.some((role) => CLIENT_ROLES.includes(role))) return "/client";
   if (roles.some((role) => CANDIDATE_ROLES.includes(role))) return "/candidate";
+  for (const entry of ROLE_DASHBOARDS) {
+    if (roles.some((role) => entry.roles.includes(role))) return entry.path;
+  }
   if (roles.some((role) => INTERNAL_ROLES.includes(role))) return "/admin";
   return "/account";
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Building2, FileSignature, MapPin, Pencil, Trash2, Users } from "lucide-react";
+import { Building2, FileSignature, IndianRupee, MapPin, Pencil, Trash2, Users } from "lucide-react";
 import { deleteClient, getClientDetail } from "@/lib/adminApi";
 import { formatDate } from "./admin-ui";
 import {
@@ -15,11 +15,13 @@ import {
 import { StatusChip } from "./client-modals";
 import ClientSitesTab from "./client-sites-tab";
 import ClientUsersTab from "./client-users-tab";
+import RateCardsTab from "./rate-cards-panel";
 
 const TABS = [
   { key: "overview", label: "Overview", icon: Building2 },
   { key: "users", label: "Client users", icon: Users },
   { key: "sites", label: "Sites", icon: MapPin },
+  { key: "rate-cards", label: "Rate cards", icon: IndianRupee },
   { key: "contracts", label: "Contracts", icon: FileSignature },
 ];
 
@@ -234,6 +236,13 @@ export default function ClientDetailDialog({ client, initialTab = "overview", on
 
       {tab === "sites" && (
         <ClientSitesTab
+          client={client}
+          onChanged={(message) => { if (typeof onChanged === "function") onChanged(message); load(); }}
+        />
+      )}
+
+      {tab === "rate-cards" && (
+        <RateCardsTab
           client={client}
           onChanged={(message) => { if (typeof onChanged === "function") onChanged(message); load(); }}
         />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -18,7 +18,8 @@ import {
 import {
   Activity, Bell, BriefcaseBusiness, Building2, CalendarDays,
   ChevronDown, ClipboardList, Factory, FileText, Inbox, Layers, LayoutDashboard,
-  LockKeyhole, Mail, Menu, Quote, Search, Settings2, ShieldCheck, UsersRound, Wallet, X,
+  LockKeyhole, Mail, Menu, Quote, Search, Settings2, ShieldCheck, Tags,
+  UsersRound, Wallet, Wrench, X,
 } from "lucide-react";
 import { getUnreadContactCount } from "../../lib/adminApi";
 import { styles } from "./admin-styles";
@@ -27,7 +28,9 @@ import DashboardOverview from "./dashboard-overview";
 import EnquiriesPanel from "./enquiries-panel";
 import IndustriesPanel from "./industries-panel";
 import ClientsPanel from "./clients-panel";
+import ManpowerCategoriesPanel from "./manpower-categories-panel";
 import ServicesPanel from "./services-panel";
+import SkillsPanel from "./skills-panel";
 import TestimonialsPanel from "./testimonials-panel";
 
 const navigation = [
@@ -39,6 +42,8 @@ const navigation = [
   { label: "Recruitment", view: "recruitment", icon: BriefcaseBusiness, section: "WORKFORCE" },
   { label: "Workers", view: "workers", icon: UsersRound, section: "WORKFORCE" },
   { label: "Attendance", view: "attendance", icon: CalendarDays, section: "WORKFORCE" },
+  { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
+  { label: "Skills", view: "skills", icon: Wrench, section: "WORKFORCE" },
   { label: "Payroll", view: "payroll", icon: Wallet, section: "FINANCE" },
   { label: "Invoices", view: "invoices", icon: FileText, section: "FINANCE" },
   { label: "Industries", view: "industries", icon: Factory, section: "WEBSITE" },
@@ -79,6 +84,7 @@ export default function AdminDashboard() {
   );
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const userActionsRef = useRef(null);
   const [logoutError, setLogoutError] = useState("");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [activeView, setActiveView] = useState("dashboard");
@@ -140,6 +146,23 @@ export default function AdminDashboard() {
     }, Math.max(0, sessionState.expiresAt - Date.now()));
     return () => window.clearTimeout(timeout);
   }, [router, sessionState]);
+
+  useEffect(() => {
+    if (!profileOpen) return undefined;
+    function handlePointerDown(event) {
+      const node = userActionsRef.current;
+      if (node && !node.contains(event.target)) setProfileOpen(false);
+    }
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setProfileOpen(false);
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [profileOpen]);
 
   async function handleLogout(allDevices = false) {
     if (!sessionState || isLoggingOut) return;
@@ -239,8 +262,8 @@ export default function AdminDashboard() {
   }
 
   const session = sessionState;
-  const fullName = session.user.fullName || session.user.email;
-  const roleName = session.user.roles.includes("SUPER_ADMIN") ? "Super Admin" : "Admin";
+  const fullName = "Admin";
+  const roleName = "Admin";
   const initials = fullName.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase();
 
   let content;
@@ -250,6 +273,8 @@ export default function AdminDashboard() {
   else if (activeView === "testimonials") content = <TestimonialsPanel />;
   else if (activeView === "contact-messages") content = <ContactMessagesPanel onUnreadChange={refreshUnreadCount} />;
   else if (activeView === "enquiries") content = <EnquiriesPanel />;
+  else if (activeView === "manpower-categories") content = <ManpowerCategoriesPanel />;
+  else if (activeView === "skills") content = <SkillsPanel />;
   else if (activeView === "dashboard") content = <DashboardOverview session={session} />;
   else {
     const activeNav = navigation.find((item) => item.view === activeView);
@@ -313,11 +338,11 @@ export default function AdminDashboard() {
             <Search size={17} />
             <input type="search" placeholder="Search workers, clients, invoices..." aria-label="Search workers, clients, invoices" />
           </label>
-          <div className={styles.userActions}>
+          <div className={styles.userActions} ref={userActionsRef}>
             <button
               className={styles.notification}
               aria-label={unreadCount > 0 ? `${unreadCount} unread contact messages` : "Notifications"}
-              onClick={() => { setActiveView("contact-messages"); setSidebarOpen(false); }}
+              onClick={() => { setActiveView("contact-messages"); setSidebarOpen(false); setProfileOpen(false); }}
             >
               <Bell size={18} />
               {unreadCount > 0 ? <b className="notifBadge">{unreadCount > 99 ? "99+" : unreadCount}</b> : <i />}

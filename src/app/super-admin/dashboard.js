@@ -1,0 +1,464 @@
+"use client";
+
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  ChevronDown,
+  KeyRound,
+  LayoutDashboard,
+  LayoutGrid,
+  LockKeyhole,
+  Menu,
+  ShieldCheck,
+  UsersRound,
+  X,
+} from "lucide-react";
+import {
+  AUTH_SESSION_ERROR,
+  AUTH_SESSION_LOADING,
+  changePassword,
+  clearAuthSession,
+  getAuthSessionSnapshot,
+  getDashboardPath,
+  getServerAuthSnapshot,
+  hasRole,
+  logout,
+  refreshAuthSession,
+  subscribeToAuthSession,
+} from "../../lib/auth";
+import { styles } from "./super-admin-styles";
+import DashboardOverview from "./dashboard-overview";
+import AccountsPanel from "./accounts-panel";
+import RolesPanel from "./roles-panel";
+import DashboardsPanel from "./dashboards-panel";
+
+const navigation = [
+  { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
+  { label: "Accounts", view: "accounts", icon: UsersRound, section: "ACCESS" },
+  { label: "Roles & permissions", view: "roles", icon: ShieldCheck, section: "ACCESS" },
+  { label: "Dashboards", view: "dashboards", icon: LayoutGrid, section: "ACCESS" },
+];
+
+const sectionOrder = ["main", "ACCESS"];
+const sectionLabels = { ACCESS: "ACCESS MANAGEMENT" };
+
+function Brand() {
+  return (
+    <Link href="/" className={styles.brand}>
+      <span className={styles.brandMark}>S</span>
+      <span>
+        <strong>Shakti Manpower</strong>
+        <small>Super Admin Console</small>
+      </span>
+    </Link>
+  );
+}
+
+export default function SuperAdminDashboard() {
+  const router = useRouter();
+  const sessionState = useSyncExternalStore(
+    subscribeToAuthSession,
+    getAuthSessionSnapshot,
+    getServerAuthSnapshot,
+  );
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const userActionsRef = useRef(null);
+  const [logoutError, setLogoutError] = useState("");
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [activeView, setActiveView] = useState("dashboard");
+  const [pendingCreate, setPendingCreate] = useState(0);
+
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [passwordSessionInvalid, setPasswordSessionInvalid] = useState(false);
+  const [passwordChanged, setPasswordChanged] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+
+  useEffect(() => {
+    if (sessionState === AUTH_SESSION_LOADING) return;
+    if (sessionState === AUTH_SESSION_ERROR || (sessionState && "error" in sessionState)) return;
+    if (!sessionState) {
+      router.replace("/login");
+      return;
+    }
+    if (!hasRole(sessionState, "SUPER_ADMIN")) {
+      router.replace(getDashboardPath(sessionState));
+    }
+  }, [router, sessionState]);
+
+  useEffect(() => {
+    if (!sessionState || typeof sessionState !== "object" || !sessionState.accessToken) return;
+    const timeout = window.setTimeout(async () => {
+      const refreshed = await refreshAuthSession();
+      if (refreshed) return;
+      try {
+        clearAuthSession();
+      } catch (error) {
+        setLogoutError(error instanceof Error ? error.message : "Could not clear the expired session.");
+      }
+      router.replace("/login");
+    }, Math.max(0, sessionState.expiresAt - Date.now()));
+    return () => window.clearTimeout(timeout);
+  }, [router, sessionState]);
+
+  useEffect(() => {
+    if (!profileOpen) return undefined;
+    function handlePointerDown(event) {
+      const node = userActionsRef.current;
+      if (node && !node.contains(event.target)) setProfileOpen(false);
+    }
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setProfileOpen(false);
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [profileOpen]);
+
+  async function handleLogout(allDevices = false) {
+    if (!sessionState || isLoggingOut) return;
+    setLogoutError("");
+    setIsLoggingOut(true);
+    try {
+      await logout(sessionState, allDevices);
+      router.replace("/login");
+    } catch (error) {
+      setLogoutError(error instanceof Error ? error.message : "Logout failed. Please try again.");
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }
+
+  function openChangePassword() {
+    setProfileOpen(false);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+    setPasswordSuccess("");
+    setPasswordSessionInvalid(false);
+    setPasswordChanged(false);
+    setChangePasswordOpen(true);
+  }
+
+  function closeChangePassword() {
+    if (isChangingPassword || passwordSessionInvalid) return;
+    setChangePasswordOpen(false);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+    setPasswordSuccess("");
+    setPasswordChanged(false);
+  }
+
+  async function handleChangePassword(event) {
+    event.preventDefault();
+    if (passwordChanged) return;
+    setPasswordError("");
+    setPasswordSuccess("");
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError("Current password, new password and confirm password are all required.");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New password and confirm password do not match.");
+      return;
+    }
+    setIsChangingPassword(true);
+    try {
+      const payload = await changePassword(sessionState, currentPassword, newPassword);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setPasswordChanged(true);
+      setPasswordSuccess(
+        payload && typeof payload.message === "string" && payload.message.trim()
+          ? payload.message.trim()
+          : "Password changed successfully.",
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Password change failed. Please try again.";
+      setPasswordError(message);
+      if (error && (error.status === 401 || error.status === 403)) setPasswordSessionInvalid(true);
+    } finally {
+      setIsChangingPassword(false);
+    }
+  }
+
+  function handleReturnToSignIn() {
+    try {
+      clearAuthSession();
+    } catch {
+      setLogoutError("The session could not be cleared from this browser.");
+      return;
+    }
+    router.replace("/login");
+  }
+
+  if (sessionState === AUTH_SESSION_LOADING) {
+    return <main className={styles.loadingScreen}>Checking Super Admin session…</main>;
+  }
+
+  if (sessionState === AUTH_SESSION_ERROR || (sessionState && "error" in sessionState)) {
+    return (
+      <main className={styles.loadingScreen} role="alert">
+        {sessionState.error}
+      </main>
+    );
+  }
+
+  if (!sessionState || !hasRole(sessionState, "SUPER_ADMIN")) {
+    return <main className={styles.loadingScreen}>Redirecting…</main>;
+  }
+
+  const session = sessionState;
+  const user = session.user || {};
+  const fullName =
+    user.fullName || [user.firstName, user.lastName].filter(Boolean).join(" ") || "Super Admin";
+  const initials = fullName
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  function goToAccountCreate() {
+    setActiveView("accounts");
+    setPendingCreate((value) => value + 1);
+    setSidebarOpen(false);
+  }
+
+  let content;
+  if (activeView === "accounts") {
+    content = (
+      <AccountsPanel
+        key={pendingCreate}
+        initialCreateOpen={pendingCreate > 0}
+        currentUserId={session.user ? session.user.id : undefined}
+      />
+    );
+  }
+  else if (activeView === "roles") content = <RolesPanel />;
+  else if (activeView === "dashboards") {
+    content = <DashboardsPanel onNavigate={setActiveView} onCreateAccount={goToAccountCreate} />;
+  } else {
+    content = (
+      <DashboardOverview
+        session={session}
+        onNavigate={setActiveView}
+      />
+    );
+  }
+
+  const activeLabel = navigation.find((item) => item.view === activeView)?.label || "Dashboard";
+
+  return (
+    <main className={styles.adminShell}>
+      {sidebarOpen && (
+        <button className={styles.backdrop} aria-label="Close sidebar" onClick={() => setSidebarOpen(false)} />
+      )}
+      <aside className={`${styles.sidebar}${sidebarOpen ? ` ${styles.sidebarOpen}` : ""}`}>
+        <Brand />
+        <nav className={styles.sideNav} aria-label="Super Admin navigation">
+          {sectionOrder.map((section) => {
+            const items = navigation.filter((item) => item.section === section);
+            if (!items.length) return null;
+            return (
+              <div className={styles.navGroup} key={section}>
+                {section !== "main" && <div className={styles.navSection}>{sectionLabels[section]}</div>}
+                {items.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = activeView === item.view;
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={() => {
+                        setActiveView(item.view);
+                        setSidebarOpen(false);
+                      }}
+                      className={`${styles.navItem}${isActive ? ` ${styles.navActive}` : ""}`}
+                    >
+                      <Icon size={17} strokeWidth={1.8} />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </nav>
+        <div className={styles.payrollNotice}>
+          <strong>Super Admin</strong>
+          <span>Central control panel</span>
+          <small>Create and manage every account, role, permission and dashboard.</small>
+        </div>
+        <button className={styles.signOut} type="button" onClick={() => handleLogout()} disabled={isLoggingOut}>
+          <LockKeyhole size={15} />
+          {isLoggingOut ? "Signing out…" : "Sign out"}
+        </button>
+      </aside>
+
+      <section className={styles.mainArea} id="dashboard">
+        <header className={styles.topbar}>
+          <button
+            className={styles.mobileMenu}
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}
+          >
+            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+          <div className="saHeaderMeta">
+            <strong>{activeLabel}</strong>
+          </div>
+          <div className={styles.userActions} ref={userActionsRef}>
+            <button className={styles.userProfile} aria-expanded={profileOpen} onClick={() => setProfileOpen(!profileOpen)}>
+              <span className={styles.avatar}>{initials}</span>
+              <span>
+                <strong>{fullName}</strong>
+                <small>Super Admin</small>
+              </span>
+              <ChevronDown size={15} />
+            </button>
+            {profileOpen && (
+              <div className={styles.profileMenu}>
+                <button type="button" className={styles.profileMenuItem} onClick={openChangePassword}>
+                  <KeyRound size={13} /> Change password
+                </button>
+                <Link href="/sessions" className={styles.profileMenuItem}>
+                  Active sessions
+                </Link>
+                <button
+                  type="button"
+                  className={styles.profileMenuItem}
+                  onClick={() => handleLogout(false)}
+                  disabled={isLoggingOut}
+                >
+                  Sign out
+                </button>
+                <button
+                  type="button"
+                  className={styles.profileMenuItem}
+                  onClick={() => handleLogout(true)}
+                  disabled={isLoggingOut}
+                >
+                  Sign out all devices
+                </button>
+              </div>
+            )}
+          </div>
+        </header>
+
+        <div className={styles.dashboardContent}>
+          {logoutError && (
+            <p className={styles.actionError} role="alert">
+              {logoutError}
+            </p>
+          )}
+          {content}
+        </div>
+      </section>
+
+      {changePasswordOpen && (
+        <div className={styles.modalBackdrop}>
+          <div className={styles.modalCard} role="dialog" aria-modal="true" aria-labelledby="sa-change-password-title">
+            <div className={styles.modalHeader}>
+              <div>
+                <h2 id="sa-change-password-title">Change password</h2>
+                <p>Update the password for your Super Admin account.</p>
+              </div>
+              {!passwordChanged && !passwordSessionInvalid && (
+                <button
+                  type="button"
+                  className={styles.modalClose}
+                  aria-label="Close change password"
+                  onClick={closeChangePassword}
+                  disabled={isChangingPassword}
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+            {passwordSuccess && (
+              <p className={styles.actionSuccess} role="status">
+                {passwordSuccess}
+              </p>
+            )}
+            {passwordError && (
+              <p className={styles.actionError} role="alert">
+                {passwordError}
+              </p>
+            )}
+            <form className={styles.passwordForm} onSubmit={handleChangePassword}>
+              <label htmlFor="sa-current-password">Current password</label>
+              <input
+                id="sa-current-password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Enter your current password"
+                value={currentPassword}
+                onChange={(event) => setCurrentPassword(event.target.value)}
+                disabled={passwordChanged || isChangingPassword || passwordSessionInvalid}
+              />
+              <label htmlFor="sa-new-password">New password</label>
+              <input
+                id="sa-new-password"
+                type="password"
+                autoComplete="new-password"
+                placeholder="Enter a new password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                disabled={passwordChanged || isChangingPassword || passwordSessionInvalid}
+              />
+              <label htmlFor="sa-confirm-password">Confirm new password</label>
+              <input
+                id="sa-confirm-password"
+                type="password"
+                autoComplete="new-password"
+                placeholder="Re-enter the new password"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                disabled={passwordChanged || isChangingPassword || passwordSessionInvalid}
+              />
+              <div className={styles.modalActions}>
+                {passwordChanged ? (
+                  <button type="button" className={styles.primaryButton} onClick={handleReturnToSignIn}>
+                    Sign in again
+                  </button>
+                ) : passwordSessionInvalid ? (
+                  <button type="button" className={styles.primaryButton} onClick={handleReturnToSignIn}>
+                    Return to sign in
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className={styles.secondaryButton}
+                      onClick={closeChangePassword}
+                      disabled={isChangingPassword}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className={styles.primaryButton} disabled={isChangingPassword}>
+                      {isChangingPassword ? "Changing…" : "Change password"}
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}
