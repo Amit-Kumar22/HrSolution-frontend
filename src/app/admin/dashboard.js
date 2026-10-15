@@ -11,6 +11,7 @@ import {
   getAuthSessionSnapshot,
   getDashboardPath,
   getServerAuthSnapshot,
+  getUnauthenticatedRedirectPath,
   logout,
   refreshAuthSession,
   subscribeToAuthSession,
@@ -18,7 +19,7 @@ import {
 import {
   Activity, Bell, BriefcaseBusiness, Building2, CalendarClock, CalendarDays,
   ChevronDown, ClipboardList, Factory, FileSignature, FileText, Inbox, Layers,
-  LayoutDashboard, LockKeyhole, Mail, Menu, Quote, Search, Settings2, ShieldCheck,
+  LayoutDashboard, LockKeyhole, Mail, Menu, Quote, Search, ShieldCheck,
   Tags, UserSearch, UsersRound, Wallet, Wrench, X,
 } from "lucide-react";
 import { getUnreadContactCount } from "../../lib/adminApi";
@@ -58,7 +59,6 @@ const navigation = [
   { label: "Testimonials", view: "testimonials", icon: Quote, section: "WEBSITE" },
   { label: "Compliance", view: "compliance", icon: ShieldCheck, section: "ADMIN", badge: "3" },
   { label: "Audit log", view: "audit", icon: Activity, section: "ADMIN" },
-  { label: "Settings", view: "settings", icon: Settings2, section: "ADMIN" },
 ];
 
 const sectionOrder = ["main", "LEADS", "WORKFORCE", "FINANCE", "WEBSITE", "ADMIN"];
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
     if (sessionState === AUTH_SESSION_LOADING) return;
     if (sessionState === AUTH_SESSION_ERROR || (sessionState && "error" in sessionState)) return;
     if (!sessionState) {
-      router.replace("/login");
+      router.replace(getUnauthenticatedRedirectPath());
       return;
     }
     const dashboardPath = getDashboardPath(sessionState);
@@ -177,7 +177,7 @@ export default function AdminDashboard() {
     setIsLoggingOut(true);
     try {
       await logout(sessionState, allDevices);
-      router.replace("/login");
+      router.replace("/");
     } catch (error) {
       setLogoutError(error instanceof Error ? error.message : "Logout failed. Please try again.");
     } finally {
@@ -292,6 +292,8 @@ export default function AdminDashboard() {
     content = <ModulePlaceholder label={activeNav ? activeNav.label : "Module"} />;
   }
 
+  const isDashboardView = activeView === "dashboard";
+
   return (
     <main className={styles.adminShell}>
       {sidebarOpen && <button className={styles.backdrop} aria-label="Close sidebar" onClick={() => setSidebarOpen(false)} />}
@@ -341,10 +343,12 @@ export default function AdminDashboard() {
       </aside>
 
       <section className={styles.mainArea} id="dashboard">
-        <header className={styles.topbar}>
+        <header className={isDashboardView ? styles.topbar : "adminTopbarBare"}>
           <button className={styles.mobileMenu} onClick={() => setSidebarOpen(!sidebarOpen)} aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}>
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
+          {isDashboardView && (
+          <>
           <label className={styles.searchBox}>
             <Search size={17} />
             <input type="search" placeholder="Search workers, clients, invoices..." aria-label="Search workers, clients, invoices" />
@@ -372,6 +376,8 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
+          </>
+          )}
         </header>
 
         <div className={styles.dashboardContent}>

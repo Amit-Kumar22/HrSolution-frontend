@@ -11,6 +11,7 @@ import {
   getAuthSessionSnapshot,
   getDashboardPath,
   getServerAuthSnapshot,
+  getUnauthenticatedRedirectPath,
   logout,
   subscribeToAuthSession,
 } from "@/lib/auth";
@@ -55,7 +56,7 @@ export default function SessionsScreen() {
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    if (sessionState === null) router.replace("/login");
+    if (sessionState === null) router.replace(getUnauthenticatedRedirectPath());
   }, [router, sessionState]);
 
   useEffect(() => {
@@ -93,8 +94,8 @@ export default function SessionsScreen() {
     try {
       await revokeSession(sessionId);
       if (isCurrent) {
-        clearAuthSession();
-        router.replace("/login");
+        clearAuthSession({ signedOut: true });
+        router.replace("/");
         return;
       }
       setSessions((previous) => previous.filter((session) => Number(session.id) !== Number(sessionId)));
@@ -116,7 +117,7 @@ export default function SessionsScreen() {
     } catch {
       // The local session is still cleared below.
     }
-    router.replace("/login");
+    router.replace("/");
   }
 
   if (sessionState === AUTH_SESSION_LOADING || sessionState === null) {

@@ -24,6 +24,7 @@ import {
   getAuthSessionSnapshot,
   getDashboardPath,
   getServerAuthSnapshot,
+  getUnauthenticatedRedirectPath,
   hasRole,
   logout,
   refreshAuthSession,
@@ -83,7 +84,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
     if (sessionState === AUTH_SESSION_LOADING) return;
     if (sessionState === AUTH_SESSION_ERROR || (sessionState && "error" in sessionState)) return;
     if (!sessionState) {
-      router.replace("/login");
+      router.replace(getUnauthenticatedRedirectPath());
       return;
     }
     if (!hasRole(sessionState, allowedRoles)) {
@@ -136,7 +137,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
     setIsLoggingOut(true);
     try {
       await logout(sessionState, allDevices);
-      router.replace("/login");
+      router.replace("/");
     } finally {
       setIsLoggingOut(false);
     }

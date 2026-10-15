@@ -35,6 +35,7 @@ import {
   getAuthSessionSnapshot,
   getDashboardPath,
   getServerAuthSnapshot,
+  getUnauthenticatedRedirectPath,
   hasRole,
   logout,
   refreshAuthSession,
@@ -131,7 +132,7 @@ export default function SuperAdminDashboard() {
     if (sessionState === AUTH_SESSION_LOADING) return;
     if (sessionState === AUTH_SESSION_ERROR || (sessionState && "error" in sessionState)) return;
     if (!sessionState) {
-      router.replace("/login");
+      router.replace(getUnauthenticatedRedirectPath());
       return;
     }
     if (!hasRole(sessionState, "SUPER_ADMIN")) {
@@ -193,7 +194,7 @@ export default function SuperAdminDashboard() {
     setIsLoggingOut(true);
     try {
       await logout(sessionState, allDevices);
-      router.replace("/login");
+      router.replace("/");
     } catch (error) {
       setLogoutError(error instanceof Error ? error.message : "Logout failed. Please try again.");
     } finally {

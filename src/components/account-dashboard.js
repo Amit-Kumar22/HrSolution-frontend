@@ -12,6 +12,7 @@ import {
   getAuthSessionSnapshot,
   getDashboardPath,
   getServerAuthSnapshot,
+  getUnauthenticatedRedirectPath,
   logout,
   setAuthFlash,
   subscribeToAuthSession,
@@ -58,7 +59,7 @@ export default function AccountDashboard({ role, heading, subtitle, roleTitle, h
   useEffect(() => {
     if (sessionState === AUTH_SESSION_LOADING) return;
     if (!sessionState || (sessionState && "error" in sessionState)) {
-      if (!sessionState) router.replace("/login");
+      if (!sessionState) router.replace(getUnauthenticatedRedirectPath());
       return;
     }
     const dashboardPath = getDashboardPath(sessionState);
@@ -91,7 +92,7 @@ export default function AccountDashboard({ role, heading, subtitle, roleTitle, h
     } catch {
       setLogoutError("We could not reach the server, but you have been signed out on this device.");
     } finally {
-      router.replace("/login");
+      router.replace("/");
       setIsLoggingOut(false);
     }
   }

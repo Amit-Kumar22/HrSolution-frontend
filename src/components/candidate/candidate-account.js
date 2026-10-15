@@ -62,7 +62,7 @@ export default function CandidateAccount({ session, onLogoutError }) {
     } catch {
       setLogoutError("We could not reach the server, but you have been signed out on this device.");
     } finally {
-      router.replace("/login");
+      router.replace("/");
     }
   }
 

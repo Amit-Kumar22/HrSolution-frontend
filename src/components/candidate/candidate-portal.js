@@ -18,6 +18,7 @@ import {
   getAuthSessionSnapshot,
   getDashboardPath,
   getServerAuthSnapshot,
+  getUnauthenticatedRedirectPath,
   isCandidateRole,
   logout,
   subscribeToAuthSession,
@@ -65,7 +66,7 @@ export default function CandidatePortal() {
   );
 
   const redirectToLogin = useCallback(() => {
-    router.replace("/login");
+    router.replace(getUnauthenticatedRedirectPath());
   }, [router]);
 
   // Initial data load. setState only happens after the awaited fetch resolves.
@@ -156,7 +157,7 @@ export default function CandidatePortal() {
     try {
       await logout(session, false);
     } finally {
-      router.replace("/login");
+      router.replace("/");
     }
   }
 

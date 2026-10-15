@@ -2,6 +2,7 @@ import { API_BASE } from "./api-base";
 
 const AUTH_STORAGE_KEY = "shakti-auth-session";
 const AUTH_HINT_KEY = "shakti-auth-hint";
+const AUTH_SIGNED_OUT_KEY = "shakti-auth-signed-out";
 const AUTH_FLASH_KEY = "shakti-auth-flash";
 const AUTH_SESSION_EVENT = "shakti-auth-session-change";
 const AUTH_FLASH_EVENT = "shakti-auth-flash-change";
@@ -174,6 +175,7 @@ function saveSession(session) {
   if (!isBrowser() || !session) return;
   try {
     window.sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(session));
+    window.sessionStorage.removeItem(AUTH_SIGNED_OUT_KEY);
     rememberSessionHint();
     notifyAuthSessionChange();
   } catch {
@@ -218,6 +220,43 @@ export function getAuthSessionSnapshot() {
   } catch {
     return AUTH_SESSION_ERROR;
   }
+}
+
+export function getUnauthenticatedRedirectPath() {
+  if (!isBrowser()) return "/login";
+  try {
+    return window.sessionStorage.getItem(AUTH_SIGNED_OUT_KEY) === "1" ? "/" : "/login";
+  } catch {
+    return "/login";
+  }
+}
+
+export function handleAuthPageShow() {
+  if (!isBrowser()) return;
+  getAuthSessionSnapshot();
+  const protectedPaths = [
+    "/admin",
+    "/super-admin",
+    "/hr",
+    "/operator",
+    "/accounts",
+    "/supervisor",
+    "/client",
+    "/candidate",
+    "/account",
+    "/sessions",
+  ];
+  const isProtectedPath = protectedPaths.some((path) =>
+    window.location.pathname === path || window.location.pathname.startsWith(`${path}/`),
+  );
+  if (
+    getUnauthenticatedRedirectPath() === "/" &&
+    isProtectedPath
+  ) {
+    window.location.replace("/");
+    return;
+  }
+  notifyAuthSessionChange();
 }
 
 async function readResponse(response) {
@@ -406,10 +445,11 @@ function parseAuthSession(rawSession) {
   return { ...session, user: { ...session.user, roles: roleList(session.user) } };
 }
 
-export function clearAuthSession({ silent = false } = {}) {
+export function clearAuthSession({ silent = false, signedOut = false } = {}) {
   try {
     if (isBrowser()) {
       window.sessionStorage.removeItem(AUTH_STORAGE_KEY);
+      if (signedOut) window.sessionStorage.setItem(AUTH_SIGNED_OUT_KEY, "1");
       forgetSessionHint();
       cachedSessionStorageValue = undefined;
       cachedAuthSession = null;
@@ -607,7 +647,7 @@ export async function logout(session, allDevices = false) {
       ? "You have been signed out of all devices."
       : "You have been signed out.",
   );
-  clearAuthSession();
+  clearAuthSession({ signedOut: true });
   return payload;
 }
 
