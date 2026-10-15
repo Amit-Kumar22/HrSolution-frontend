@@ -292,8 +292,6 @@ export default function AdminDashboard() {
     content = <ModulePlaceholder label={activeNav ? activeNav.label : "Module"} />;
   }
 
-  const isDashboardView = activeView === "dashboard";
-
   return (
     <main className={styles.adminShell}>
       {sidebarOpen && <button className={styles.backdrop} aria-label="Close sidebar" onClick={() => setSidebarOpen(false)} />}
@@ -343,12 +341,10 @@ export default function AdminDashboard() {
       </aside>
 
       <section className={styles.mainArea} id="dashboard">
-        <header className={isDashboardView ? styles.topbar : "adminTopbarBare"}>
+        <header className={styles.topbar}>
           <button className={styles.mobileMenu} onClick={() => setSidebarOpen(!sidebarOpen)} aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}>
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          {isDashboardView && (
-          <>
           <label className={styles.searchBox}>
             <Search size={17} />
             <input type="search" placeholder="Search workers, clients, invoices..." aria-label="Search workers, clients, invoices" />
@@ -376,8 +372,6 @@ export default function AdminDashboard() {
               </div>
             )}
           </div>
-          </>
-          )}
         </header>
 
         <div className={styles.dashboardContent}>
