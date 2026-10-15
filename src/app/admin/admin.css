@@ -346,10 +346,49 @@
 .cmUploadPreviewRound { border-radius: 50%; width: 96px; height: 96px; }
 .cmUploadPlaceholder { color: #b3c0d0; }
 
+/* ==================================================================== */
+/* Interview management                                                 */
+/* ==================================================================== */
+
+.ivStats { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.ivStat { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 14px 15px; border: 1px solid var(--line); border-radius: 11px; background: #fff; box-shadow: 0 2px 6px #102b4e08; border-left: 3px solid #c9d5e4; }
+.ivStatLabel { color: #6b7d95; font-size: 11px; font-weight: 650; line-height: 1.35; }
+.ivStatValue { color: var(--navy); font-size: clamp(18px, 1.7vw, 23px); letter-spacing: -.02em; }
+.ivStat-navy { border-left-color: #0c2748; }
+.ivStat-blue { border-left-color: #2874ed; }
+.ivStat-green { border-left-color: #00a84f; }
+.ivStat-amber { border-left-color: #e58a00; }
+.ivStat-red { border-left-color: #ec3030; }
+.ivStat-warn { border-left-color: #d97706; }
+
+.ivTabBar { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 16px; padding: 4px; border: 1px solid var(--line); border-radius: 11px; background: #fff; }
+.ivTab { min-height: 34px; padding: 0 14px; border: 0; border-radius: 8px; background: transparent; color: #536780; font: inherit; font-size: 12.5px; font-weight: 650; cursor: pointer; transition: background .15s, color .15s; }
+.ivTab:hover { background: #f2f5f9; color: var(--navy); }
+.ivTabActive { background: var(--navy); color: #fff; }
+.ivTabActive:hover { background: var(--navy); color: #fff; }
+
+.ivStrong { font-weight: 650; color: #24384f; }
+.ivVenueCell { max-width: 220px; }
+.ivVenueLink { display: inline-flex; align-items: center; gap: 4px; color: #1d5fbf; text-decoration: none; }
+.ivVenueLink:hover { text-decoration: underline; }
+.ivRating { color: #b45309; font-weight: 700; }
+.ivRating small { color: #91a2b9; font-weight: 500; }
+
+@media (max-width: 1250px) {
+  .ivStats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
 @media (max-width: 900px) {
   .cmHead { flex-direction: column; align-items: flex-start; }
   .cmHeadAction { width: 100%; }
   .cmHeadAction .cmBtn { width: 100%; }
+  .ivStats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 650px) {
+  .ivStats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .ivStat { padding: 11px 11px; }
+  .ivTab { flex: 1 1 auto; padding: 0 10px; font-size: 11.5px; }
 }
 
 @media (max-width: 650px) {
@@ -360,4 +399,60 @@
   .cmToolbar { align-items: stretch; }
   .cmSearchBox { max-width: none; }
   .cmPagination { justify-content: space-between; }
+}
+
+/* ==================================================================== */
+/* Job management                                                       */
+/* ==================================================================== */
+
+.jobStats { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.jobStat { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 14px 15px; border: 1px solid var(--line); border-radius: 11px; background: #fff; box-shadow: 0 2px 6px #102b4e08; border-left: 3px solid #c9d5e4; }
+.jobStatLabel { color: #6b7d95; font-size: 11px; font-weight: 650; line-height: 1.35; }
+.jobStatValue { color: var(--navy); font-size: clamp(18px, 1.7vw, 23px); letter-spacing: -.02em; }
+.jobStat-navy { border-left-color: #0c2748; }
+.jobStat-blue { border-left-color: #2874ed; }
+.jobStat-green { border-left-color: #00a84f; }
+.jobStat-amber { border-left-color: #e58a00; }
+.jobStat-red { border-left-color: #ec3030; }
+.jobStat-accent { border-left-color: #7c3aed; }
+.jobStat-warn { border-left-color: #d97706; }
+.jobStat-neutral { border-left-color: #6b7d95; }
+
+.jobTitleLink { font-weight: 650; color: #1d5fbf; text-align: left; }
+.jobTitleLink:hover { text-decoration: underline; }
+.jobAppCount { font-weight: 650; color: #24384f; }
+
+.jobCandidateList { display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; padding: 6px; border: 1px solid var(--line); border-radius: 10px; background: #f8fafc; }
+.jobCandidateItem { display: flex; flex-direction: column; gap: 3px; padding: 9px 11px; border: 1px solid transparent; border-radius: 8px; background: #fff; text-align: left; font: inherit; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+.jobCandidateItem:hover { border-color: #c9d5e4; box-shadow: 0 2px 6px #102b4e0f; }
+.jobCandidateItem strong { color: #24384f; font-size: 13px; }
+.jobCandidateItem small { color: #6b7d95; font-size: 11.5px; }
+.jobSelectedCandidate { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border: 1px solid #b7e0c4; border-radius: 10px; background: #f1fbf4; }
+.jobSelectedCandidate strong { color: #166534; font-size: 13px; }
+.jobSelectedCandidate small { color: #3f7a52; font-size: 11.5px; }
+
+.jobPipelineGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 16px; }
+.jobPipelineCard { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.jobPipelineCount { color: var(--navy); font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
+.jobPipelineLabel { font-size: 11px; font-weight: 650; }
+.jobPipelineLabel-info { color: #1d5fbf; }
+.jobPipelineLabel-accent { color: #7c3aed; }
+.jobPipelineLabel-success { color: #00a84f; }
+.jobPipelineLabel-danger { color: #ec3030; }
+.jobPipelineLabel-warn { color: #d97706; }
+.jobPipelineLabel-neutral { color: #6b7d95; }
+
+.jobDescriptionText { white-space: pre-wrap; line-height: 1.6; }
+
+@media (max-width: 1250px) {
+  .jobStats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .jobStats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 650px) {
+  .jobStats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .jobStat { padding: 11px 11px; }
 }

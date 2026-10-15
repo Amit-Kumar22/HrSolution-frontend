@@ -16,15 +16,15 @@ import {
   Phone,
   ShieldCheck,
   UsersRound,
-  Wallet,
 } from "lucide-react";
 import Link from "next/link";
 import FieldError from "@/components/field-error";
 import PublicImage from "@/components/public-image";
+import PublicJobCard from "@/components/public-job-card";
 import { Footer, Navbar, ProfileBanner, buildAddress, companyNameOf } from "@/components/site-chrome";
 import { SiteProvider, useSite } from "@/components/site-provider";
 import { INDUSTRY_ICONS, SERVICE_ICONS } from "@/lib/public-icons";
-import { resolvePublicFileUrl, submitContactMessage, toTelHref } from "@/lib/publicApi";
+import { listPublicJobs, resolvePublicFileUrl, submitContactMessage, toTelHref } from "@/lib/publicApi";
 import {
   LEAD_KNOWN_FIELDS,
   buildContactPayload,
@@ -305,11 +305,28 @@ function WhyChooseUs() {
 }
 
 function JobOpenings() {
-  const jobs = [
-    { category: "Security", posted: "Posted 2 days ago", title: "Security Guard", location: "Jamshedpur, Jharkhand", salary: "₹14,500 – ₹17,000 / month", experience: "0–3 yrs", openings: "25 openings" },
-    { category: "Manufacturing", posted: "Posted 4 days ago", title: "CNC Machine Operator", location: "Adityapur, Jharkhand", salary: "₹18,000 – ₹24,000 / month", experience: "2–5 yrs", openings: "8 openings" },
-    { category: "Office Staff", posted: "Posted 1 week ago", title: "Data Entry Operator", location: "Patna, Bihar", salary: "₹13,000 – ₹15,500 / month", experience: "0–2 yrs", openings: "12 openings" },
-  ];
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    listPublicJobs({ page: 0, size: 3 })
+      .then((data) => {
+        if (cancelled) return;
+        setJobs(data.content);
+        setError("");
+      })
+      .catch(() => {
+        if (!cancelled) setError("Job openings could not be loaded right now.");
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <section className="section careers-section" id="careers">
@@ -320,28 +337,24 @@ function JobOpenings() {
             <h2>Latest job openings</h2>
             <p>Verified employers, PF &amp; ESI benefits, salary on time — every month.</p>
           </div>
-          <a className="button button-outline" href="#contact">View all 140+ jobs <ArrowRight size={15} /></a>
+          <Link className="button button-outline" href="/careers">
+            Browse all jobs <ArrowRight size={15} />
+          </Link>
         </div>
-        <div className="job-grid">
-          {jobs.map((job) => (
-            <article className="job-card" key={job.title}>
-              <div className="job-meta">
-                <span className="job-category"><i />{job.category}</span>
-                <small>{job.posted}</small>
-              </div>
-              <h3>{job.title}</h3>
-              <ul className="job-details">
-                <li><MapPin size={14} />{job.location}</li>
-                <li><Wallet size={14} />{job.salary}</li>
-                <li><BriefcaseBusiness size={14} />{job.experience} · {job.openings}</li>
-              </ul>
-              <div className="job-actions">
-                <a className="button button-dark" href="#contact">Apply now</a>
-                <a className="button button-outline" href="#contact">View details</a>
-              </div>
-            </article>
-          ))}
-        </div>
+        {loading ? (
+          <SkeletonGrid className="job-grid" count={3} />
+        ) : jobs.length > 0 ? (
+          <div className="job-grid">
+            {jobs.map((job) => (
+              <PublicJobCard key={job.slug || job.id || job.title} job={job} />
+            ))}
+          </div>
+        ) : (
+          <div className="careers-empty">
+            <h3>No open vacancies right now</h3>
+            <p>{error || "Please check back soon for new openings."}</p>
+          </div>
+        )}
       </div>
     </section>
   );

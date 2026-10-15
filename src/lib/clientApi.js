@@ -1,6 +1,5 @@
 import { authenticatedFetch } from "./auth";
-
-const API_BASE = "/api/v1";
+import { API_BASE } from "./api-base";
 
 function messageFromPayload(payload, status) {
   if (payload && typeof payload === "object") {

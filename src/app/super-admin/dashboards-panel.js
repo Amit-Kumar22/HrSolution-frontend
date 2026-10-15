@@ -10,7 +10,7 @@ const CANONICAL_TYPES = Object.freeze([
   { key: "super_admin", label: "Super Admin", matchers: ["SUPER_ADMIN"] },
   { key: "admin", label: "Admin", matchers: ["ADMIN", "MANAGER"] },
   { key: "hr", label: "HR", matchers: ["HR", "HR_RECRUITER", "HR_MANAGER"] },
-  { key: "operator", label: "Operator", matchers: ["OPERATOR", "OPERATIONS", "SECURITY_GUARD"] },
+  { key: "operator", label: "Operator", matchers: ["OPERATOR", "OPERATIONS", "OPERATIONS_MANAGER", "SECURITY_GUARD"] },
   { key: "accounts", label: "Accounts", matchers: ["ACCOUNTS", "ACCOUNTANT"] },
   { key: "supervisor", label: "Supervisor", matchers: ["SUPERVISOR"] },
 ]);

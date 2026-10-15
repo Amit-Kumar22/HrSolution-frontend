@@ -218,6 +218,57 @@
   font-size: 11px;
 }
 
+/* --------------------- Account change password ------------------ */
+
+.accountModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(12, 39, 72, 0.55);
+}
+.accountModalCard {
+  width: min(100%, 430px);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 24px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(12, 39, 72, 0.28);
+}
+.accountModalHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.accountModalHead h2 { margin: 0 0 4px; color: #0c2748; font-size: 18px; letter-spacing: -0.02em; }
+.accountModalHead p { margin: 0; color: #63748b; font-size: 12px; line-height: 1.5; }
+.accountModalClose {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #63748b;
+  cursor: pointer;
+}
+.accountModalClose:hover { background: #f0f3f7; }
+.accountModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+.accountModalActions > * { min-width: 120px; }
+button.accountActionLink { cursor: pointer; }
+
 /* --------------------------- Sessions --------------------------- */
 
 .sessionsShell { min-height: 100vh; background: #f4f7fa; color: #102b4e; font-family: Arial, Helvetica, sans-serif; }

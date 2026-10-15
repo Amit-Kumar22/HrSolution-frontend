@@ -16,10 +16,10 @@ import {
   subscribeToAuthSession,
 } from "../../lib/auth";
 import {
-  Activity, Bell, BriefcaseBusiness, Building2, CalendarDays,
+  Activity, Bell, BriefcaseBusiness, Building2, CalendarClock, CalendarDays,
   ChevronDown, ClipboardList, Factory, FileText, Inbox, Layers, LayoutDashboard,
   LockKeyhole, Mail, Menu, Quote, Search, Settings2, ShieldCheck, Tags,
-  UsersRound, Wallet, Wrench, X,
+  UserSearch, UsersRound, Wallet, Wrench, X,
 } from "lucide-react";
 import { getUnreadContactCount } from "../../lib/adminApi";
 import { styles } from "./admin-styles";
@@ -28,6 +28,9 @@ import DashboardOverview from "./dashboard-overview";
 import EnquiriesPanel from "./enquiries-panel";
 import IndustriesPanel from "./industries-panel";
 import ClientsPanel from "./clients-panel";
+import CandidatesPanel from "./candidates-panel";
+import InterviewManagementPanel from "./interview-panel";
+import JobsPanel from "./jobs-panel";
 import ManpowerCategoriesPanel from "./manpower-categories-panel";
 import ServicesPanel from "./services-panel";
 import SkillsPanel from "./skills-panel";
@@ -39,7 +42,9 @@ const navigation = [
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main", badge: "7" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
-  { label: "Recruitment", view: "recruitment", icon: BriefcaseBusiness, section: "WORKFORCE" },
+  { label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "WORKFORCE" },
+  { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
+  { label: "Interviews", view: "interviews", icon: CalendarClock, section: "WORKFORCE" },
   { label: "Workers", view: "workers", icon: UsersRound, section: "WORKFORCE" },
   { label: "Attendance", view: "attendance", icon: CalendarDays, section: "WORKFORCE" },
   { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
@@ -268,6 +273,9 @@ export default function AdminDashboard() {
 
   let content;
   if (activeView === "clients") content = <ClientsPanel />;
+  else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
+  else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;
+  else if (activeView === "jobs") content = <JobsPanel session={session} />;
   else if (activeView === "industries") content = <IndustriesPanel />;
   else if (activeView === "services") content = <ServicesPanel />;
   else if (activeView === "testimonials") content = <TestimonialsPanel />;

@@ -4,7 +4,8 @@ import "./login/login.css";
 import "./admin/admin.css";
 import "./super-admin/super-admin.css";
 import "./auth/auth.css";
-import AuthBootstrap from "@/components/auth-bootstrap";
+import "./candidate/candidate.css";
+import AuthSessionInit from "@/components/auth-session-init";
 import { getCompanyProfile } from "@/lib/publicApi";
 
 const geistSans = Geist({
@@ -38,7 +39,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <AuthBootstrap />
+        <AuthSessionInit />
         {children}
       </body>
     </html>

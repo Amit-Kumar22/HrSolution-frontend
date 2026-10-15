@@ -171,7 +171,7 @@ export default function ResetPassword({ token: initialToken = "" }) {
           </p>
         )}
         <p className="authNote">
-          Reset links are single-use. A new password revokes every active session on your account.
+          Reset links expire after 30 minutes and are single-use. A new password revokes every active session on your account.
         </p>
       </form>
     </AuthShell>

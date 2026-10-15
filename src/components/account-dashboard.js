@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { KeyRound, LogOut, RefreshCw, ShieldCheck } from "lucide-react";
+import { KeyRound, LogOut, RefreshCw, ShieldCheck, X } from "lucide-react";
 import {
   AUTH_SESSION_ERROR,
   AUTH_SESSION_LOADING,
+  changePassword,
+  clearAuthSession,
   getAuthSessionSnapshot,
   getDashboardPath,
   getServerAuthSnapshot,
   logout,
+  setAuthFlash,
   subscribeToAuthSession,
 } from "@/lib/auth";
+import { passwordHints, validatePassword, validatePasswordMatch } from "@/lib/auth-forms";
 
 const STATUS_META = {
   ACTIVE: { label: "Active", tone: "active" },
@@ -42,6 +46,14 @@ export default function AccountDashboard({ role, heading, subtitle, roleTitle, h
     getAuthSessionSnapshot,
     getServerAuthSnapshot,
   );
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
 
   useEffect(() => {
     if (sessionState === AUTH_SESSION_LOADING) return;
@@ -70,9 +82,75 @@ export default function AccountDashboard({ role, heading, subtitle, roleTitle, h
   const status = STATUS_META[user.status] || { label: user.status || "Unknown", tone: "pending" };
   const guidance = statusGuidance[user.status];
 
-  async function handleLogout() {
-    await logout(sessionState).catch(() => {});
-    router.replace("/login");
+  async function handleLogout(allDevices = false) {
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
+    setLogoutError("");
+    try {
+      await logout(sessionState, allDevices);
+    } catch {
+      setLogoutError("We could not reach the server, but you have been signed out on this device.");
+    } finally {
+      router.replace("/login");
+      setIsLoggingOut(false);
+    }
+  }
+
+  function openChangePassword() {
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+    setChangePasswordOpen(true);
+  }
+
+  function closeChangePassword() {
+    if (isChangingPassword) return;
+    setChangePasswordOpen(false);
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+  }
+
+  async function handleChangePassword(event) {
+    event.preventDefault();
+    if (isChangingPassword) return;
+    setPasswordError("");
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError("Current password, new password and confirm password are all required.");
+      return;
+    }
+    const strengthError = validatePassword(newPassword);
+    if (strengthError) {
+      setPasswordError(strengthError);
+      return;
+    }
+    const matchError = validatePasswordMatch(newPassword, confirmPassword);
+    if (matchError) {
+      setPasswordError(matchError);
+      return;
+    }
+
+    setIsChangingPassword(true);
+    try {
+      const payload = await changePassword(sessionState, currentPassword, newPassword);
+      const message =
+        payload && typeof payload.message === "string" && payload.message.trim()
+          ? payload.message.trim()
+          : "Password changed successfully. Please sign in again.";
+      setAuthFlash(message);
+      try {
+        clearAuthSession();
+      } catch {
+        // The redirect below still returns the user to the sign-in page.
+      }
+      router.replace("/login");
+    } catch (error) {
+      setPasswordError(error instanceof Error ? error.message : "Password change failed. Please try again.");
+      setIsChangingPassword(false);
+    }
   }
 
   return (
@@ -84,11 +162,20 @@ export default function AccountDashboard({ role, heading, subtitle, roleTitle, h
         </Link>
         <div className="sessionsTopActions">
           <Link className="sessionsTopLink" href="/sessions">Active sessions</Link>
-          <button type="button" className="sessionsTopButton" onClick={handleLogout}>
+          <button type="button" className="sessionsTopButton" onClick={() => handleLogout(true)} disabled={isLoggingOut}>
+            <LogOut size={13} /> {isLoggingOut ? "Signing out…" : "Sign out all devices"}
+          </button>
+          <button type="button" className="sessionsTopButton" onClick={() => handleLogout(false)} disabled={isLoggingOut}>
             <LogOut size={13} /> Sign out
           </button>
         </div>
       </div>
+
+      {logoutError && (
+        <div className="accountContainer" style={{ paddingBottom: 0 }}>
+          <div className="authAlert authAlert--error" role="alert" style={{ marginTop: 16 }}>{logoutError}</div>
+        </div>
+      )}
 
       <div className="accountContainer">
         <div className="accountHeading">
@@ -168,10 +255,80 @@ export default function AccountDashboard({ role, heading, subtitle, roleTitle, h
             )}
             <div className="accountActions">
               <Link className="accountActionLink" href="/sessions"><KeyRound size={14} /> Manage active sessions</Link>
+              <button type="button" className="accountActionLink" onClick={openChangePassword}>
+                <KeyRound size={14} /> Change password
+              </button>
             </div>
           </section>
         </div>
       </div>
+
+      {changePasswordOpen && (
+        <div className="accountModalBackdrop" role="presentation">
+          <div className="accountModalCard" role="dialog" aria-modal="true" aria-labelledby="account-change-password-title">
+            <div className="accountModalHead">
+              <div>
+                <h2 id="account-change-password-title">Change password</h2>
+                <p>Changing your password signs out every device, including this one.</p>
+              </div>
+              <button type="button" className="accountModalClose" aria-label="Close change password" onClick={closeChangePassword} disabled={isChangingPassword}>
+                <X size={16} />
+              </button>
+            </div>
+
+            {passwordError && <div className="authAlert authAlert--error" role="alert">{passwordError}</div>}
+
+            <form className="authForm" onSubmit={handleChangePassword} noValidate>
+              <div className="authField">
+                <label className="authLabel" htmlFor="account-current-password">Current password</label>
+                <input
+                  id="account-current-password"
+                  className="authInput"
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="Enter your current password"
+                  value={currentPassword}
+                  onChange={(event) => setCurrentPassword(event.target.value)}
+                  disabled={isChangingPassword}
+                />
+              </div>
+              <div className="authField">
+                <label className="authLabel" htmlFor="account-new-password">New password</label>
+                <input
+                  id="account-new-password"
+                  className="authInput"
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="Create a new password"
+                  value={newPassword}
+                  onChange={(event) => setNewPassword(event.target.value)}
+                  disabled={isChangingPassword}
+                />
+                <small className="authPasswordHint">{passwordHints().join(" · ")}</small>
+              </div>
+              <div className="authField">
+                <label className="authLabel" htmlFor="account-confirm-password">Confirm new password</label>
+                <input
+                  id="account-confirm-password"
+                  className="authInput"
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="Re-enter the new password"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  disabled={isChangingPassword}
+                />
+              </div>
+              <div className="accountModalActions">
+                <button type="button" className="authButtonSecondary" onClick={closeChangePassword} disabled={isChangingPassword}>Cancel</button>
+                <button type="submit" className="authButton" disabled={isChangingPassword}>
+                  {isChangingPassword ? "Changing…" : "Change password"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

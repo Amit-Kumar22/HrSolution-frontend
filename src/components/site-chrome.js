@@ -30,6 +30,7 @@ const NAV_ITEMS = [
   ["Services", "/#services"],
   ["Industries", "/#industries"],
   ["Manpower", "/#manpower"],
+  ["Careers", "/careers"],
   ["Contact Us", "/#contact"],
 ];
 
@@ -116,12 +117,18 @@ export function Navbar() {
         <div className="container nav-inner">
           <Brand />
           <nav className={`main-nav${open ? " nav-open" : ""}`} aria-label="Main navigation">
-            {NAV_ITEMS.map(([label, href]) => (
-              <a key={label} href={href} onClick={() => setOpen(false)}>
-                {label}
-                {label === "Services" && <ChevronDown size={14} />}
-              </a>
-            ))}
+            {NAV_ITEMS.map(([label, href]) =>
+              href.startsWith("/careers") ? (
+                <Link key={label} href={href} onClick={() => setOpen(false)}>
+                  {label}
+                </Link>
+              ) : (
+                <a key={label} href={href} onClick={() => setOpen(false)}>
+                  {label}
+                  {label === "Services" && <ChevronDown size={14} />}
+                </a>
+              ),
+            )}
             <div className="nav-actions">
               <a className="button button-outline nav-login" href="/login" onClick={() => setOpen(false)}>
                 Login
@@ -275,7 +282,7 @@ export function Footer() {
 
         <div className="footer-column">
           <h3>FOR JOB SEEKERS</h3>
-          <Link href="/#contact">Current openings</Link>
+          <Link href="/careers">Current openings</Link>
           <Link href="/register/candidate">Register as candidate</Link>
           <Link href="/#contact">Worker support</Link>
           <Link href="/#contact">FAQs</Link>

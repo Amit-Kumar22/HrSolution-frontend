@@ -1,6 +1,6 @@
 import { authenticatedFetch } from "./auth";
+import { API_BASE } from "./api-base";
 
-const API_BASE = "/api/v1";
 const REQUEST_TIMEOUT_MS = 30000;
 
 export class AuthApiError extends Error {

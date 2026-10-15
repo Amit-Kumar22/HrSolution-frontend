@@ -1,6 +1,10 @@
+import { API_BASE } from "./api-base";
+
 const AUTH_STORAGE_KEY = "shakti-auth-session";
 const AUTH_HINT_KEY = "shakti-auth-hint";
+const AUTH_FLASH_KEY = "shakti-auth-flash";
 const AUTH_SESSION_EVENT = "shakti-auth-session-change";
+const AUTH_FLASH_EVENT = "shakti-auth-flash-change";
 
 export const AUTH_SESSION_LOADING = "__shakti_auth_session_loading__";
 export const AUTH_SESSION_ERROR = Object.freeze({ error: "Could not read the sign-in session from this browser." });
@@ -12,6 +16,7 @@ export const INTERNAL_ROLES = Object.freeze([
   "HR",
   "RECRUITER",
   "OPERATIONS",
+  "OPERATIONS_MANAGER",
   "OPERATOR",
   "ACCOUNTS",
   "SUPERVISOR",
@@ -72,6 +77,65 @@ function hasSessionHint() {
   } catch {
     return false;
   }
+}
+
+let authFlashMessage = "";
+let authFlashHydrated = false;
+
+function notifyAuthFlashChange() {
+  if (!isBrowser()) return;
+  window.dispatchEvent(new Event(AUTH_FLASH_EVENT));
+}
+
+export function setAuthFlash(message) {
+  authFlashMessage = String(message || "");
+  authFlashHydrated = true;
+  if (!isBrowser()) return;
+  try {
+    window.sessionStorage.setItem(AUTH_FLASH_KEY, authFlashMessage);
+  } catch {
+    // A missing flash message only means the next page will not show a notice.
+  }
+  notifyAuthFlashChange();
+}
+
+export function clearAuthFlash() {
+  authFlashMessage = "";
+  authFlashHydrated = true;
+  if (!isBrowser()) return;
+  try {
+    window.sessionStorage.removeItem(AUTH_FLASH_KEY);
+  } catch {
+    // Ignore storage access failures.
+  }
+  notifyAuthFlashChange();
+}
+
+export function getAuthFlashSnapshot() {
+  if (!isBrowser()) return "";
+  if (!authFlashHydrated) {
+    authFlashHydrated = true;
+    try {
+      authFlashMessage = window.sessionStorage.getItem(AUTH_FLASH_KEY) || "";
+    } catch {
+      authFlashMessage = "";
+    }
+  }
+  return authFlashMessage;
+}
+
+export function getServerAuthFlashSnapshot() {
+  return "";
+}
+
+export function subscribeToAuthFlash(callback) {
+  if (!isBrowser()) return () => {};
+  window.addEventListener(AUTH_FLASH_EVENT, callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener(AUTH_FLASH_EVENT, callback);
+    window.removeEventListener("storage", callback);
+  };
 }
 
 function resolveExpiresAt(payload) {
@@ -216,7 +280,7 @@ function createRequestError(message, status) {
 /* ------------------------------------------------------------------ */
 
 async function requestCurrentUser(session) {
-  return fetch("/api/v1/auth/me", {
+  return fetch(`${API_BASE}/auth/me`, {
     method: "GET",
     credentials: "include",
     headers: {
@@ -284,7 +348,7 @@ export function refreshAuthSession() {
   refreshPromise = (async () => {
     let response;
     try {
-      response = await fetch("/api/v1/auth/refresh", {
+      response = await fetch(`${API_BASE}/auth/refresh`, {
         method: "POST",
         credentials: "include",
         headers: { Accept: "application/json" },
@@ -417,7 +481,7 @@ export async function authenticatedFetch(path, init = {}) {
 }
 
 export async function fetchCurrentUser() {
-  const response = await authenticatedFetch("/api/v1/auth/me", { method: "GET" });
+  const response = await authenticatedFetch(`${API_BASE}/auth/me`, { method: "GET" });
   const payload = await readResponse(response);
   if (!response.ok) {
     throw createRequestError(getErrorMessage(payload, response.status, "session"), response.status);
@@ -433,7 +497,7 @@ export async function login(email, password, rememberMe) {
   let response;
 
   try {
-    response = await fetch("/api/v1/auth/login", {
+    response = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -472,7 +536,7 @@ export async function changePassword(session, currentPassword, newPassword) {
   let response;
 
   try {
-    response = await authenticatedFetch("/api/v1/auth/change-password", {
+    response = await authenticatedFetch(`${API_BASE}/auth/change-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ currentPassword, newPassword }),
@@ -496,7 +560,7 @@ export async function forgotPassword(email) {
   let response;
 
   try {
-    response = await fetch("/api/v1/auth/forgot-password", {
+    response = await fetch(`${API_BASE}/auth/forgot-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({ email }),
@@ -519,7 +583,7 @@ export async function forgotPassword(email) {
 }
 
 export async function logout(session, allDevices = false) {
-  const path = allDevices ? "/api/v1/auth/logout-all" : "/api/v1/auth/logout";
+  const path = allDevices ? `${API_BASE}/auth/logout-all` : `${API_BASE}/auth/logout`;
   const headers = { Accept: "application/json" };
   if (session && session.accessToken) {
     headers.Authorization = `${session.tokenType} ${session.accessToken}`;
@@ -538,6 +602,11 @@ export async function logout(session, allDevices = false) {
     payload = null;
   }
 
+  setAuthFlash(
+    allDevices
+      ? "You have been signed out of all devices."
+      : "You have been signed out.",
+  );
   clearAuthSession();
   return payload;
 }
@@ -583,7 +652,7 @@ export function isCandidateRole(sessionOrUser) {
 export const ROLE_DASHBOARDS = Object.freeze([
   { roles: ["SUPER_ADMIN"], path: "/super-admin", label: "Super Admin Dashboard" },
   { roles: ["HR", "HR_RECRUITER", "HR_MANAGER"], path: "/hr", label: "HR Dashboard" },
-  { roles: ["OPERATOR", "OPERATIONS", "SECURITY_GUARD"], path: "/operator", label: "Operator Dashboard" },
+  { roles: ["OPERATOR", "OPERATIONS", "OPERATIONS_MANAGER", "SECURITY_GUARD"], path: "/operator", label: "Operator Dashboard" },
   { roles: ["ACCOUNTS", "ACCOUNTANT"], path: "/accounts", label: "Accounts Dashboard" },
   { roles: ["SUPERVISOR"], path: "/supervisor", label: "Supervisor Dashboard" },
   { roles: ["ADMIN", "MANAGER", "RECRUITER"], path: "/admin", label: "Admin Dashboard" },

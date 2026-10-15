@@ -130,6 +130,8 @@ export default function CandidateRegister() {
             </div>
             <p className="authLinks">
               <Link href="/login">Go to sign in</Link>
+              {" · "}
+              <Link href="/resend-verification">Resend verification email</Link>
             </p>
           </>
         ) : (

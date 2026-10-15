@@ -4,6 +4,9 @@ import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  BriefcaseBusiness,
+  Building2,
+  CalendarClock,
   ChevronDown,
   LayoutDashboard,
   Layers,
@@ -11,6 +14,7 @@ import {
   LogOut,
   Menu,
   ShieldCheck,
+  UserSearch,
   X,
 } from "lucide-react";
 import {
@@ -28,6 +32,10 @@ import {
 import { listPermissions } from "../lib/adminApi";
 import { styles } from "../app/admin/admin-styles";
 import { EmptyState } from "../app/admin/admin-ui";
+import ClientsPanel from "./clients-panel";
+import CandidatesPanel from "../app/admin/candidates-panel";
+import InterviewManagementPanel from "../app/admin/interview-panel";
+import JobsPanel from "../app/admin/jobs-panel";
 
 const MODULE_LABELS = {
   USER: "User & account management",
@@ -58,7 +66,7 @@ function moduleOf(permissionName) {
   return parts.slice(0, parts.length - 1).join("_");
 }
 
-export default function RoleDashboard({ allowedRoles, dashboardName, description }) {
+export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false }) {
   const router = useRouter();
   const sessionState = useSyncExternalStore(
     subscribeToAuthSession,
@@ -176,6 +184,10 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
 
   const nav = [
     { label: "Dashboard", view: "overview", icon: LayoutDashboard },
+    ...(clientManagement || clientView ? [{ label: "Clients", view: "clients", icon: Building2 }] : []),
+    ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch }] : []),
+    ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness }] : []),
+    ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock }] : []),
     { label: "My access", view: "access", icon: ShieldCheck },
   ];
 
@@ -273,6 +285,16 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
         </header>
 
         <div className={styles.dashboardContent}>
+          {activeView === "clients" ? (
+            <ClientsPanel readOnly={!clientManagement} />
+          ) : activeView === "candidates" ? (
+            <CandidatesPanel session={sessionState} />
+          ) : activeView === "jobs" ? (
+            <JobsPanel session={sessionState} />
+          ) : activeView === "interviews" ? (
+            <InterviewManagementPanel session={sessionState} />
+          ) : (
+            <>
           <div className={styles.pageHeading}>
             <div>
               <h1>{activeView === "access" ? "My access" : dashboardName}</h1>
@@ -388,6 +410,8 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
                 ))
               )}
             </div>
+          )}
+            </>
           )}
         </div>
       </section>

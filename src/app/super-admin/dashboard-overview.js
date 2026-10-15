@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { KeyRound, ShieldAlert, ShieldCheck, UserCheck, UserCog, UsersRound } from "lucide-react";
-import { checkMyPermissions, listAccounts, listPermissions, listRoles } from "../../lib/adminApi";
+import { listAccounts, listPermissions, listRoles } from "../../lib/adminApi";
 import {
   Chip,
   EmptyState,
@@ -36,7 +36,6 @@ export default function DashboardOverview({ session, onNavigate }) {
   const [recent, setRecent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [permissionCheck, setPermissionCheck] = useState({ loading: true, message: "", error: "" });
 
   useEffect(() => {
     let cancelled = false;
@@ -66,35 +65,6 @@ export default function DashboardOverview({ session, onNavigate }) {
         if (!cancelled) setError(loadError instanceof Error ? loadError.message : "The overview could not be loaded.");
       } finally {
         if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const payload = await checkMyPermissions();
-        if (cancelled) return;
-        setPermissionCheck({
-          loading: false,
-          message:
-            payload && typeof payload.message === "string" && payload.message.trim()
-              ? payload.message.trim()
-              : "The backend accepted the permission check.",
-          error: "",
-        });
-      } catch (checkError) {
-        if (cancelled) return;
-        setPermissionCheck({
-          loading: false,
-          message: "",
-          error:
-            checkError instanceof Error ? checkError.message : "The backend permission check could not be completed.",
-        });
       }
     })();
     return () => {
@@ -135,22 +105,6 @@ export default function DashboardOverview({ session, onNavigate }) {
             <Metric tone="red" label="Disabled" value={summary.disabled} note="Blocked" icon={ShieldCheck} />
             <Metric tone="indigo" label="Roles" value={summary.roles} note="Configured" icon={UserCog} />
             <Metric tone="blue" label="Permissions" value={summary.permissions} note="Catalogue" icon={KeyRound} />
-          </div>
-
-          <div className="saPermCheck">
-            <i>
-              <KeyRound size={18} />
-            </i>
-            <div>
-              <strong>Backend permission check</strong>
-              {permissionCheck.loading ? (
-                <p>Asking the server which permissions it derives for your account…</p>
-              ) : permissionCheck.error ? (
-                <p style={{ color: "#b42318" }}>{permissionCheck.error}</p>
-              ) : (
-                <p>{permissionCheck.message}</p>
-              )}
-            </div>
           </div>
 
           <div className="saSectionLabel">Recently created accounts</div>

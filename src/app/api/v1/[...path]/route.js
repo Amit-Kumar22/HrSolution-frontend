@@ -20,6 +20,7 @@ const REQUEST_HEADER_IGNORE = new Set([
   "x-forwarded-proto",
   "x-real-ip",
   "via",
+  "expect",
 ]);
 
 const RESPONSE_HEADER_IGNORE = new Set([

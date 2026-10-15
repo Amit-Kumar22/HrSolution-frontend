@@ -4,14 +4,26 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  Bell,
+  BriefcaseBusiness,
+  Building2,
+  CalendarClock,
   ChevronDown,
+  Factory,
+  Inbox,
   KeyRound,
+  Layers,
   LayoutDashboard,
   LayoutGrid,
   LockKeyhole,
+  Mail,
   Menu,
+  Quote,
   ShieldCheck,
+  Tags,
+  UserSearch,
   UsersRound,
+  Wrench,
   X,
 } from "lucide-react";
 import {
@@ -27,21 +39,49 @@ import {
   refreshAuthSession,
   subscribeToAuthSession,
 } from "../../lib/auth";
+import { getUnreadContactCount } from "../../lib/adminApi";
 import { styles } from "./super-admin-styles";
 import DashboardOverview from "./dashboard-overview";
 import AccountsPanel from "./accounts-panel";
 import RolesPanel from "./roles-panel";
 import DashboardsPanel from "./dashboards-panel";
+import ContactMessagesPanel from "../admin/contact-messages-panel";
+import EnquiriesPanel from "../admin/enquiries-panel";
+import ManpowerCategoriesPanel from "../admin/manpower-categories-panel";
+import SkillsPanel from "../admin/skills-panel";
+import IndustriesPanel from "../admin/industries-panel";
+import ServicesPanel from "../admin/services-panel";
+import ClientsPanel from "../admin/clients-panel";
+import CandidatesPanel from "../admin/candidates-panel";
+import InterviewManagementPanel from "../admin/interview-panel";
+import JobsPanel from "../admin/jobs-panel";
+import TestimonialsPanel from "../admin/testimonials-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
+  { label: "Clients", view: "clients", icon: Building2, section: "main" },
+  { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
+  { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
+  { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
+  { label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "WORKFORCE" },
+  { label: "Interviews", view: "interviews", icon: CalendarClock, section: "WORKFORCE" },
+  { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
+  { label: "Skills", view: "skills", icon: Wrench, section: "WORKFORCE" },
+  { label: "Industries", view: "industries", icon: Factory, section: "WEBSITE" },
+  { label: "Services", view: "services", icon: Layers, section: "WEBSITE" },
+  { label: "Testimonials", view: "testimonials", icon: Quote, section: "WEBSITE" },
   { label: "Accounts", view: "accounts", icon: UsersRound, section: "ACCESS" },
   { label: "Roles & permissions", view: "roles", icon: ShieldCheck, section: "ACCESS" },
   { label: "Dashboards", view: "dashboards", icon: LayoutGrid, section: "ACCESS" },
 ];
 
-const sectionOrder = ["main", "ACCESS"];
-const sectionLabels = { ACCESS: "ACCESS MANAGEMENT" };
+const sectionOrder = ["main", "LEADS", "WORKFORCE", "WEBSITE", "ACCESS"];
+const sectionLabels = {
+  LEADS: "LEADS",
+  WORKFORCE: "WORKFORCE CATALOGUE",
+  WEBSITE: "WEBSITE CONTENT",
+  ACCESS: "ACCESS MANAGEMENT",
+};
 
 function Brand() {
   return (
@@ -69,6 +109,8 @@ export default function SuperAdminDashboard() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [activeView, setActiveView] = useState("dashboard");
   const [pendingCreate, setPendingCreate] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [unreadRefreshToken, setUnreadRefreshToken] = useState(0);
 
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -91,6 +133,22 @@ export default function SuperAdminDashboard() {
       router.replace(getDashboardPath(sessionState));
     }
   }, [router, sessionState]);
+
+  useEffect(() => {
+    if (!sessionState || typeof sessionState !== "object" || !sessionState.accessToken) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const count = await getUnreadContactCount();
+        if (!cancelled) setUnreadCount(Number.isFinite(count) ? count : 0);
+      } catch {
+        // Non-fatal: the badge keeps its previous value.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [sessionState, unreadRefreshToken]);
 
   useEffect(() => {
     if (!sessionState || typeof sessionState !== "object" || !sessionState.accessToken) return;
@@ -251,7 +309,21 @@ export default function SuperAdminDashboard() {
   else if (activeView === "roles") content = <RolesPanel />;
   else if (activeView === "dashboards") {
     content = <DashboardsPanel onNavigate={setActiveView} onCreateAccount={goToAccountCreate} />;
-  } else {
+  }
+  else if (activeView === "clients") content = <ClientsPanel />;
+  else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
+  else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;
+  else if (activeView === "jobs") content = <JobsPanel session={session} />;
+  else if (activeView === "contact-messages") {
+    content = <ContactMessagesPanel onUnreadChange={() => setUnreadRefreshToken((token) => token + 1)} />;
+  }
+  else if (activeView === "enquiries") content = <EnquiriesPanel />;
+  else if (activeView === "manpower-categories") content = <ManpowerCategoriesPanel />;
+  else if (activeView === "skills") content = <SkillsPanel />;
+  else if (activeView === "industries") content = <IndustriesPanel />;
+  else if (activeView === "services") content = <ServicesPanel />;
+  else if (activeView === "testimonials") content = <TestimonialsPanel />;
+  else {
     content = (
       <DashboardOverview
         session={session}
@@ -279,6 +351,9 @@ export default function SuperAdminDashboard() {
                 {items.map((item) => {
                   const Icon = item.icon;
                   const isActive = activeView === item.view;
+                  const badge = item.view === "contact-messages"
+                    ? (unreadCount > 0 ? (unreadCount > 99 ? "99+" : String(unreadCount)) : null)
+                    : item.badge;
                   return (
                     <button
                       key={item.label}
@@ -291,6 +366,7 @@ export default function SuperAdminDashboard() {
                     >
                       <Icon size={17} strokeWidth={1.8} />
                       <span>{item.label}</span>
+                      {badge && <b>{badge}</b>}
                     </button>
                   );
                 })}
@@ -322,6 +398,18 @@ export default function SuperAdminDashboard() {
             <strong>{activeLabel}</strong>
           </div>
           <div className={styles.userActions} ref={userActionsRef}>
+            <button
+              className={styles.notification}
+              aria-label={unreadCount > 0 ? `${unreadCount} unread contact messages` : "Notifications"}
+              onClick={() => {
+                setActiveView("contact-messages");
+                setSidebarOpen(false);
+                setProfileOpen(false);
+              }}
+            >
+              <Bell size={18} />
+              {unreadCount > 0 ? <b className="notifBadge">{unreadCount > 99 ? "99+" : unreadCount}</b> : <i />}
+            </button>
             <button className={styles.userProfile} aria-expanded={profileOpen} onClick={() => setProfileOpen(!profileOpen)}>
               <span className={styles.avatar}>{initials}</span>
               <span>

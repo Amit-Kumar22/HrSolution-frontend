@@ -6,11 +6,15 @@ import Link from "next/link";
 import { Check, LockKeyhole, TriangleAlert } from "lucide-react";
 import {
   AUTH_SESSION_LOADING,
+  clearAuthFlash,
+  getAuthFlashSnapshot,
   getAuthSessionSnapshot,
   getDashboardPath,
+  getServerAuthFlashSnapshot,
   getServerAuthSnapshot,
   forgotPassword,
   login,
+  subscribeToAuthFlash,
   subscribeToAuthSession,
 } from "../../lib/auth";
 
@@ -56,6 +60,11 @@ export default function LoginScreen() {
     getAuthSessionSnapshot,
     getServerAuthSnapshot,
   );
+  const notice = useSyncExternalStore(
+    subscribeToAuthFlash,
+    getAuthFlashSnapshot,
+    getServerAuthFlashSnapshot,
+  );
 
   useEffect(() => {
     if (sessionState && typeof sessionState === "object" && sessionState.accessToken) {
@@ -65,6 +74,7 @@ export default function LoginScreen() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    clearAuthFlash();
     setError("");
     setErrorStatus(0);
     setIsSubmitting(true);
@@ -81,6 +91,7 @@ export default function LoginScreen() {
 
   function showForgotPassword() {
     setView("forgot");
+    clearAuthFlash();
     setError("");
     setErrorStatus(0);
     setForgotError("");
@@ -89,6 +100,7 @@ export default function LoginScreen() {
 
   function showLogin() {
     setView("login");
+    clearAuthFlash();
     setError("");
     setErrorStatus(0);
     setForgotError("");
@@ -164,8 +176,9 @@ export default function LoginScreen() {
               <h2>Welcome back</h2>
               <p className={styles.intro}>Log in to manage your workforce, payslips or applications.</p>
               <form className={styles.loginForm} onSubmit={handleSubmit}>
+                {notice && <div className={styles.successAlert} role="status"><Check size={16} />{notice}</div>}
                 {error && <div className={styles.errorAlert} role="alert"><TriangleAlert size={16} />{error}</div>}
-                {errorStatus === 403 && (
+                {errorStatus === 403 && /verif|confirm your email/i.test(error) && (
                   <Link className={styles.remember} href="/resend-verification">Resend email verification</Link>
                 )}
                 <label htmlFor="login-email">Email address</label>
@@ -200,7 +213,7 @@ export default function LoginScreen() {
           ) : (
             <>
               <h2>Forgot password</h2>
-              <p className={styles.intro}>Enter the email registered with your account and we will send you a password reset link.</p>
+              <p className={styles.intro}>Enter the email registered with your account and we will send you a password reset link. The link expires after 30 minutes and can only be used once.</p>
               <form className={styles.loginForm} onSubmit={handleForgotSubmit}>
                 {forgotError && <div className={styles.errorAlert} role="alert"><TriangleAlert size={16} />{forgotError}</div>}
                 {forgotSuccess && <div className={styles.successAlert} role="status"><Check size={16} />{forgotSuccess}</div>}

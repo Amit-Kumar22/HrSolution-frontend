@@ -1,6 +1,6 @@
-import { authenticatedFetch, getAuthSession, isClientRole } from "./auth";
+import { INTERNAL_ROLES, authenticatedFetch, getAuthSession, isClientRole } from "./auth";
+import { API_BASE } from "./api-base";
 
-const API_BASE = "/api/v1";
 const REQUEST_TIMEOUT_MS = 30000;
 
 export const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
@@ -815,4 +815,442 @@ export function updateRateCard(rateCardId, body, init = {}) {
 
 export function deleteRateCard(rateCardId, init = {}) {
   return adminRequest(`/rate-cards/${encodeURIComponent(rateCardId)}`, { method: "DELETE", ...init });
+}
+
+/* ------------------------------------------------------------------ */
+/* Candidates (staff management)                                       */
+/* ------------------------------------------------------------------ */
+
+export const MAX_RESUME_BYTES = 10 * 1024 * 1024;
+
+export const CANDIDATE_SOURCES = Object.freeze([
+  { value: "WEBSITE", label: "Website" },
+  { value: "REFERRAL", label: "Referral" },
+  { value: "WALK_IN", label: "Walk-in" },
+  { value: "AGENCY", label: "Agency" },
+  { value: "CAMPUS", label: "Campus" },
+  { value: "OTHER", label: "Other" },
+]);
+
+export function candidateSourceLabel(source) {
+  const match = CANDIDATE_SOURCES.find((entry) => entry.value === source);
+  return match ? match.label : source || "—";
+}
+
+export function validateResumeFile(file) {
+  if (!file) return "Please choose a PDF file to upload.";
+  const name = typeof file.name === "string" ? file.name.toLowerCase() : "";
+  const type = typeof file.type === "string" ? file.type.toLowerCase() : "";
+  const isPdfType = type === "application/pdf" || type === "application/x-pdf";
+  const isPdfName = name.endsWith(".pdf");
+  if (type && !isPdfType) return "Only PDF files are accepted. A renamed non-PDF will be rejected.";
+  if (!type && !isPdfName) return "Only PDF files are accepted.";
+  if (typeof file.size === "number" && file.size > MAX_RESUME_BYTES) {
+    return "The resume must be 10 MB or smaller.";
+  }
+  if (typeof file.size === "number" && file.size === 0) {
+    return "The selected file is empty. Please choose a valid PDF.";
+  }
+  return null;
+}
+
+export async function listCandidates({
+  search,
+  preferredCategoryId,
+  source,
+  hasLogin,
+  includeSpam = false,
+  page = 0,
+  size = 20,
+  sort = ["createdAt,DESC"],
+} = {}) {
+  const payload = await adminRequest("/candidates", {
+    query: {
+      search,
+      preferredCategoryId,
+      source,
+      hasLogin: hasLogin === undefined || hasLogin === null || hasLogin === "" ? undefined : hasLogin ? "true" : "false",
+      includeSpam: includeSpam ? "true" : "false",
+      page,
+      size,
+      sort: asArray(sort),
+    },
+  });
+  return normalizePage(payload, { page, size });
+}
+
+export function getCandidate(candidateId, init = {}) {
+  return adminRequest(`/candidates/${encodeURIComponent(candidateId)}`, init);
+}
+
+export function createCandidate(body, init = {}) {
+  return adminRequest("/candidates", { method: "POST", body, ...init });
+}
+
+export function updateCandidate(candidateId, body, init = {}) {
+  return adminRequest(`/candidates/${encodeURIComponent(candidateId)}`, { method: "PUT", body, ...init });
+}
+
+export function deleteCandidate(candidateId, init = {}) {
+  return adminRequest(`/candidates/${encodeURIComponent(candidateId)}`, { method: "DELETE", ...init });
+}
+
+export function setCandidateSpam(candidateId, spam, init = {}) {
+  return adminRequest(`/candidates/${encodeURIComponent(candidateId)}/spam`, {
+    method: "PATCH",
+    query: { spam: spam ? "true" : "false" },
+    ...init,
+  });
+}
+
+export function uploadCandidateResume(candidateId, file, init = {}) {
+  const formData = new FormData();
+  formData.append("file", file);
+  return adminRequest(`/candidates/${encodeURIComponent(candidateId)}/resume`, {
+    method: "POST",
+    formData,
+    signal: null,
+    ...init,
+  });
+}
+
+/* Applications belonging to a candidate (staff view) */
+export async function listApplications({
+  jobId,
+  candidateId,
+  status,
+  assignedToUserId,
+  unassigned,
+  from,
+  to,
+  search,
+  page = 0,
+  size = 20,
+  sort = ["appliedOn,DESC"],
+} = {}) {
+  const payload = await adminRequest("/applications", {
+    query: {
+      jobId,
+      candidateId,
+      status,
+      assignedToUserId,
+      unassigned: unassigned === undefined || unassigned === null || unassigned === "" ? undefined : unassigned ? "true" : "false",
+      from,
+      to,
+      search,
+      page,
+      size,
+      sort: asArray(sort),
+    },
+  });
+  return normalizePage(payload, { page, size });
+}
+
+/* ------------------------------------------------------------------ */
+/* Interviews                                                          */
+/* ------------------------------------------------------------------ */
+
+export const INTERVIEW_MODES = Object.freeze([
+  { value: "IN_PERSON", label: "In person" },
+  { value: "VIDEO", label: "Video call" },
+  { value: "PHONE", label: "Phone" },
+]);
+
+export const INTERVIEW_RESULTS = Object.freeze(["PENDING", "PASS", "FAIL", "NO_SHOW"]);
+
+export const FINAL_INTERVIEW_RESULTS = Object.freeze(["PASS", "FAIL", "NO_SHOW"]);
+
+export function interviewModeLabel(mode) {
+  const match = INTERVIEW_MODES.find((entry) => entry.value === mode);
+  return match ? match.label : mode || "—";
+}
+
+export function interviewResultLabel(result) {
+  switch (result) {
+    case "PASS":
+      return "Passed";
+    case "FAIL":
+      return "Failed";
+    case "NO_SHOW":
+      return "No show";
+    case "PENDING":
+      return "Pending";
+    default:
+      return result || "—";
+  }
+}
+
+export async function listInterviews({
+  interviewerUserId,
+  result,
+  from,
+  to,
+  awaitingFeedback,
+  page = 0,
+  size = 20,
+  sort = ["scheduledAt,ASC"],
+} = {}) {
+  const payload = await adminRequest("/interviews", {
+    query: {
+      interviewerUserId:
+        interviewerUserId === undefined || interviewerUserId === null || interviewerUserId === ""
+          ? undefined
+          : interviewerUserId,
+      result,
+      from,
+      to,
+      awaitingFeedback:
+        awaitingFeedback === undefined || awaitingFeedback === null
+          ? undefined
+          : awaitingFeedback
+            ? "true"
+            : "false",
+      page,
+      size,
+      sort: asArray(sort),
+    },
+  });
+  return normalizePage(payload, { page, size });
+}
+
+export function getInterview(interviewId, init = {}) {
+  return adminRequest(`/interviews/${encodeURIComponent(interviewId)}`, init);
+}
+
+export async function listApplicationInterviews(applicationId, init = {}) {
+  return asArray(await adminRequest(`/applications/${encodeURIComponent(applicationId)}/interviews`, init));
+}
+
+export function scheduleInterview(applicationId, body, init = {}) {
+  return adminRequest(`/applications/${encodeURIComponent(applicationId)}/interviews`, {
+    method: "POST",
+    body,
+    ...init,
+  });
+}
+
+export function updateInterview(interviewId, body, init = {}) {
+  return adminRequest(`/interviews/${encodeURIComponent(interviewId)}`, {
+    method: "PUT",
+    body,
+    ...init,
+  });
+}
+
+export function cancelInterview(interviewId, init = {}) {
+  return adminRequest(`/interviews/${encodeURIComponent(interviewId)}`, {
+    method: "DELETE",
+    ...init,
+  });
+}
+
+export function recordInterviewResult(interviewId, body, init = {}) {
+  return adminRequest(`/interviews/${encodeURIComponent(interviewId)}/result`, {
+    method: "PATCH",
+    body,
+    ...init,
+  });
+}
+
+export function getApplication(applicationId, init = {}) {
+  return adminRequest(`/applications/${encodeURIComponent(applicationId)}`, init);
+}
+
+export function getApplicationDetail(applicationId, init = {}) {
+  return adminRequest(`/applications/${encodeURIComponent(applicationId)}/detail`, init);
+}
+
+export async function listEligibleStaff() {
+  const page = await listUsers({ status: "ACTIVE", size: 200, sort: ["fullName,ASC"] });
+  const internal = new Set(INTERNAL_ROLES);
+  return page.content.filter(
+    (user) => Array.isArray(user.roles) && user.roles.some((role) => internal.has(role)),
+  );
+}
+
+export function listEligibleInterviewers() {
+  return listEligibleStaff();
+}
+
+/* ------------------------------------------------------------------ */
+/* Jobs                                                                */
+/* ------------------------------------------------------------------ */
+
+export const JOB_STATUSES = Object.freeze([
+  { value: "DRAFT", label: "Draft", tone: "neutral" },
+  { value: "OPEN", label: "Open", tone: "success" },
+  { value: "ON_HOLD", label: "On hold", tone: "warn" },
+  { value: "CLOSED", label: "Closed", tone: "danger" },
+  { value: "FILLED", label: "Filled", tone: "accent" },
+]);
+
+export const JOB_STATUS_VALUES = Object.freeze(JOB_STATUSES.map((entry) => entry.value));
+
+export const SKILL_LEVELS = Object.freeze([
+  { value: "UNSKILLED", label: "Unskilled" },
+  { value: "SEMI_SKILLED", label: "Semi-skilled" },
+  { value: "SKILLED", label: "Skilled" },
+  { value: "HIGHLY_SKILLED", label: "Highly skilled" },
+]);
+
+export const SHIFT_OPTIONS = Object.freeze([
+  { value: "DAY", label: "Day" },
+  { value: "NIGHT", label: "Night" },
+  { value: "ROTATIONAL", label: "Rotational" },
+]);
+
+const JOB_STATUS_MAP = new Map(JOB_STATUSES.map((entry) => [entry.value, entry]));
+
+export function jobStatusLabel(status) {
+  const match = JOB_STATUS_MAP.get(status);
+  return match ? match.label : status || "—";
+}
+
+export function jobStatusTone(status) {
+  const match = JOB_STATUS_MAP.get(status);
+  return match ? match.tone : "neutral";
+}
+
+export function jobShiftLabel(shift) {
+  const match = SHIFT_OPTIONS.find((entry) => entry.value === shift);
+  return match ? match.label : shift || "—";
+}
+
+export function jobSkillLevelLabel(skillLevel) {
+  const match = SKILL_LEVELS.find((entry) => entry.value === skillLevel);
+  return match ? match.label : skillLevel || "—";
+}
+
+export async function listJobs({
+  search,
+  status,
+  categoryId,
+  clientId,
+  page = 0,
+  size = 20,
+  sort = ["createdAt,DESC"],
+} = {}) {
+  const payload = await adminRequest("/jobs", {
+    query: {
+      search,
+      status,
+      categoryId: categoryId === undefined || categoryId === null || categoryId === "" ? undefined : categoryId,
+      clientId: clientId === undefined || clientId === null || clientId === "" ? undefined : clientId,
+      page,
+      size,
+      sort: asArray(sort),
+    },
+  });
+  return normalizePage(payload, { page, size });
+}
+
+export function getJob(jobId, init = {}) {
+  return adminRequest(`/jobs/${encodeURIComponent(jobId)}`, init);
+}
+
+export function createJob(body, init = {}) {
+  return adminRequest("/jobs", { method: "POST", body, ...init });
+}
+
+export function updateJob(jobId, body, init = {}) {
+  return adminRequest(`/jobs/${encodeURIComponent(jobId)}`, { method: "PUT", body, ...init });
+}
+
+export function deleteJob(jobId, init = {}) {
+  return adminRequest(`/jobs/${encodeURIComponent(jobId)}`, { method: "DELETE", ...init });
+}
+
+export function changeJobStatus(jobId, { status, reason }, init = {}) {
+  return adminRequest(`/jobs/${encodeURIComponent(jobId)}/status`, {
+    method: "PATCH",
+    body: { status, reason },
+    ...init,
+  });
+}
+
+export function recordJobApplication(jobId, body, init = {}) {
+  return adminRequest(`/jobs/${encodeURIComponent(jobId)}/applications`, {
+    method: "POST",
+    body,
+    ...init,
+  });
+}
+
+export function getJobPipeline(jobId, init = {}) {
+  return adminRequest(`/jobs/${encodeURIComponent(jobId)}/pipeline`, init);
+}
+
+export const APPLICATION_STATUSES = Object.freeze([
+  { value: "APPLIED", label: "Applied", tone: "info" },
+  { value: "SCREENING", label: "Screening", tone: "info" },
+  { value: "SHORTLISTED", label: "Shortlisted", tone: "accent" },
+  { value: "INTERVIEW_SCHEDULED", label: "Interview scheduled", tone: "accent" },
+  { value: "SELECTED", label: "Selected", tone: "success" },
+  { value: "OFFERED", label: "Offered", tone: "success" },
+  { value: "JOINED", label: "Joined", tone: "success" },
+  { value: "REJECTED", label: "Rejected", tone: "danger" },
+  { value: "ON_HOLD", label: "On hold", tone: "warn" },
+  { value: "WITHDRAWN", label: "Withdrawn", tone: "neutral" },
+]);
+
+const APPLICATION_STATUS_MAP = new Map(APPLICATION_STATUSES.map((entry) => [entry.value, entry]));
+
+export function applicationStatusLabel(status) {
+  const match = APPLICATION_STATUS_MAP.get(status);
+  return match ? match.label : status || "—";
+}
+
+export function applicationStatusTone(status) {
+  const match = APPLICATION_STATUS_MAP.get(status);
+  return match ? match.tone : "neutral";
+}
+
+/* Downloads a document (e.g. a candidate resume) as a binary blob. */
+export async function fetchDocumentBlob(documentId, init = {}) {
+  requireSession();
+  let response;
+  try {
+    response = await authenticatedFetch(`${API_BASE}/documents/${encodeURIComponent(documentId)}/download`, {
+      method: "GET",
+      ...init,
+    });
+  } catch (error) {
+    if (error && error.status === 401) {
+      throw new AdminApiError("Your session has expired. Please sign in again.", { status: 401, code: "NO_SESSION" });
+    }
+    throw new AdminApiError("Could not connect to the service. Check your connection and try again.", {
+      status: 0,
+      code: "NETWORK",
+    });
+  }
+
+  if (!response.ok) {
+    const rawBody = await response.text().catch(() => "");
+    let payload = null;
+    if (rawBody) {
+      try {
+        payload = JSON.parse(rawBody);
+      } catch {
+        payload = null;
+      }
+    }
+    throw new AdminApiError(messageFromPayload(payload, response.status), { status: response.status, payload });
+  }
+
+  const blob = await response.blob();
+  const contentType = response.headers.get("content-type") || blob.type || "application/octet-stream";
+  const disposition = response.headers.get("content-disposition") || "";
+  let filename = "";
+  const starMatch = /filename\*=UTF-8''([^;]+)/i.exec(disposition);
+  const plainMatch = /filename="?([^";]+)"?/i.exec(disposition);
+  if (starMatch) {
+    try {
+      filename = decodeURIComponent(starMatch[1]);
+    } catch {
+      filename = starMatch[1];
+    }
+  } else if (plainMatch) {
+    filename = plainMatch[1];
+  }
+  return { blob, filename: filename.trim(), contentType };
 }

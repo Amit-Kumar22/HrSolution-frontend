@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { initializeAuthSession } from "@/lib/auth";
 
-export default function AuthBootstrap() {
+export default function AuthSessionInit() {
   useEffect(() => {
     initializeAuthSession();
   }, []);

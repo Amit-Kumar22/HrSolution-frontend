@@ -8,9 +8,10 @@ export const metadata = {
 export default function OperatorPage() {
   return (
     <RoleDashboard
-      allowedRoles={["OPERATOR", "OPERATIONS", "SECURITY_GUARD"]}
+      allowedRoles={["OPERATOR", "OPERATIONS", "OPERATIONS_MANAGER", "SECURITY_GUARD"]}
       dashboardName="Operator Dashboard"
       description="Your operations workspace. You only see the modules and actions granted to your role."
+      clientManagement
     />
   );
 }

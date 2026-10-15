@@ -1,13 +1,7 @@
-const DEFAULT_SERVER_BASE = "http://76.13.245.49:8085";
-
-const SERVER_ORIGIN = (process.env.API_BASE_URL || DEFAULT_SERVER_BASE).replace(/\/+$/, "");
-const SERVER_API_BASE = /\/api\/v1$/i.test(SERVER_ORIGIN)
-  ? SERVER_ORIGIN
-  : `${SERVER_ORIGIN}/api/v1`;
-const CLIENT_API_BASE = "/api/v1";
+import { API_BASE } from "./api-base";
 
 function apiBase() {
-  return typeof window === "undefined" ? SERVER_API_BASE : CLIENT_API_BASE;
+  return API_BASE;
 }
 
 export class PublicApiError extends Error {
@@ -169,6 +163,61 @@ export async function getTestimonials(init = {}) {
 
 export function getServiceBySlug(slug, init = {}) {
   return request(`/public/services/${encodeURIComponent(slug)}`, init);
+}
+
+function normalizePage(payload, { page = 0, size = 20 } = {}) {
+  const content = payload && Array.isArray(payload.content) ? payload.content : [];
+  return {
+    content,
+    page: payload && Number.isFinite(payload.page) ? payload.page : page,
+    size: payload && Number.isFinite(payload.size) ? payload.size : size,
+    totalElements:
+      payload && Number.isFinite(payload.totalElements) ? payload.totalElements : content.length,
+    totalPages:
+      payload && Number.isFinite(payload.totalPages) ? payload.totalPages : content.length ? 1 : 0,
+    first: Boolean(payload && payload.first),
+    last: Boolean(payload && payload.last),
+    empty: payload && typeof payload.empty === "boolean" ? payload.empty : content.length === 0,
+  };
+}
+
+export async function listPublicJobs({ categoryId, city, page = 0, size = 12, sort } = {}, init = {}) {
+  const params = new URLSearchParams();
+  if (categoryId !== undefined && categoryId !== null && categoryId !== "") {
+    params.append("categoryId", String(categoryId));
+  }
+  if (city) params.append("city", String(city));
+  params.append("page", String(page));
+  params.append("size", String(size));
+  if (sort) {
+    for (const item of Array.isArray(sort) ? sort : [sort]) params.append("sort", String(item));
+  }
+  const payload = await request(`/public/jobs?${params.toString()}`, init);
+  return normalizePage(payload, { page, size });
+}
+
+export function getPublicJobBySlug(slug, init = {}) {
+  return request(`/public/jobs/${encodeURIComponent(slug)}`, init);
+}
+
+/*
+ * The anonymous apply endpoint is multipart: the JSON body travels in a part
+ * named "application" (content type application/json) and the CV, when there
+ * is one, in a part named "resume". The browser must set the multipart
+ * boundary itself, so no Content-Type is passed here - request() only adds one
+ * for string bodies. The proxy forwards the body as an ArrayBuffer with the
+ * original Content-Type, boundary and all, so this survives the hop.
+ */
+export function applyForPublicJob(slug, application, resumeFile, init = {}) {
+  const form = new FormData();
+  form.append("application", new Blob([JSON.stringify(application)], { type: "application/json" }));
+  if (resumeFile) form.append("resume", resumeFile, resumeFile.name || "resume.pdf");
+  return request(`/public/jobs/${encodeURIComponent(slug)}/apply`, {
+    method: "POST",
+    body: form,
+    signal: AbortSignal.timeout(60000),
+    ...init,
+  });
 }
 
 export function submitContactMessage(body, init = {}) {

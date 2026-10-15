@@ -11,6 +11,7 @@ export default function AccountsPage() {
       allowedRoles={["ACCOUNTS", "ACCOUNTANT"]}
       dashboardName="Accounts Dashboard"
       description="Your finance workspace. You only see the modules and actions granted to your role."
+      clientView
     />
   );
 }
