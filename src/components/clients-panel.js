@@ -358,7 +358,7 @@ export default function ClientsPanel({ readOnly = false }) {
   const current = Math.min(page + 1, Math.max(totalPages, 1));
 
   return (
-    <div>
+    <div className="cmClientsPanel">
       <SectionHead
         title={readOnly ? "Clients" : "Client management"}
         description={

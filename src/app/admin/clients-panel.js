@@ -187,59 +187,13 @@ export default function ClientsPanel() {
   const current = Math.min(page + 1, Math.max(totalPages, 1));
 
   return (
-    <div>
+    <div className="cmClientsPanel">
       <SectionHead
         title="Client management"
         description="Manage clients, sites, users, approvals, statuses and the full client overview."
       />
 
       <FlashBanner flash={flash} />
-
-      {pendingPage.content.length > 0 && (
-        <div className="cmDetailSection" style={{ marginTop: 0, marginBottom: 24 }}>
-          <h3>Pending client registrations</h3>
-          {pendingError && <p className="actionError" role="alert">{pendingError}</p>}
-          {pendingLoading ? (
-            <LoadingState label="Loading pending registrations…" />
-          ) : (
-            <div className="cmTableWrap">
-              <table className="cmTable">
-                <thead>
-                  <tr>
-                    <th>Registrant</th>
-                    <th>Company</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Registered</th>
-                    <th className="cmColActions">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pendingPage.content.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.fullName || user.email}</td>
-                      <td>{user.pendingCompanyName || "—"}</td>
-                      <td className="cmMuted">{user.email}</td>
-                      <td className="cmMuted">{user.phone || "—"}</td>
-                      <td className="cmMuted">{user.createdAt ? new Date(user.createdAt).toLocaleString() : "—"}</td>
-                      <td className="cmColActions">
-                        <div className="cmRowActions">
-                          <button type="button" className="cmIconButton" title="Approve" onClick={() => setApproveTarget(user)}>
-                            <ShieldCheck size={15} />
-                          </button>
-                          <button type="button" className="cmIconButton cmIconDanger" title="Reject" onClick={() => setRejectTarget(user)}>
-                            <Trash2 size={15} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      )}
 
       <div className="cmToolbar">
         <label className="cmSearchBox">
@@ -326,7 +280,7 @@ export default function ClientsPanel() {
                     <td><span className="cmCode">{client.clientCode || "—"}</span></td>
                     <td className="cmMuted">{client.gstin || "—"}</td>
                     <td className="cmMuted">
-                      <span className="cmBlock">{[client.billingCity, client.billingState].filter(Boolean).join(", ") || "—"}</span>
+                      <span className="cmBlock cmNoWrap">{[client.billingCity, client.billingState].filter(Boolean).join(", ") || "—"}</span>
                     </td>
                     <td><StatusChip status={client.status} /></td>
                     <td className="cmMuted">{formatDate(client.onboardedOn)}</td>
@@ -385,6 +339,52 @@ export default function ClientsPanel() {
             </button>
           </div>
         </>
+      )}
+
+      {pendingPage.content.length > 0 && (
+        <div className="cmDetailSection cmPendingRegistrations">
+          <h3>Pending client registrations</h3>
+          {pendingError && <p className="actionError" role="alert">{pendingError}</p>}
+          {pendingLoading ? (
+            <LoadingState label="Loading pending registrations…" />
+          ) : (
+            <div className="cmTableWrap cmPendingTable">
+              <table className="cmTable">
+                <thead>
+                  <tr>
+                    <th>Registrant</th>
+                    <th>Company</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Registered</th>
+                    <th className="cmColActions">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingPage.content.map((user) => (
+                    <tr key={user.id}>
+                      <td className="cmNoWrap">{user.fullName || user.email}</td>
+                      <td className="cmNoWrap">{user.pendingCompanyName || "—"}</td>
+                      <td className="cmMuted">{user.email}</td>
+                      <td className="cmMuted">{user.phone || "—"}</td>
+                      <td className="cmMuted cmNoWrap">{user.createdAt ? new Date(user.createdAt).toLocaleString() : "—"}</td>
+                      <td className="cmColActions">
+                        <div className="cmRowActions">
+                          <button type="button" className="cmIconButton" title="Approve" onClick={() => setApproveTarget(user)}>
+                            <ShieldCheck size={15} />
+                          </button>
+                          <button type="button" className="cmIconButton cmIconDanger" title="Reject" onClick={() => setRejectTarget(user)}>
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       )}
 
       {detailClient && (

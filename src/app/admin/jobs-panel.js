@@ -9,6 +9,7 @@ import {
   Pencil,
   Plus,
   RefreshCw,
+  Search,
   Trash2,
   TrendingUp,
   Users,
@@ -16,7 +17,6 @@ import {
 import {
   JOB_STATUSES,
   deleteJob,
-  listApplications,
   listClients,
   listJobs,
   listManpowerCategories,
@@ -114,15 +114,6 @@ function clientNameOf(job) {
   return job.clientName || job.client?.name || job.client?.displayName || "—";
 }
 
-function StatCard({ label, value, tone, loading }) {
-  return (
-    <article className={`jobStat${tone ? ` jobStat-${tone}` : ""}`}>
-      <span className="jobStatLabel">{label}</span>
-      <strong className="jobStatValue">{loading ? "…" : value == null ? "—" : value}</strong>
-    </article>
-  );
-}
-
 export default function JobsPanel({ session, capabilities }) {
   const caps = useMemo(() => capabilities || jobCapabilities(session), [capabilities, session]);
 
@@ -132,7 +123,6 @@ export default function JobsPanel({ session, capabilities }) {
   const [flash, showFlash] = useFlash();
 
   const [allJobs, setAllJobs] = useState([]);
-  const [stats, setStats] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
 
   const [searchInput, setSearchInput] = useState("");
@@ -190,30 +180,11 @@ export default function JobsPanel({ session, capabilities }) {
     let cancelled = false;
     (async () => {
       try {
-        const [jobs, applications] = await Promise.all([
-          scanAllJobs(),
-          listApplications({ page: 0, size: 1 }),
-        ]);
+        const jobs = await scanAllJobs();
         if (cancelled) return;
-        const counts = { DRAFT: 0, OPEN: 0, ON_HOLD: 0, CLOSED: 0, FILLED: 0 };
-        let expired = 0;
-        for (const job of jobs) {
-          if (counts[job.status] !== undefined) counts[job.status] += 1;
-          if (job.expired) expired += 1;
-        }
         setAllJobs(jobs);
-        setStats({
-          total: jobs.length,
-          draft: counts.DRAFT,
-          open: counts.OPEN,
-          onHold: counts.ON_HOLD,
-          closed: counts.CLOSED,
-          filled: counts.FILLED,
-          expired,
-          applications: applications.totalElements || 0,
-        });
       } catch {
-        if (!cancelled) setStats(null);
+        if (!cancelled) setAllJobs([]);
       } finally {
         if (!cancelled) setStatsLoading(false);
       }
@@ -316,47 +287,28 @@ export default function JobsPanel({ session, capabilities }) {
   }
 
   return (
-    <div>
+    <div className="cmJobsPanel">
       <SectionHead
         title="Job management"
         description="Create adverts, publish them to the public website, and track the application pipeline for every vacancy."
-        action={
-          caps.canCreate ? (
-            <button
-              type="button"
-              className="primaryButton cmBtn"
-              onClick={() => setFormState({ mode: "create", job: null })}
-            >
-              <Plus size={16} /> Create job
-            </button>
-          ) : null
-        }
       />
 
       <FlashBanner flash={flash} />
 
-      <section className="jobStats" aria-label="Job statistics">
-        <StatCard label="Total jobs" value={stats?.total} loading={statsLoading} tone="navy" />
-        <StatCard label="Open" value={stats?.open} loading={statsLoading} tone="green" />
-        <StatCard label="Draft" value={stats?.draft} loading={statsLoading} tone="neutral" />
-        <StatCard label="On hold" value={stats?.onHold} loading={statsLoading} tone="amber" />
-        <StatCard label="Closed" value={stats?.closed} loading={statsLoading} tone="red" />
-        <StatCard label="Filled" value={stats?.filled} loading={statsLoading} tone="accent" />
-        <StatCard label="Expired" value={stats?.expired} loading={statsLoading} tone="warn" />
-        <StatCard label="Total applications" value={stats?.applications} loading={statsLoading} tone="blue" />
-      </section>
-
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
+        <label className="cmSearchBox">
+          <Search size={16} />
+          <input
+            type="search"
+            value={searchInput}
+            placeholder="Title, slug or city…"
+            onChange={(event) => setSearchInput(event.target.value)}
+          />
+        </label>
         <div className="cmToolbarControls">
-          <label className="cmSelect cmSearch">
-            <span>Search</span>
-            <input
-              type="search"
-              value={searchInput}
-              placeholder="Title, slug or city…"
-              onChange={(event) => setSearchInput(event.target.value)}
-            />
-          </label>
+          <span className="cmCount">
+            {totalElements} job{totalElements === 1 ? "" : "s"}
+          </span>
           <label className="cmSelect">
             <span>Status</span>
             <select
@@ -443,14 +395,18 @@ export default function JobsPanel({ session, capabilities }) {
               ))}
             </select>
           </label>
-        </div>
-        <div className="cmToolbarControls">
-          <span className="cmCount">
-            {totalElements} job{totalElements === 1 ? "" : "s"}
-          </span>
           <button type="button" className="secondaryButton cmBtn cmPageBtn" onClick={() => reload()} disabled={showLoading}>
             <RefreshCw size={14} /> Refresh
           </button>
+          {caps.canCreate && (
+            <button
+              type="button"
+              className="primaryButton cmBtn cmPageBtn"
+              onClick={() => setFormState({ mode: "create", job: null })}
+            >
+              <Plus size={14} /> Create job
+            </button>
+          )}
         </div>
       </div>
 
@@ -599,7 +555,7 @@ export default function JobsPanel({ session, capabilities }) {
               onClick={() => setPage((value) => Math.max(0, value - 1))}
               disabled={page <= 0 || showLoading}
             >
-              <ChevronLeft size={15} /> Previous
+              <ChevronLeft size={13} /> Previous
             </button>
             <span className="cmPageInfo">Page {currentPage} of {Math.max(totalPages, 1)}</span>
             <button
@@ -608,7 +564,7 @@ export default function JobsPanel({ session, capabilities }) {
               onClick={() => setPage((value) => (value + 1 < totalPages ? value + 1 : value))}
               disabled={page + 1 >= totalPages || showLoading}
             >
-              Next <ChevronRight size={15} />
+              Next <ChevronRight size={13} />
             </button>
           </div>
         </>

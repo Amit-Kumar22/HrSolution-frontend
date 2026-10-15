@@ -223,7 +223,7 @@ export default function ContactMessagesPanel({ onUnreadChange }) {
   const unreadOnPage = pageData.content.filter((item) => !item.read).length;
 
   return (
-    <div>
+    <div className="cmContactPanel">
       <SectionHead
         title="Contact messages"
         description="Messages submitted through the public contact form. Opening a message does not mark it as read."
@@ -321,8 +321,8 @@ export default function ContactMessagesPanel({ onUnreadChange }) {
                       </div>
                     </td>
                     <td className="cmMuted">{item.phone || "—"}</td>
-                    <td className="cmMuted cmCellWrap">{preview(item.message) || "—"}</td>
-                    <td className="cmMuted">{formatDateTime(item.createdAt)}</td>
+                    <td className="cmMuted cmNoWrap">{preview(item.message) || "—"}</td>
+                    <td className="cmMuted cmNoWrap">{formatDateTime(item.createdAt)}</td>
                     <td className="cmColCenter">
                       <div className="cmStatusRow" style={{ justifyContent: "center" }}>
                         <Chip tone={item.read ? "neutral" : "warn"}>{item.read ? "Read" : "Unread"}</Chip>

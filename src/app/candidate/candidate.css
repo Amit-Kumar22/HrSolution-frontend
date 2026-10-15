@@ -426,7 +426,7 @@
 
 /* ------------------------------ Table --------------------------------- */
 
-.cp-tableWrap { overflow-x: auto; border: 1px solid #e1e7ef; border-radius: 12px; }
+.cp-tableWrap { width: 100%; min-width: 0; overflow-x: auto; border: 1px solid #e1e7ef; border-radius: 12px; }
 .cp-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 880px; }
 .cp-table th {
   padding: 12px 14px;

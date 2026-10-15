@@ -1,4 +1,5 @@
-.adminShell { --navy: #0c2748; --navy-deep: #091f3c; --ink: #102b4e; --muted: #8b9db5; --line: #dce4ee; min-height: 100vh; display: grid; grid-template-columns: 236px minmax(0, 1fr); background: #f7f9fc; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+body:has(.adminShell) { overflow: hidden; }
+.adminShell { --navy: #0c2748; --navy-deep: #091f3c; --ink: #102b4e; --muted: #8b9db5; --line: #dce4ee; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 236px minmax(0, 1fr); background: #f7f9fc; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
 .sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 24px 16px 18px; overflow-y: auto; background: var(--navy); color: #d1dbea; z-index: 30; }
 .consoleBrand { display: flex; align-items: center; gap: 10px; margin: 0 8px 28px; color: #fff; text-decoration: none; }
 .consoleBrandMark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 9px; background: #f9a006; color: #0c2748; font-size: 18px; font-weight: 800; }
@@ -22,8 +23,8 @@
 .signOut { display: flex; align-items: center; gap: 9px; margin: auto 10px 0; padding: 20px 0 0; border: 0; background: transparent; color: #93a5bb; font-size: 12px; text-align: left; cursor: pointer; }
 .signOut:hover { color: #fff; }
 .signOut:disabled { opacity: .65; cursor: wait; }
-.mainArea { min-width: 0; }
-.consoleTopbar { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 32px; border-bottom: 1px solid #e3e9f0; background: #fff; }
+.mainArea { min-width: 0; height: 100vh; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.consoleTopbar { flex: 0 0 auto; height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 32px; border-bottom: 1px solid #e3e9f0; background: #fff; }
 .searchBox { width: min(380px, 46%); height: 40px; display: flex; align-items: center; gap: 10px; padding: 0 13px; border: 1px solid #dce4ee; border-radius: 8px; background: #f8fafc; color: #8b9db5; }
 .searchBox input { width: 100%; border: 0; outline: 0; background: transparent; color: #283e5c; font-size: 13px; }
 .searchBox input::placeholder { color: #91a2b9; }
@@ -41,7 +42,11 @@
 .profileMenuItem { width: 100%; padding: 10px; border: 0; border-radius: 6px; background: transparent; color: #344a66; font-size: 12px; text-align: left; cursor: pointer; }
 .profileMenuItem:hover { background: #f2f5f9; color: var(--navy); }
 .profileMenuItem:disabled { color: #8b9db5; cursor: wait; }
-.dashboardContent { padding: 28px 32px 34px; }
+.dashboardContent { flex: 1 1 auto; min-height: 0; padding: 28px 32px 34px; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.dashboardContent::-webkit-scrollbar { width: 3px; }
+.dashboardContent::-webkit-scrollbar-track { background: transparent; }
+.dashboardContent::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.dashboardContent::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
 .actionError { margin: 0 0 18px; padding: 11px 13px; border: 1px solid #f2b8b8; border-radius: 8px; background: #fff0f0; color: #b42323; font-size: 12px; line-height: 1.5; }
 .actionSuccess { margin: 0 0 18px; padding: 11px 13px; border: 1px solid #a9e9c4; border-radius: 8px; background: #ecfdf3; color: #00743c; font-size: 12px; line-height: 1.5; }
 .modalBackdrop { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 20px; background: #07172c99; }
@@ -63,10 +68,16 @@
 .modalActions button { min-height: 40px; padding: 0 16px; border-radius: 8px; font-size: 13px; font-weight: 650; cursor: pointer; }
 .modalActions button:disabled { opacity: .65; cursor: wait; }
 .loadingScreen { min-height: 100vh; display: grid; place-items: center; padding: 25px; background: #f7f9fc; color: #536780; font: 14px Arial, Helvetica, sans-serif; text-align: center; }
-.pageHeading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 23px; }
-.pageHeading h1 { margin: 0 0 5px; color: var(--navy); font-size: 27px; letter-spacing: -.025em; }
+.pageHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 23px;
+}
+.pageHeading h1 { margin: 0 0 2px; color: var(--navy); font-size: 27px; letter-spacing: -.025em; }
 .pageHeading h1 span { font-size: 24px; }
-.pageHeading p { margin: 0; color: #536780; font-size: 13px; }
+.pageHeading p { margin: 0; color: #536780; font-size: 13px; line-height: 1.35; }
 .headingActions { display: flex; gap: 12px; }
 .headingActions button { min-height: 43px; padding: 0 19px; border-radius: 8px; font-size: 13px; font-weight: 650; white-space: nowrap; cursor: pointer; }
 .secondaryButton { border: 1px solid var(--navy); background: #fff; color: var(--navy); }
@@ -195,17 +206,392 @@
 .cmDangerButton:hover:not(:disabled) { background: #c03434; }
 .cmDangerButton:disabled { opacity: .6; cursor: wait; }
 
-.cmToolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 15px; }
+.cmToolbar { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 15px; overflow-x: visible; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmToolbar::-webkit-scrollbar { height: 4px; }
+.cmToolbar::-webkit-scrollbar-track { background: transparent; }
+.cmToolbar::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.cmToolbar::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
 .cmToolbarStart { justify-content: flex-start; }
 .cmSearchBox { flex: 1 1 260px; max-width: 380px; height: 40px; display: flex; align-items: center; gap: 9px; padding: 0 13px; border: 1px solid #dce4ee; border-radius: 8px; background: #fff; color: #8b9db5; }
 .cmSearchBox input { width: 100%; border: 0; outline: 0; background: transparent; color: #283e5c; font-size: 13px; }
 .cmCount { color: #6b7d95; font-size: 12px; white-space: nowrap; }
 .cmToolbarControls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.cmToolbarControls > * { flex-shrink: 0; }
 .cmSelect { display: inline-flex; align-items: center; gap: 7px; color: #465a74; font-size: 12px; }
 .cmSelect select { height: 38px; padding: 0 10px; border: 1px solid #dce4ee; border-radius: 7px; background: #fff; color: #233c5a; font-size: 12px; }
 .cmSelect input { height: 38px; padding: 0 10px; border: 1px solid #dce4ee; border-radius: 7px; background: #fff; color: #233c5a; font-size: 12px; }
 
-.cmTableWrap { width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+/* Compact toolbar for the client management page */
+.cmClientsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmClientsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmClientsPanel .cmHead h1 { margin: 0 0 2px; font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+.cmClientsPanel .cmHead h1::after { content: ""; display: block; width: 30px; height: 2px; margin-top: 6px; border-radius: 3px; background: #f9a006; }
+.cmClientsPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 12px; }
+.cmClientsPanel .cmToolbar { gap: 5px 8px; margin-bottom: 10px; }
+.cmClientsPanel > .cmToolbar { padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmClientsPanel .cmSearchBox { flex: 1 1 300px; max-width: 420px; height: 32px; padding: 0 11px; gap: 7px; }
+.cmClientsPanel .cmSearchBox input { font-size: 12px; }
+.cmClientsPanel .cmCount { font-size: 11px; }
+.cmClientsPanel .cmToolbarControls { gap: 8px; }
+.cmClientsPanel .cmSelect { gap: 5px; font-size: 11px; }
+.cmClientsPanel .cmSelect select,
+.cmClientsPanel .cmSelect input { height: 28px; padding: 0 8px; font-size: 11px; }
+.cmClientsPanel .cmToolbar .cmBtn { min-height: 28px; padding: 0 10px; gap: 6px; font-size: 12px; }
+.cmClientsPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmClientsPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmClientsPanel .cmTableWrap::-webkit-scrollbar-track { background: transparent; }
+.cmClientsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.cmClientsPanel .cmTableWrap::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
+.cmClientsPanel .cmCode,
+.cmClientsPanel .cmNoWrap { white-space: nowrap; }
+.cmClientsPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmClientsPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.cmClientsPanel .cmPageInfo { font-size: 11.5px; }
+.cmClientsPanel .cmPendingTable .cmTable { font-size: 11.5px; }
+.cmClientsPanel .cmPendingTable .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.cmClientsPanel .cmPendingTable .cmTable tbody td { padding: 7px 11px; }
+.cmClientsPanel .cmPendingTable .cmIconButton { width: 27px; height: 27px; }
+.cmClientsPanel .cmPendingRegistrations { margin: 14px 0 0; padding-top: 12px; }
+.cmClientsPanel .cmPendingRegistrations h3 { margin-bottom: 9px; }
+
+/* Contracts & commercial terms page */
+.cmContractsPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmContractsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmContractsPanel .cmHead h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmContractsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmContractsPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 11.5px; }
+
+.cmContractsPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; }
+.cmContractsPanel > .cmToolbar { padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmContractsPanel .cmClientSelect { min-width: 180px; max-width: 260px; }
+.cmContractsPanel .cmSearchBox { flex: 1 1 auto; min-width: 0; max-width: none; height: 32px; padding: 0 11px; gap: 7px; }
+.cmContractsPanel .cmSearchBox input { font-size: 12px; }
+.cmContractsPanel .cmToolbarControls { flex-wrap: nowrap; gap: 8px; }
+.cmContractsPanel .cmSelect { gap: 5px; font-size: 11px; }
+.cmContractsPanel .cmSelect select,
+.cmContractsPanel .cmSelect input { height: 32px; padding: 0 8px; font-size: 11px; }
+.cmContractsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmContractsPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmContractsPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmContractsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.cmContractsPanel .cmTableWrap::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
+
+/* Contact messages page */
+.cmContactPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmContactPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmContactPanel .cmHead h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmContactPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmContactPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 11.5px; }
+
+.cmContactPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; }
+.cmContactPanel > .cmToolbar { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmContactPanel .cmSearchBox { flex: 1 1 auto; min-width: 0; max-width: none; height: 32px; padding: 0 11px; gap: 7px; }
+.cmContactPanel .cmSearchBox input { font-size: 12px; }
+.cmContactPanel .cmCount { font-size: 11px; }
+.cmContactPanel .cmToolbarControls { flex-wrap: nowrap; gap: 8px; }
+.cmContactPanel .cmSelect { gap: 5px; font-size: 11px; }
+.cmContactPanel .cmSelect select,
+.cmContactPanel .cmSelect input { height: 32px; padding: 0 8px; font-size: 11px; }
+.cmContactPanel .cmSwitchLabel { font-size: 11px; }
+.cmContactPanel .cmSwitchTrack { width: 34px; height: 20px; }
+.cmContactPanel .cmSwitchTrack i { width: 14px; height: 14px; }
+.cmContactPanel .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(14px); }
+
+.cmContactPanel .cmNoWrap { white-space: nowrap; }
+.cmContactPanel .cmTable { font-size: 11.5px; }
+.cmContactPanel .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.cmContactPanel .cmTable tbody td { padding: 7px 11px; }
+.cmContactPanel .cmEntity { gap: 9px; }
+.cmContactPanel .cmEntity strong { font-size: 11.5px; }
+.cmContactPanel .cmEntity small { font-size: 10.5px; }
+.cmContactPanel .cmIconTile { width: 28px; height: 28px; border-radius: 8px; }
+.cmContactPanel .cmIconButton { width: 27px; height: 27px; }
+.cmContactPanel .cmIconButton svg { width: 13px; height: 13px; }
+.cmContactPanel .cmRowActions { gap: 5px; }
+.cmContactPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmContactPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.cmContactPanel .cmPageInfo { font-size: 11.5px; }
+
+/* Enquiries page */
+.cmEnquiriesPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmEnquiriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmEnquiriesPanel .cmHead h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmEnquiriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmEnquiriesPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 11.5px; }
+
+.cmEnquiriesPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmEnquiriesPanel .cmToolbar::-webkit-scrollbar { height: 4px; }
+.cmEnquiriesPanel .cmToolbar::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.cmEnquiriesPanel .cmSearchBox { flex: 0 0 170px; max-width: 170px; height: 30px; padding: 0 10px; gap: 7px; }
+.cmEnquiriesPanel .cmSearchBox input { font-size: 12px; }
+.cmEnquiriesPanel .cmCount { font-size: 11.5px; white-space: nowrap; }
+.cmEnquiriesPanel .cmToolbarControls { flex-wrap: nowrap; gap: 8px; }
+.cmEnquiriesPanel .cmSelect { gap: 5px; font-size: 11.5px; white-space: nowrap; }
+.cmEnquiriesPanel .cmSelect select,
+.cmEnquiriesPanel .cmSelect input { height: 30px; padding: 0 8px; border-radius: 7px; font-size: 11.5px; }
+.cmEnquiriesPanel .cmSelect select { max-width: 150px; }
+.cmEnquiriesPanel .cmSelect input[type="date"] { max-width: 132px; }
+.cmEnquiriesPanel .cmSwitchLabel { font-size: 11.5px; }
+.cmEnquiriesPanel .cmSwitchTrack { width: 32px; height: 18px; }
+.cmEnquiriesPanel .cmSwitchTrack i { width: 12px; height: 12px; }
+.cmEnquiriesPanel .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(14px); }
+.cmEnquiriesPanel .cmToolbar .cmBtn { min-height: 30px; padding: 0 10px; gap: 4px; font-size: 11.5px; }
+.cmEnquiriesPanel .cmTable { font-size: 11.5px; }
+.cmEnquiriesPanel .cmTable thead th { padding: 8px 11px; font-size: 10px; }
+.cmEnquiriesPanel .cmTable tbody td { padding: 8px 11px; }
+.cmEnquiriesPanel .cmTable .cmEntity strong { font-size: 11.5px; white-space: nowrap; }
+.cmEnquiriesPanel .cmTable .cmEntity small { font-size: 10.5px; }
+.cmEnquiriesPanel .cmTable .cmCode { padding: 2px 6px; font-size: 10.5px; white-space: nowrap; }
+.cmEnquiriesPanel .cmIconButton { width: 29px; height: 29px; }
+.cmEnquiriesPanel .cmNoWrap { white-space: nowrap; }
+.cmEnquiriesPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmEnquiriesPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmEnquiriesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.cmEnquiriesPanel .cmTableWrap::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
+.cmEnquiriesPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmEnquiriesPanel .cmPageBtn { min-height: 30px; padding: 0 10px; gap: 4px; font-size: 12px; }
+.cmEnquiriesPanel .cmPageInfo { font-size: 11.5px; }
+
+/* Candidates page */
+.cmToolbarNowrap { flex-wrap: nowrap; }
+.cmCandidatesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmCandidatesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmCandidatesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmCandidatesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmCandidatesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.cmCandidatesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.cmCandidatesPanel .cmSearchBox { flex: 0 0 auto; width: clamp(300px, 30vw, 460px); min-width: 300px; max-width: 460px; height: 36px; padding: 0 12px; gap: 8px; }
+.cmCandidatesPanel .cmSearchBox input { font-size: 13px; }
+.cmCandidatesPanel .cmCount { font-size: 11.5px; }
+.cmCandidatesPanel .cmToolbarControls { gap: 8px; }
+.cmCandidatesPanel .cmSelect { gap: 5px; font-size: 11.5px; }
+.cmCandidatesPanel .cmSelect select,
+.cmCandidatesPanel .cmSelect input { height: 32px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
+.cmCandidatesPanel .cmSwitchLabel { font-size: 11.5px; }
+.cmCandidatesPanel .cmSwitchTrack { width: 34px; height: 20px; }
+.cmCandidatesPanel .cmSwitchTrack i { width: 14px; height: 14px; }
+.cmCandidatesPanel .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(14px); }
+.cmCandidatesPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+
+.cmCandidatesPanel .cmTable { font-size: 11.5px; }
+.cmCandidatesPanel .cmTable thead th { padding: 8px 11px; font-size: 10px; }
+.cmCandidatesPanel .cmTable tbody td { padding: 8px 11px; }
+.cmCandidatesPanel .cmTable .cmEntity strong { font-size: 11.5px; white-space: nowrap; }
+.cmCandidatesPanel .cmTable .cmEntity small { font-size: 10.5px; }
+.cmCandidatesPanel .cmTable .cmCode { padding: 2px 6px; font-size: 10.5px; }
+.cmCandidatesPanel .cmIconButton { width: 29px; height: 29px; }
+.cmCandidatesPanel .cmNoWrap { white-space: nowrap; }
+.cmCandidatesPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmCandidatesPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmCandidatesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+
+.cmCandidatesPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmCandidatesPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.cmCandidatesPanel .cmPageInfo { font-size: 11.5px; }
+
+/* Jobs page */
+.cmJobsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmJobsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmJobsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmJobsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmJobsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+
+.cmJobsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmJobsPanel .cmSearchBox { flex: 0 1 190px; max-width: 190px; height: 34px; padding: 0 11px; gap: 7px; }
+.cmJobsPanel .cmSearchBox input { font-size: 12.5px; }
+.cmJobsPanel .cmCount { font-size: 11.5px; }
+.cmJobsPanel .cmToolbarControls { gap: 8px; }
+.cmJobsPanel .cmSelect { gap: 5px; font-size: 11.5px; }
+.cmJobsPanel .cmSelect select,
+.cmJobsPanel .cmSelect input { height: 32px; max-width: 150px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
+.cmJobsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmJobsPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmJobsPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.cmJobsPanel .cmPageInfo { font-size: 11.5px; }
+
+/* Manpower categories page */
+.cmCategoriesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmCategoriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmCategoriesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmCategoriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmCategoriesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.cmCategoriesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmCategoriesPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
+.cmCategoriesPanel .cmSearchBox input { font-size: 12.5px; }
+.cmCategoriesPanel .cmCount { font-size: 11.5px; }
+.cmCategoriesPanel .cmToolbarControls { gap: 8px; }
+.cmCategoriesPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmCategoriesPanel .cmTable { font-size: 11.5px; }
+.cmCategoriesPanel .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.cmCategoriesPanel .cmTable tbody td { padding: 7px 11px; }
+.cmCategoriesPanel .cmTable .cmEntity { gap: 9px; }
+.cmCategoriesPanel .cmTable .cmEntity strong { font-size: 11.5px; }
+.cmCategoriesPanel .cmTable .cmEntity small { font-size: 10.5px; }
+.cmCategoriesPanel .cmTable .cmIconTile { width: 28px; height: 28px; border-radius: 8px; }
+.cmCategoriesPanel .cmTable .cmCode { padding: 2px 6px; font-size: 10.5px; }
+.cmCategoriesPanel .cmTable .cmStatus { padding: 3px 9px; font-size: 10.5px; }
+.cmCategoriesPanel .cmIconButton { width: 29px; height: 29px; }
+.cmCategoriesPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmCategoriesPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmCategoriesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+
+/* Skills page */
+.cmSkillsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmSkillsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmSkillsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmSkillsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmSkillsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.cmSkillsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmSkillsPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
+.cmSkillsPanel .cmSearchBox input { font-size: 12.5px; }
+.cmSkillsPanel .cmCount { font-size: 11.5px; }
+.cmSkillsPanel .cmToolbarControls { gap: 8px; }
+.cmSkillsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmSkillsPanel .cmTable { font-size: 11.5px; }
+.cmSkillsPanel .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.cmSkillsPanel .cmTable tbody td { padding: 7px 11px; }
+.cmSkillsPanel .cmTable .cmEntity { gap: 9px; }
+.cmSkillsPanel .cmTable .cmEntity strong { font-size: 11.5px; }
+.cmSkillsPanel .cmTable .cmIconTile { width: 28px; height: 28px; border-radius: 8px; }
+.cmSkillsPanel .cmTable .cmStatus { padding: 3px 9px; font-size: 10.5px; }
+.cmSkillsPanel .cmIconButton { width: 29px; height: 29px; }
+.cmSkillsPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmSkillsPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmSkillsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+
+/* Industries page */
+.cmIndustriesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmIndustriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmIndustriesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmIndustriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmIndustriesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.cmIndustriesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmIndustriesPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
+.cmIndustriesPanel .cmSearchBox input { font-size: 12.5px; }
+.cmIndustriesPanel .cmCount { font-size: 11.5px; }
+.cmIndustriesPanel .cmToolbarControls { gap: 8px; }
+.cmIndustriesPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmIndustriesPanel .cmTable { font-size: 11.5px; }
+.cmIndustriesPanel .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.cmIndustriesPanel .cmTable tbody td { padding: 7px 11px; }
+.cmIndustriesPanel .cmTable .cmEntity { gap: 9px; }
+.cmIndustriesPanel .cmTable .cmEntity strong { font-size: 11.5px; }
+.cmIndustriesPanel .cmTable .cmIconTile { width: 28px; height: 28px; border-radius: 8px; }
+.cmIndustriesPanel .cmTable .cmCode { padding: 2px 6px; font-size: 10.5px; }
+.cmIndustriesPanel .cmTable .cmSwitchTrack { width: 32px; height: 18px; }
+.cmIndustriesPanel .cmTable .cmSwitchTrack i { width: 12px; height: 12px; }
+.cmIndustriesPanel .cmTable .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(14px); }
+.cmIndustriesPanel .cmTable .cmSwitchLabel { font-size: 11px; }
+.cmIndustriesPanel .cmIconButton { width: 29px; height: 29px; }
+.cmIndustriesPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmIndustriesPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmIndustriesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+
+/* Services page */
+.cmServicesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmServicesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmServicesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmServicesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmServicesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.cmServicesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmServicesPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
+.cmServicesPanel .cmSearchBox input { font-size: 12.5px; }
+.cmServicesPanel .cmCount { font-size: 11.5px; }
+.cmServicesPanel .cmToolbarControls { gap: 8px; }
+.cmServicesPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmServicesPanel .cmTable { font-size: 11.5px; }
+.cmServicesPanel .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.cmServicesPanel .cmTable tbody td { padding: 7px 11px; }
+.cmServicesPanel .cmTable .cmEntity { gap: 9px; }
+.cmServicesPanel .cmTable .cmEntity strong { font-size: 11.5px; }
+.cmServicesPanel .cmTable .cmIconTile { width: 28px; height: 28px; border-radius: 8px; }
+.cmServicesPanel .cmTable .cmThumb { width: 34px; height: 26px; border-radius: 6px; }
+.cmServicesPanel .cmTable .cmCode { padding: 2px 6px; font-size: 10.5px; }
+.cmServicesPanel .cmTable .cmSwitchTrack { width: 32px; height: 18px; }
+.cmServicesPanel .cmTable .cmSwitchTrack i { width: 12px; height: 12px; }
+.cmServicesPanel .cmTable .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(14px); }
+.cmServicesPanel .cmTable .cmSwitchLabel { font-size: 11px; }
+.cmServicesPanel .cmIconButton { width: 29px; height: 29px; }
+.cmServicesPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmServicesPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmServicesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+
+/* Testimonials page */
+.cmTestimonialsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmTestimonialsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmTestimonialsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmTestimonialsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmTestimonialsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.cmTestimonialsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmTestimonialsPanel .cmCount { font-size: 11.5px; }
+.cmTestimonialsPanel .cmToolbarControls { gap: 8px; }
+.cmTestimonialsPanel .cmSelect { gap: 5px; font-size: 11.5px; }
+.cmTestimonialsPanel .cmSelect select,
+.cmTestimonialsPanel .cmSelect input { height: 32px; max-width: 150px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
+.cmTestimonialsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmTestimonialsPanel .cmTable { font-size: 11.5px; }
+.cmTestimonialsPanel .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.cmTestimonialsPanel .cmTable tbody td { padding: 7px 11px; }
+.cmTestimonialsPanel .cmTable .cmEntity { gap: 9px; }
+.cmTestimonialsPanel .cmTable .cmEntity strong { font-size: 11.5px; }
+.cmTestimonialsPanel .cmTable .cmEntity small { font-size: 10.5px; }
+.cmTestimonialsPanel .cmTable .cmAvatar { width: 28px; height: 28px; }
+.cmTestimonialsPanel .cmTable .cmAvatarFallback { font-size: 10.5px; }
+.cmTestimonialsPanel .cmTable .cmSwitchTrack { width: 32px; height: 18px; }
+.cmTestimonialsPanel .cmTable .cmSwitchTrack i { width: 12px; height: 12px; }
+.cmTestimonialsPanel .cmTable .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(14px); }
+.cmTestimonialsPanel .cmTable .cmSwitchLabel { font-size: 11px; }
+.cmTestimonialsPanel .cmIconButton { width: 29px; height: 29px; }
+.cmTestimonialsPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmTestimonialsPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.cmTestimonialsPanel .cmPageInfo { font-size: 11.5px; }
+.cmTestimonialsPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmTestimonialsPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmTestimonialsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+
+/* Super-admin accounts page */
+.saAccountsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.saAccountsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saAccountsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.saAccountsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saAccountsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.saAccountsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.saAccountsPanel .cmSearchBox { flex: 0 1 230px; max-width: 230px; height: 34px; padding: 0 11px; gap: 7px; }
+.saAccountsPanel .cmSearchBox input { font-size: 12.5px; }
+.saAccountsPanel .cmCount { font-size: 11.5px; }
+.saAccountsPanel .cmToolbarControls { gap: 8px; }
+.saAccountsPanel .cmSelect { gap: 5px; font-size: 11.5px; }
+.saAccountsPanel .cmSelect select { height: 32px; max-width: 150px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
+.saAccountsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.saAccountsPanel .cmTable { font-size: 11.5px; }
+.saAccountsPanel .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.saAccountsPanel .cmTable tbody td { padding: 7px 11px; }
+.saAccountsPanel .cmTable .saAccountCell { gap: 9px; }
+.saAccountsPanel .cmTable .saAccountCell strong { font-size: 11.5px; }
+.saAccountsPanel .cmTable .saAccountCell small { font-size: 10.5px; }
+.saAccountsPanel .cmTable .cmAvatar { width: 28px; height: 28px; }
+.saAccountsPanel .cmTable .cmAvatarFallback { font-size: 10.5px; }
+.saAccountsPanel .cmTable .saRoleTag { padding: 2px 7px; font-size: 9.5px; }
+.saAccountsPanel .cmTable .saInlineStack small { font-size: 10px; }
+.saAccountsPanel .cmTable .cmStatusRow { gap: 6px; flex-wrap: nowrap; }
+.saAccountsPanel .cmTable .cmStatusRow .cmChip { padding: 3px 7px; font-size: 10px; }
+.saAccountsPanel .cmTable tbody td.cmMuted,
+.saAccountsPanel .cmTable tbody td .saInlineStack { white-space: nowrap; }
+.saAccountsPanel .cmIconButton { width: 26px; height: 26px; }
+.saAccountsPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.saAccountsPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.saAccountsPanel .cmPageInfo { font-size: 11.5px; }
+.saAccountsPanel .cmPagination .cmSelect { font-size: 11.5px; }
+.saAccountsPanel .cmPagination .cmSelect select { height: 30px; padding: 0 9px; border-radius: 7px; font-size: 11.5px; }
+.saAccountsPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.saAccountsPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.saAccountsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+
+.cmTableWrap { width: 100%; min-width: 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 2px 6px #102b4e08; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmTableWrap::-webkit-scrollbar-track { background: transparent; }
+.cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.cmTableWrap::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
 .cmTable { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 13px; }
 .cmTable thead th { padding: 12px 14px; border-bottom: 1px solid var(--line); background: #f7f9fc; color: #5b6f88; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; text-align: left; white-space: nowrap; }
 .cmTable tbody td { padding: 12px 14px; border-bottom: 1px solid #eef2f7; color: #24384f; vertical-align: middle; }
@@ -351,16 +737,22 @@
 /* Interview management                                                 */
 /* ==================================================================== */
 
-.ivStats { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
-.ivStat { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 14px 15px; border: 1px solid var(--line); border-radius: 11px; background: #fff; box-shadow: 0 2px 6px #102b4e08; border-left: 3px solid #c9d5e4; }
-.ivStatLabel { color: #6b7d95; font-size: 11px; font-weight: 650; line-height: 1.35; }
-.ivStatValue { color: var(--navy); font-size: clamp(18px, 1.7vw, 23px); letter-spacing: -.02em; }
-.ivStat-navy { border-left-color: #0c2748; }
-.ivStat-blue { border-left-color: #2874ed; }
-.ivStat-green { border-left-color: #00a84f; }
-.ivStat-amber { border-left-color: #e58a00; }
-.ivStat-red { border-left-color: #ec3030; }
-.ivStat-warn { border-left-color: #d97706; }
+.cmInterviewPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmInterviewPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmInterviewPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmInterviewPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmInterviewPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+
+.cmInterviewPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmInterviewPanel .cmCount { font-size: 11.5px; }
+.cmInterviewPanel .cmToolbarControls { gap: 8px; }
+.cmInterviewPanel .cmSelect { gap: 5px; font-size: 11.5px; }
+.cmInterviewPanel .cmSelect select,
+.cmInterviewPanel .cmSelect input { height: 32px; max-width: 150px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
+.cmInterviewPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmInterviewPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmInterviewPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.cmInterviewPanel .cmPageInfo { font-size: 11.5px; }
 
 .ivTabBar { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 16px; padding: 4px; border: 1px solid var(--line); border-radius: 11px; background: #fff; }
 .ivTab { min-height: 34px; padding: 0 14px; border: 0; border-radius: 8px; background: transparent; color: #536780; font: inherit; font-size: 12.5px; font-weight: 650; cursor: pointer; transition: background .15s, color .15s; }
@@ -375,20 +767,13 @@
 .ivRating { color: #b45309; font-weight: 700; }
 .ivRating small { color: #91a2b9; font-weight: 500; }
 
-@media (max-width: 1250px) {
-  .ivStats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-
 @media (max-width: 900px) {
   .cmHead { flex-direction: column; align-items: flex-start; }
   .cmHeadAction { width: 100%; }
   .cmHeadAction .cmBtn { width: 100%; }
-  .ivStats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 650px) {
-  .ivStats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-  .ivStat { padding: 11px 11px; }
   .ivTab { flex: 1 1 auto; padding: 0 10px; font-size: 11.5px; }
 }
 
@@ -405,19 +790,6 @@
 /* ==================================================================== */
 /* Job management                                                       */
 /* ==================================================================== */
-
-.jobStats { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
-.jobStat { display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 14px 15px; border: 1px solid var(--line); border-radius: 11px; background: #fff; box-shadow: 0 2px 6px #102b4e08; border-left: 3px solid #c9d5e4; }
-.jobStatLabel { color: #6b7d95; font-size: 11px; font-weight: 650; line-height: 1.35; }
-.jobStatValue { color: var(--navy); font-size: clamp(18px, 1.7vw, 23px); letter-spacing: -.02em; }
-.jobStat-navy { border-left-color: #0c2748; }
-.jobStat-blue { border-left-color: #2874ed; }
-.jobStat-green { border-left-color: #00a84f; }
-.jobStat-amber { border-left-color: #e58a00; }
-.jobStat-red { border-left-color: #ec3030; }
-.jobStat-accent { border-left-color: #7c3aed; }
-.jobStat-warn { border-left-color: #d97706; }
-.jobStat-neutral { border-left-color: #6b7d95; }
 
 .jobTitleLink { font-weight: 650; color: #1d5fbf; text-align: left; }
 .jobTitleLink:hover { text-decoration: underline; }
@@ -445,15 +817,40 @@
 
 .jobDescriptionText { white-space: pre-wrap; line-height: 1.6; }
 
-@media (max-width: 1250px) {
-  .jobStats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.adminShell .cmToolbar {
+  flex-wrap: wrap;
+  overflow-x: visible;
+}
+
+.adminShell .cmToolbarControls {
+  flex-wrap: wrap;
 }
 
 @media (max-width: 900px) {
-  .jobStats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .adminShell .cmToolbar {
+    justify-content: flex-start;
+  }
+
+  .adminShell .cmSearchBox {
+    flex: 1 1 260px;
+    max-width: none;
+  }
 }
 
 @media (max-width: 650px) {
-  .jobStats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-  .jobStat { padding: 11px 11px; }
+  .adminShell .cmToolbar {
+    align-items: stretch;
+  }
+
+  .adminShell .cmSearchBox,
+  .adminShell .cmClientsPanel .cmSearchBox {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: none;
+  }
+
+  .adminShell .cmToolbarControls {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
 }

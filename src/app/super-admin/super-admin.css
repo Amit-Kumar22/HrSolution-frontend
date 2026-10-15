@@ -7,11 +7,300 @@
   color: #fff;
 }
 
-.saHeaderMeta {
-  display: flex;
-  align-items: center;
+/* ---------------- Super Admin sidebar ---------------- */
+.adminShellSuper .sidebar {
+  gap: 0;
+  padding: 14px 12px 14px;
+  scrollbar-width: thin;
+  scrollbar-color: #2b4d77 transparent;
+}
+
+.adminShellSuper .sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.adminShellSuper .sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.adminShellSuper .sidebar::-webkit-scrollbar-thumb {
+  background: #2b4d77;
+  border-radius: 999px;
+}
+
+.adminShellSuper .consoleBrand {
+  gap: 9px;
+  margin: 0 6px 14px;
+}
+
+.adminShellSuper .consoleBrandMark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.adminShellSuper .consoleBrand strong {
+  font-size: 13px;
+}
+
+.adminShellSuper .consoleBrand small {
+  margin-top: 1px;
+  font-size: 10.5px;
+}
+
+.adminShellSuper .sideNav {
+  gap: 10px;
+}
+
+.adminShellSuper .navGroup {
+  gap: 6px;
+}
+
+.adminShellSuper .navSection {
+  margin: 6px 0 3px;
+  padding-left: 9px;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+}
+
+.adminShellSuper .navItem {
+  min-height: 30px;
+  gap: 10px;
+  padding: 0 9px;
+  border-radius: 7px;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.adminShellSuper .navItem > span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.adminShellSuper .navItem > svg {
+  width: 16px;
+  height: 16px;
+}
+
+.adminShellSuper .navItem:hover {
+  background: #16365f;
+  color: #fff;
+}
+
+.adminShellSuper .navItem:hover > svg {
+  color: #d5dfeb;
+}
+
+.adminShellSuper .navActive,
+.adminShellSuper .navActive:hover {
+  background: linear-gradient(90deg, #1d4372 0%, #17375f 100%);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 #f9a006;
+}
+
+.adminShellSuper .navActive > svg {
+  color: #f9a006;
+}
+
+.adminShellSuper .navItem > b {
+  min-width: 18px;
+  height: 16px;
+  padding: 0 5px;
+  font-size: 9.5px;
+  line-height: 16px;
+}
+
+.adminShellSuper .payrollNotice {
+  gap: 3px;
+  margin-top: 12px;
+  padding: 10px 11px;
+  border-radius: 9px;
+}
+
+.adminShellSuper .payrollNotice strong {
+  font-size: 10.5px;
+}
+
+.adminShellSuper .payrollNotice span {
+  font-size: 11px;
+}
+
+.adminShellSuper .payrollNotice small {
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.adminShellSuper .signOut {
   gap: 8px;
-  flex-wrap: wrap;
+  padding: 12px 0 0;
+  font-size: 11.5px;
+}
+
+@media (max-width: 900px) {
+  .adminShellSuper .sidebar {
+    padding: 12px 9px;
+  }
+
+  .adminShellSuper .navItem {
+    gap: 9px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 650px) {
+  .adminShellSuper .navItem {
+    min-height: 34px;
+    font-size: 13px;
+  }
+}
+
+.adminShellSuper .consoleTopbar {
+  position: relative;
+  height: 60px;
+  gap: 16px;
+  padding: 0 28px;
+  border-bottom-color: #e5eaf2;
+  background: linear-gradient(105deg, #fff 0%, #fbfcff 100%);
+  box-shadow: 0 2px 10px #102b4e08;
+}
+
+.saDashboardBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #172b48;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+
+.saDashboardBrandIcon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #e6ddfb;
+  border-radius: 9px;
+  background: #f5f0ff;
+  color: #7040bf;
+}
+
+.adminShellSuper .userActions {
+  margin-left: auto;
+  gap: 12px;
+}
+
+.adminShellSuper .notification {
+  width: 37px;
+  height: 37px;
+  border-color: #e3e9f1;
+  border-radius: 10px;
+  background: #fff;
+  color: #526780;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.adminShellSuper .notification:hover {
+  border-color: #cfd9e7;
+  background: #f7f9fc;
+  color: #263d5c;
+}
+
+.adminShellSuper .userProfile {
+  gap: 9px;
+  padding: 4px 9px 4px 5px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.adminShellSuper .userProfile:hover,
+.adminShellSuper .userProfile[aria-expanded="true"] {
+  border-color: #e5eaf2;
+  background: #f7f9fc;
+}
+
+.adminShellSuper .userProfile strong {
+  color: #1b304d;
+  font-size: 12.5px;
+  font-weight: 650;
+}
+
+.adminShellSuper .userProfile small {
+  color: #8191a7;
+  font-size: 10.5px;
+}
+
+.adminShellSuper .avatar {
+  width: 34px;
+  height: 34px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #e0e6ef;
+}
+
+.saTopbarBare {
+  display: none;
+}
+
+@media (max-width: 650px) {
+  .saTopbarBare {
+    display: flex;
+    align-items: center;
+    height: 62px;
+    padding: 0 14px;
+    border-bottom: 1px solid #e3e9f0;
+    background: #fff;
+  }
+
+  .adminShellSuper .consoleTopbar {
+    height: 56px;
+    gap: 9px;
+    padding: 0 12px;
+  }
+
+  .saDashboardBrand {
+    gap: 7px;
+    font-size: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .saDashboardBrandIcon {
+    width: 29px;
+    height: 29px;
+    border-radius: 8px;
+  }
+
+  .adminShellSuper .userActions {
+    gap: 7px;
+  }
+
+  .adminShellSuper .notification {
+    width: 34px;
+    height: 34px;
+  }
+
+  .adminShellSuper .userProfile {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .adminShellSuper .userProfile:hover,
+  .adminShellSuper .userProfile[aria-expanded="true"] {
+    border-color: transparent;
+    background: transparent;
+  }
 }
 
 .saSectionLabel {
@@ -21,6 +310,33 @@
   font-weight: 700;
   letter-spacing: -0.01em;
 }
+
+/* Super-admin dashboard overview */
+.saDashboard .pageHeading { position: relative; align-items: center; gap: 14px; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 16px; }
+.saDashboard .pageHeading::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saDashboard .pageHeading h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.saDashboard .pageHeading h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saDashboard .pageHeading p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.saDashboard .headingActions { gap: 8px; }
+.saDashboard .headingActions button { min-height: 32px; padding: 0 12px; border-radius: 7px; font-size: 12px; }
+.saDashboard .metricGrid { gap: 12px; }
+.saDashboard .metricCard { min-height: 104px; padding: 13px 13px 11px; border-radius: 11px; }
+.saDashboard .metricTop { gap: 8px; font-size: 11.5px; }
+.saDashboard .metricTop > i { width: 30px; height: 30px; border-radius: 8px; }
+.saDashboard .metricTop > i svg { width: 15px; height: 15px; }
+.saDashboard .metricValue { margin-top: 9px; font-size: clamp(19px, 1.8vw, 23px); }
+.saDashboard .metricCard > p { margin-top: 8px; font-size: 10.5px; }
+.saDashboard .saSectionLabel { margin: 20px 0 10px; font-size: 13.5px; }
+.saRecentTable.cmTableWrap { border-radius: 10px; }
+.saRecentTable .cmTable { font-size: 11.5px; }
+.saRecentTable .cmTable thead th { padding: 7px 11px; font-size: 10px; }
+.saRecentTable .cmTable tbody td { padding: 7px 11px; }
+.saRecentTable .saAccountCell { gap: 9px; }
+.saRecentTable .saAccountCell strong { font-size: 11.5px; }
+.saRecentTable .saAccountCell small { font-size: 10.5px; }
+.saRecentTable .cmAvatar { width: 28px; height: 28px; }
+.saRecentTable .cmAvatarFallback { font-size: 10.5px; }
+.saRecentTable .saRoleTag { padding: 2px 7px; font-size: 9.5px; }
 
 .saAccountCell {
   display: flex;
@@ -238,6 +554,49 @@
   line-height: 1.45;
 }
 
+/* Roles & permissions page */
+.saRolesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.saRolesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saRolesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.saRolesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saRolesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.saRolesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.saRolesPanel .cmSelect { gap: 5px; font-size: 11.5px; }
+.saRolesPanel .cmSelect select { height: 32px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
+.saRolesPanel .cmCount { font-size: 11.5px; }
+.saRolesPanel .saPermGroups { gap: 10px; }
+.saRolesPanel .saPermGroup { border-radius: 10px; }
+.saRolesPanel .saPermGroupHead { padding: 8px 12px; }
+.saRolesPanel .saPermGroupHead strong { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: #5b6f88; }
+.saRolesPanel .saPermGroupHead .cmCount { font-size: 10.5px; }
+.saRolesPanel .saPermGroupList { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 5px; padding: 10px 12px; }
+.saRolesPanel .saPermItem { padding: 6px 9px; gap: 8px; border-radius: 8px; }
+.saRolesPanel .saPermItem input { width: 14px; height: 14px; }
+.saRolesPanel .saPermItem strong { font-size: 11px; }
+.saRolesPanel .saPermItem small { font-size: 10px; }
+.saRolesPanel .saInlineNote { margin-bottom: 12px; padding: 10px 12px; border-radius: 9px; font-size: 11.5px; }
+
+/* Settings page */
+.saSettingsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.saSettingsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saSettingsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.saSettingsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saSettingsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.saSettingsPanel .cmToolbar { align-items: center; gap: 8px 10px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.saTabBar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
+.saSettingsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.saSettingsPanel .cmToolbar .cmChip { margin-left: auto; font-size: 10.5px; }
+.saSettingsPanel .saPermGroup { border-radius: 10px; }
+.saSettingsPanel .saPermGroupHead { padding: 9px 12px; }
+.saSettingsPanel .saPermGroupHead strong { font-size: 12px; }
+.saSettingsPanel .saPermGroupHead p { font-size: 11px; }
+.saSettingsPanel .saSettingsGroupBody { gap: 12px; padding: 12px; }
+.saSettingsPanel .cmFormRow { gap: 12px; }
+.saSettingsPanel .saLogoPreview { width: 120px; height: 120px; border-radius: 9px; }
+.saSettingsPanel .cmHeroPlaceholder { font-size: 11.5px; }
+.saSettingsPanel .cmHeroBlock { gap: 10px; }
+.saSettingsPanel .cmModalFooter { margin-top: 0; }
+
 .saProfileHead {
   display: flex;
   align-items: center;
@@ -440,4 +799,82 @@
   .saPermGroupList {
     grid-template-columns: 1fr;
   }
+}
+
+/* Slightly shorter page-header cards across admin + super-admin */
+.adminShell .cmHead,
+.adminShell .saDashboard .pageHeading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.adminShell .cmHead h1::after,
+.adminShell .saDashboard .pageHeading h1::after {
+  margin-top: 3px;
+}
+
+/* ============================================================
+   Shared slim scrollbars — Super Admin Panel (all pages)
+   3px thumb, transparent track, neutral grey + darker on hover.
+   Chrome / Edge / Safari use the webkit rules below; Firefox uses
+   the standard scrollbar-width / scrollbar-color properties.
+   ============================================================ */
+.adminShell.adminShellSuper *::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+}
+
+.adminShell.adminShellSuper *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.adminShell.adminShellSuper *::-webkit-scrollbar-thumb {
+  background: #c4d0e0;
+  border-radius: 999px;
+}
+
+.adminShell.adminShellSuper *::-webkit-scrollbar-thumb:hover {
+  background: #9fb0c6;
+}
+
+.adminShell.adminShellSuper *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Keep the standard properties at their defaults in Chrome so the 3px
+   webkit rules above are the ones rendered (Chrome 121+ ignores
+   ::-webkit-scrollbar when scrollbar-width/color are set). */
+.adminShell.adminShellSuper * {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+}
+
+/* Firefox has no ::-webkit-scrollbar, so use the standard properties. */
+@-moz-document url-prefix() {
+  .adminShell.adminShellSuper * {
+    scrollbar-width: thin;
+    scrollbar-color: #c4d0e0 transparent;
+  }
+
+  .adminShell.adminShellSuper .sidebar {
+    scrollbar-color: #2b4d77 transparent;
+  }
+}
+
+/* Dark sidebar keeps its blueprint thumb (in all browsers). */
+.adminShell.adminShellSuper .sidebar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.adminShell.adminShellSuper .sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.adminShell.adminShellSuper .sidebar::-webkit-scrollbar-thumb {
+  background: #2b4d77;
+  border-radius: 999px;
+}
+
+.adminShell.adminShellSuper .sidebar::-webkit-scrollbar-thumb:hover {
+  background: #3f6ba4;
 }

@@ -583,7 +583,7 @@ export default function ContractsPanel({ client = null, onChanged, embedded = fa
   }
 
   return (
-    <div>
+    <div className="cmContractsPanel">
       {embedded ? null : (
         <SectionHead
           title="Contracts & commercial terms"
@@ -595,7 +595,7 @@ export default function ContractsPanel({ client = null, onChanged, embedded = fa
 
       <div className="cmToolbar" style={{ marginTop: embedded ? 8 : 0 }}>
         {embedded ? null : (
-          <label className="cmSelect" style={{ minWidth: 260 }}>
+          <label className="cmSelect cmClientSelect">
             <Building2 size={14} />
             <select value={selectedClientId} onChange={handleClientChange} disabled={clientLoading} aria-label="Select client">
               <option value="">{clientLoading ? "Loading clients…" : "Select a client"}</option>

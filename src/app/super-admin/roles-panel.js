@@ -116,7 +116,7 @@ export default function RolesPanel() {
   }
 
   return (
-    <div>
+    <div className="saRolesPanel">
       <SectionHead
         title="Roles & permissions"
         description="Roles decide which dashboard a user reaches and which modules they can use. Grant only the permissions each role needs."
@@ -132,9 +132,9 @@ export default function RolesPanel() {
         <EmptyState title="No roles found" message="The backend did not return any roles." />
       ) : (
         <>
-          <div className="cmToolbar">
+          <div className="cmToolbar cmToolbarNowrap">
             <label className="cmSelect">
-              Role
+              <span>Role</span>
               <select
                 value={activeRoleName}
                 onChange={(event) => setActiveRoleName(event.target.value)}

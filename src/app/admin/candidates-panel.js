@@ -280,22 +280,15 @@ export default function CandidatesPanel({ session, capabilities }) {
   const hasFilters = Boolean(searchInput || categoryFilter || sourceFilter || loginFilter);
 
   return (
-    <div>
+    <div className="cmCandidatesPanel">
       <SectionHead
         title="Candidates"
         description="Everyone in the hiring pipeline — website applicants, referrals, walk-ins and agency candidates. Spam-flagged profiles stay hidden until you include them."
-        action={
-          caps.canCreate ? (
-            <button type="button" className="primaryButton cmBtn" onClick={openCreate}>
-              <Plus size={16} /> Add candidate
-            </button>
-          ) : null
-        }
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <label className="cmSearchBox">
           <Search size={16} />
           <input
@@ -310,6 +303,32 @@ export default function CandidatesPanel({ session, capabilities }) {
           <span className="cmCount">
             {pageData.totalElements} candidate{pageData.totalElements === 1 ? "" : "s"}
           </span>
+          <label className="cmSelect">
+            <span>Category</span>
+            <select value={categoryFilter} onChange={(event) => { setCategoryFilter(event.target.value); setPage(0); }}>
+              <option value="">All categories</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>{category.name}</option>
+              ))}
+            </select>
+          </label>
+          <label className="cmSelect">
+            <span>Source</span>
+            <select value={sourceFilter} onChange={(event) => { setSourceFilter(event.target.value); setPage(0); }}>
+              <option value="">All sources</option>
+              {CANDIDATE_SOURCES.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </label>
+          <label className="cmSelect">
+            <span>Login</span>
+            <select value={loginFilter} onChange={(event) => { setLoginFilter(event.target.value); setPage(0); }}>
+              {LOGIN_OPTIONS.map((option) => (
+                <option key={option.value || "all"} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </label>
           <label className="cmSelect">
             <span>Sort</span>
             <select value={sortValue} onChange={(event) => { setSortValue(event.target.value); setPage(0); }}>
@@ -330,46 +349,22 @@ export default function CandidatesPanel({ session, capabilities }) {
             id="candidate-include-spam"
             checked={includeSpam}
             onChange={(next) => { setIncludeSpam(next); setPage(0); }}
-            label="Include spam"
+            label="Spam"
           />
+          {hasFilters && (
+            <button type="button" className="secondaryButton cmBtn cmPageBtn" onClick={clearFilters}>
+              Clear
+            </button>
+          )}
           <button type="button" className="secondaryButton cmBtn cmPageBtn" onClick={reload} disabled={loading}>
             <RefreshCw size={14} /> Refresh
           </button>
+          {caps.canCreate && (
+            <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={openCreate}>
+              <Plus size={14} /> Add candidate
+            </button>
+          )}
         </div>
-      </div>
-
-      <div className="cmToolbar cmToolbarStart">
-        <label className="cmSelect">
-          <span>Category</span>
-          <select value={categoryFilter} onChange={(event) => { setCategoryFilter(event.target.value); setPage(0); }}>
-            <option value="">All categories</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
-        </label>
-        <label className="cmSelect">
-          <span>Source</span>
-          <select value={sourceFilter} onChange={(event) => { setSourceFilter(event.target.value); setPage(0); }}>
-            <option value="">All sources</option>
-            {CANDIDATE_SOURCES.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </label>
-        <label className="cmSelect">
-          <span>Login</span>
-          <select value={loginFilter} onChange={(event) => { setLoginFilter(event.target.value); setPage(0); }}>
-            {LOGIN_OPTIONS.map((option) => (
-              <option key={option.value || "all"} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </label>
-        {hasFilters && (
-          <button type="button" className="secondaryButton cmBtn cmPageBtn" onClick={clearFilters}>
-            Clear filters
-          </button>
-        )}
       </div>
 
       {loading ? (
@@ -445,7 +440,7 @@ export default function CandidatesPanel({ session, capabilities }) {
                     <td className="cmColCenter">
                       {candidate.spamSuspected ? <Chip tone="danger">Spam</Chip> : <span className="cmMuted">—</span>}
                     </td>
-                    <td className="cmMuted">{formatDateTime(candidate.createdAt)}</td>
+                    <td className="cmMuted cmNoWrap">{formatDateTime(candidate.createdAt)}</td>
                     <td className="cmColActions">
                       <div className="cmRowActions">
                         <button

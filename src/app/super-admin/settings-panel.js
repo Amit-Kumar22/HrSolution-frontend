@@ -228,36 +228,36 @@ export default function SettingsPanel({ session }) {
   }
 
   return (
-    <div>
+    <div className="saSettingsPanel">
       <SectionHead
         title="Settings"
         description="The company profile every part of the platform reads from — the website header and footer, invoices, payslips and emails."
-        action={
-          settings ? (
-            <Chip tone="neutral">
-              Updated {formatDateTime(settings.updatedAt)}
-              {settings.updatedBy ? ` · ${settings.updatedBy}` : ""}
-            </Chip>
-          ) : null
-        }
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar" style={{ gap: 8, marginBottom: 12 }}>
-        {TABS.map((item) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.key}
-              type="button"
-              className={`secondaryButton cmBtn${tab === item.key ? " primaryButton" : ""}`}
-              onClick={() => setTab(item.key)}
-            >
-              <Icon size={15} /> {item.label}
-            </button>
-          );
-        })}
+      <div className="cmToolbar cmToolbarNowrap">
+        <div className="saTabBar">
+          {TABS.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.key}
+                type="button"
+                className={`secondaryButton cmBtn${tab === item.key ? " primaryButton" : ""}`}
+                onClick={() => setTab(item.key)}
+              >
+                <Icon size={14} /> {item.label}
+              </button>
+            );
+          })}
+        </div>
+        {settings ? (
+          <Chip tone="neutral">
+            Updated {formatDateTime(settings.updatedAt)}
+            {settings.updatedBy ? ` · ${settings.updatedBy}` : ""}
+          </Chip>
+        ) : null}
       </div>
 
       {loading ? (
@@ -329,7 +329,7 @@ export default function SettingsPanel({ session }) {
           )}
 
           {tab === "logo" && (
-            <div className="saSettingsGroupBody" style={{ border: "1px solid #e6ecf4", borderRadius: 11, background: "#fff", maxWidth: 640 }}>
+            <div className="saSettingsGroupBody" style={{ border: "1px solid #e6ecf4", borderRadius: 10, background: "#fff", maxWidth: 560 }}>
               <div className="cmHeroBlock">
                 <span className="cmFieldLabel">Company logo</span>
                 <div className="cmHeroRow">

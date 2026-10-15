@@ -372,20 +372,15 @@ export default function ServicesPanel() {
   const slugLocked = Boolean(editingId !== null && form.published);
 
   return (
-    <div>
+    <div className="cmServicesPanel">
       <SectionHead
         title="Services"
         description={`Manage service pages. ${publishedCount} of ${items.length} published. Only published services appear on the website.`}
-        action={(
-          <button type="button" className="primaryButton cmBtn" onClick={openCreate}>
-            <Plus size={16} /> New service
-          </button>
-        )}
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <label className="cmSearchBox">
           <Search size={15} />
           <input
@@ -396,7 +391,12 @@ export default function ServicesPanel() {
             aria-label="Search services"
           />
         </label>
-        <span className="cmCount">{filtered.length} of {items.length}</span>
+        <div className="cmToolbarControls">
+          <span className="cmCount">{filtered.length} of {items.length}</span>
+          <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={openCreate}>
+            <Plus size={14} /> New service
+          </button>
+        </div>
       </div>
 
       {loading ? (

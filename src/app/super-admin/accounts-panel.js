@@ -373,22 +373,17 @@ export default function AccountsPanel({ initialCreateOpen = false, currentUserId
   const detailDashboard = detail ? dashboardForRole(Array.isArray(detail.roles) ? detail.roles[0] : null) : null;
 
   return (
-    <div>
+    <div className="saAccountsPanel">
       <SectionHead
         title="Accounts"
         description="Every staff sign-in in one place. Create accounts, assign roles, and control which dashboard each person can reach."
-        action={
-          <button type="button" className="primaryButton cmBtn" onClick={() => setCreateOpen(true)}>
-            <Plus size={16} /> Add new account
-          </button>
-        }
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <label className="cmSearchBox">
-          <Search size={16} />
+          <Search size={15} />
           <input
             type="search"
             placeholder="Search by name or email…"
@@ -433,6 +428,9 @@ export default function AccountsPanel({ initialCreateOpen = false, currentUserId
             </select>
           </label>
           <span className="cmCount">{pageData.totalElements} account(s)</span>
+          <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={() => setCreateOpen(true)}>
+            <Plus size={14} /> Add new account
+          </button>
         </div>
       </div>
 
@@ -630,7 +628,7 @@ export default function AccountsPanel({ initialCreateOpen = false, currentUserId
               disabled={pageData.first}
               onClick={() => setPage((value) => Math.max(0, value - 1))}
             >
-              <ChevronLeft size={15} /> Prev
+              <ChevronLeft size={13} /> Prev
             </button>
             <button
               type="button"
@@ -638,7 +636,7 @@ export default function AccountsPanel({ initialCreateOpen = false, currentUserId
               disabled={pageData.last}
               onClick={() => setPage((value) => value + 1)}
             >
-              Next <ChevronRight size={15} />
+              Next <ChevronRight size={13} />
             </button>
           </div>
         </>

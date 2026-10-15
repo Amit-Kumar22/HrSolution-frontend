@@ -256,20 +256,15 @@ export default function ManpowerCategoriesPanel() {
   }
 
   return (
-    <div>
+    <div className="cmCategoriesPanel">
       <SectionHead
         title="Manpower categories"
         description="Kinds of workers the company supplies. The skill level selects which state minimum wage applies. Deactivating hides a category from new dropdowns only."
-        action={(
-          <button type="button" className="primaryButton cmBtn" onClick={openCreate}>
-            <Plus size={16} /> New category
-          </button>
-        )}
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <label className="cmSearchBox">
           <Search size={15} />
           <input
@@ -280,7 +275,12 @@ export default function ManpowerCategoriesPanel() {
             aria-label="Search categories"
           />
         </label>
-        <span className="cmCount">{filtered.length} of {items.length}</span>
+        <div className="cmToolbarControls">
+          <span className="cmCount">{filtered.length} of {items.length}</span>
+          <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={openCreate}>
+            <Plus size={14} /> New category
+          </button>
+        </div>
       </div>
 
       {loading ? (

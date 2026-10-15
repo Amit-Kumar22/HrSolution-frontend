@@ -137,24 +137,6 @@ async function loadCompletedPage({ page, size, sortValue, interviewerUserId, com
   };
 }
 
-async function countQuery(params) {
-  try {
-    const page = await listInterviews({ ...params, page: 0, size: 1 });
-    return page.totalElements || 0;
-  } catch {
-    return null;
-  }
-}
-
-function StatCard({ label, value, tone, loading }) {
-  return (
-    <article className={`ivStat${tone ? ` ivStat-${tone}` : ""}`}>
-      <span className="ivStatLabel">{label}</span>
-      <strong className="ivStatValue">{loading ? "…" : value == null ? "—" : value}</strong>
-    </article>
-  );
-}
-
 export default function InterviewManagementPanel({ session, capabilities }) {
   const caps = useMemo(() => capabilities || interviewCapabilities(session), [capabilities, session]);
   const myId = session && session.user && Number.isFinite(Number(session.user.id)) ? Number(session.user.id) : null;
@@ -164,9 +146,6 @@ export default function InterviewManagementPanel({ session, capabilities }) {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [flash, showFlash] = useFlash();
-
-  const [stats, setStats] = useState(null);
-  const [statsLoading, setStatsLoading] = useState(true);
 
   const [interviewerFilter, setInterviewerFilter] = useState("");
   const [resultFilter, setResultFilter] = useState("");
@@ -183,31 +162,6 @@ export default function InterviewManagementPanel({ session, capabilities }) {
   const [cancelTarget, setCancelTarget] = useState(null);
   const [cancelBusy, setCancelBusy] = useState(false);
   const [appHistoryId, setAppHistoryId] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    const nowIso = new Date().toISOString();
-    (async () => {
-      const [total, upcoming, pendingFeedback, passed, failed, noShow] = await Promise.all([
-        countQuery({}),
-        countQuery({ from: nowIso }),
-        countQuery({ awaitingFeedback: true }),
-        countQuery({ result: "PASS" }),
-        countQuery({ result: "FAIL" }),
-        countQuery({ result: "NO_SHOW" }),
-      ]);
-      if (cancelled) return;
-      const completed =
-        passed == null && failed == null && noShow == null
-          ? null
-          : (passed || 0) + (failed || 0) + (noShow || 0);
-      setStats({ total, upcoming, completed, pendingFeedback, passed, failed, noShow });
-      setStatsLoading(false);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [reloadToken]);
 
   useEffect(() => {
     let cancelled = false;
@@ -268,7 +222,6 @@ export default function InterviewManagementPanel({ session, capabilities }) {
   function reload(message) {
     if (message) showFlash("success", message);
     setLoading(true);
-    setStatsLoading(true);
     setReloadToken((token) => token + 1);
   }
 
@@ -303,30 +256,13 @@ export default function InterviewManagementPanel({ session, capabilities }) {
   const current = Math.min(page + 1, Math.max(totalPages, 1));
 
   return (
-    <div>
+    <div className="cmInterviewPanel">
       <SectionHead
         title="Interview management"
         description="Schedule, track and close out every interview round. Outcomes are write-once; a pass only advances an application when you ask it to."
-        action={
-          caps.canSchedule ? (
-            <button type="button" className="primaryButton cmBtn" onClick={() => setScheduleOpen(true)}>
-              <CalendarPlus size={16} /> Schedule interview
-            </button>
-          ) : null
-        }
       />
 
       <FlashBanner flash={flash} />
-
-      <section className="ivStats" aria-label="Interview statistics">
-        <StatCard label="Total interviews" value={stats?.total} loading={statsLoading} tone="navy" />
-        <StatCard label="Upcoming" value={stats?.upcoming} loading={statsLoading} tone="blue" />
-        <StatCard label="Completed" value={stats?.completed} loading={statsLoading} tone="green" />
-        <StatCard label="Pending feedback" value={stats?.pendingFeedback} loading={statsLoading} tone="amber" />
-        <StatCard label="Passed" value={stats?.passed} loading={statsLoading} tone="green" />
-        <StatCard label="Failed" value={stats?.failed} loading={statsLoading} tone="red" />
-        <StatCard label="No show" value={stats?.noShow} loading={statsLoading} tone="warn" />
-      </section>
 
       <div className="ivTabBar" role="tablist" aria-label="Interview views">
         {TABS.map((tab) => (
@@ -343,7 +279,7 @@ export default function InterviewManagementPanel({ session, capabilities }) {
         ))}
       </div>
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <div className="cmToolbarControls">
           <label className="cmSelect">
             <span>Interviewer</span>
@@ -427,14 +363,17 @@ export default function InterviewManagementPanel({ session, capabilities }) {
               ))}
             </select>
           </label>
-        </div>
-        <div className="cmToolbarControls">
           <span className="cmCount">
             {pageData.totalElements} interview{pageData.totalElements === 1 ? "" : "s"}
           </span>
           <button type="button" className="secondaryButton cmBtn cmPageBtn" onClick={() => reload()} disabled={loading}>
             <RefreshCw size={14} /> Refresh
           </button>
+          {caps.canSchedule && (
+            <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={() => setScheduleOpen(true)}>
+              <CalendarPlus size={14} /> Schedule interview
+            </button>
+          )}
         </div>
       </div>
 

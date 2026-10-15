@@ -243,20 +243,15 @@ export default function IndustriesPanel() {
   const Icon = INDUSTRY_ICONS[String(form.icon || "").trim().toLowerCase()] || null;
 
   return (
-    <div>
+    <div className="cmIndustriesPanel">
       <SectionHead
         title="Industries"
         description="Manage the industries shown on the public website. Only published industries are displayed publicly."
-        action={(
-          <button type="button" className="primaryButton cmBtn" onClick={openCreate}>
-            <Plus size={16} /> New industry
-          </button>
-        )}
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <label className="cmSearchBox">
           <Search size={15} />
           <input
@@ -267,7 +262,12 @@ export default function IndustriesPanel() {
             aria-label="Search industries"
           />
         </label>
-        <span className="cmCount">{filtered.length} of {items.length}</span>
+        <div className="cmToolbarControls">
+          <span className="cmCount">{filtered.length} of {items.length}</span>
+          <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={openCreate}>
+            <Plus size={14} /> New industry
+          </button>
+        </div>
       </div>
 
       {loading ? (

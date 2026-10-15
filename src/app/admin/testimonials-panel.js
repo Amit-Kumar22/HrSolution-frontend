@@ -342,20 +342,15 @@ export default function TestimonialsPanel() {
   const photoUrl = imageState.photo.preview || resolvePublicFileUrl(editingItem?.photoPath || "");
 
   return (
-    <div>
+    <div className="cmTestimonialsPanel">
       <SectionHead
         title="Testimonials"
         description="New testimonials go live on the website right away. Turn off “Publish on website” to keep one as a draft."
-        action={(
-          <button type="button" className="primaryButton cmBtn" onClick={openCreate}>
-            <Plus size={16} /> New testimonial
-          </button>
-        )}
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <span className="cmCount">{pageData.totalElements} testimonial{pageData.totalElements === 1 ? "" : "s"}</span>
         <div className="cmToolbarControls">
           <label className="cmSelect">
@@ -370,6 +365,9 @@ export default function TestimonialsPanel() {
               {PAGE_SIZES.map((option) => <option key={option} value={option}>{option}</option>)}
             </select>
           </label>
+          <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={openCreate}>
+            <Plus size={14} /> New testimonial
+          </button>
         </div>
       </div>
 
@@ -470,7 +468,7 @@ export default function TestimonialsPanel() {
               onClick={() => setPage((current) => Math.max(0, current - 1))}
               disabled={page <= 0 || loading}
             >
-              <ChevronLeft size={15} /> Previous
+              <ChevronLeft size={13} /> Previous
             </button>
             <span className="cmPageInfo">Page {current} of {Math.max(totalPages, 1)}</span>
             <button
@@ -479,7 +477,7 @@ export default function TestimonialsPanel() {
               onClick={() => setPage((current) => (current + 1 < totalPages ? current + 1 : current))}
               disabled={page + 1 >= totalPages || loading}
             >
-              Next <ChevronRight size={15} />
+              Next <ChevronRight size={13} />
             </button>
           </div>
         </>

@@ -279,7 +279,7 @@ export default function EnquiriesPanel() {
   const hasFilters = Boolean(statusFilter || categoryFilter || assignedFilter || from || to || searchInput);
 
   return (
-    <div>
+    <div className="cmEnquiriesPanel">
       <SectionHead
         title="Enquiries"
         description="Manpower enquiries submitted from the website. Assign them to staff and move them along the pipeline."
@@ -287,7 +287,7 @@ export default function EnquiriesPanel() {
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <label className="cmSearchBox">
           <Search size={16} />
           <input
@@ -302,6 +302,41 @@ export default function EnquiriesPanel() {
           <span className="cmCount">
             {pageData.totalElements} enquir{pageData.totalElements === 1 ? "y" : "ies"}
           </span>
+          <label className="cmSelect">
+            <span>Status</span>
+            <select value={statusFilter} onChange={(event) => { setStatusFilter(event.target.value); setPage(0); }}>
+              <option value="">All</option>
+              {STATUS_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          </label>
+          <label className="cmSelect">
+            <span>Category</span>
+            <select value={categoryFilter} onChange={(event) => { setCategoryFilter(event.target.value); setPage(0); }}>
+              <option value="">All</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>{category.name}</option>
+              ))}
+            </select>
+          </label>
+          <label className="cmSelect">
+            <span>Assigned</span>
+            <select value={assignedFilter} onChange={(event) => { setAssignedFilter(event.target.value); setPage(0); }}>
+              <option value="">Anyone</option>
+              {staff.map((user) => (
+                <option key={user.id} value={user.id}>{staffLabel(user)}</option>
+              ))}
+            </select>
+          </label>
+          <label className="cmSelect">
+            <span>From</span>
+            <input type="date" value={from} onChange={(event) => { setFrom(event.target.value); setPage(0); }} />
+          </label>
+          <label className="cmSelect">
+            <span>To</span>
+            <input type="date" value={to} onChange={(event) => { setTo(event.target.value); setPage(0); }} />
+          </label>
           <label className="cmSelect">
             <span>Sort</span>
             <select value={sortValue} onChange={(event) => { setSortValue(event.target.value); setPage(0); }}>
@@ -322,52 +357,14 @@ export default function EnquiriesPanel() {
             id="enquiry-include-spam"
             checked={effectiveIncludeSpam}
             onChange={(next) => { setIncludeSpam(next); if (statusFilter === "SPAM" && !next) setStatusFilter(""); setPage(0); }}
-            label="Include spam"
+            label="Spam"
           />
+          {hasFilters && (
+            <button type="button" className="secondaryButton cmBtn cmPageBtn" onClick={clearFilters}>
+              Clear
+            </button>
+          )}
         </div>
-      </div>
-
-      <div className="cmToolbar cmToolbarStart">
-        <label className="cmSelect">
-          <span>Status</span>
-          <select value={statusFilter} onChange={(event) => { setStatusFilter(event.target.value); setPage(0); }}>
-            <option value="">All statuses</option>
-            {STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </label>
-        <label className="cmSelect">
-          <span>Category</span>
-          <select value={categoryFilter} onChange={(event) => { setCategoryFilter(event.target.value); setPage(0); }}>
-            <option value="">All categories</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
-        </label>
-        <label className="cmSelect">
-          <span>Assigned to</span>
-          <select value={assignedFilter} onChange={(event) => { setAssignedFilter(event.target.value); setPage(0); }}>
-            <option value="">Anyone</option>
-            {staff.map((user) => (
-              <option key={user.id} value={user.id}>{staffLabel(user)}</option>
-            ))}
-          </select>
-        </label>
-        <label className="cmSelect">
-          <span>From</span>
-          <input type="date" value={from} onChange={(event) => { setFrom(event.target.value); setPage(0); }} />
-        </label>
-        <label className="cmSelect">
-          <span>To</span>
-          <input type="date" value={to} onChange={(event) => { setTo(event.target.value); setPage(0); }} />
-        </label>
-        {hasFilters && (
-          <button type="button" className="secondaryButton cmBtn cmPageBtn" onClick={clearFilters}>
-            Clear filters
-          </button>
-        )}
       </div>
 
       {loading ? (
@@ -409,15 +406,13 @@ export default function EnquiriesPanel() {
                         </span>
                       </div>
                     </td>
-                    <td className="cmMuted">
-                      <span className="cmBlock">{item.phone || "—"}</span>
-                      {item.email && <span className="cmBlock">{item.email}</span>}
-                      {item.city && <span className="cmBlock">{item.city}</span>}
+                    <td className="cmMuted cmNoWrap">
+                      {[item.phone, item.email, item.city].filter(Boolean).join(" · ") || "—"}
                     </td>
                     <td className="cmMuted">{item.categoryLabel || "—"}</td>
-                    <td className="cmMuted">{item.assignedToName || "Unassigned"}</td>
+                    <td className="cmMuted cmNoWrap">{item.assignedToName || "Unassigned"}</td>
                     <td className="cmColCenter"><StatusChip status={item.status} /></td>
-                    <td className="cmMuted">{formatDateTime(item.createdAt)}</td>
+                    <td className="cmMuted cmNoWrap">{formatDateTime(item.createdAt)}</td>
                     <td className="cmColActions">
                       <div className="cmRowActions">
                         <button type="button" className="cmIconButton" aria-label={`View ${item.reference || "enquiry"}`} title="View" onClick={() => openDetail(item)}>

@@ -169,20 +169,15 @@ export default function SkillsPanel() {
   }
 
   return (
-    <div>
+    <div className="cmSkillsPanel">
       <SectionHead
         title="Skills"
         description="The capability and certification vocabulary used by recruitment, workers and deployments. There is no delete — deactivating just hides a skill from new selections."
-        action={(
-          <button type="button" className="primaryButton cmBtn" onClick={openCreate}>
-            <Plus size={16} /> New skill
-          </button>
-        )}
       />
 
       <FlashBanner flash={flash} />
 
-      <div className="cmToolbar">
+      <div className="cmToolbar cmToolbarNowrap">
         <label className="cmSearchBox">
           <Search size={15} />
           <input
@@ -193,7 +188,12 @@ export default function SkillsPanel() {
             aria-label="Search skills"
           />
         </label>
-        <span className="cmCount">{filtered.length} of {items.length}</span>
+        <div className="cmToolbarControls">
+          <span className="cmCount">{filtered.length} of {items.length}</span>
+          <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={openCreate}>
+            <Plus size={14} /> New skill
+          </button>
+        </div>
       </div>
 
       {loading ? (

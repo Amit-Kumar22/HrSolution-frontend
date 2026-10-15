@@ -76,7 +76,7 @@ export default function DashboardOverview({ session, onNavigate }) {
   const name = user.fullName || [user.firstName, user.lastName].filter(Boolean).join(" ") || "Super Admin";
 
   return (
-    <div>
+    <div className="saDashboard">
       <div className={styles.pageHeading}>
         <div>
           <h1>Welcome back, {name.split(/\s+/)[0]}</h1>
@@ -114,7 +114,7 @@ export default function DashboardOverview({ session, onNavigate }) {
               message="Use “Add new account” to create the first Operator, HR, Accounts or Supervisor sign-in."
             />
           ) : (
-            <div className="cmTableWrap">
+            <div className="cmTableWrap saRecentTable">
               <table className="cmTable">
                 <thead>
                   <tr>
