@@ -10,15 +10,16 @@ import {
   CalendarClock,
   ChevronDown,
   Factory,
+  FileSignature,
   Inbox,
   KeyRound,
   Layers,
   LayoutDashboard,
-  LayoutGrid,
   LockKeyhole,
   Mail,
   Menu,
   Quote,
+  Settings2,
   ShieldCheck,
   Tags,
   UserSearch,
@@ -45,6 +46,7 @@ import DashboardOverview from "./dashboard-overview";
 import AccountsPanel from "./accounts-panel";
 import RolesPanel from "./roles-panel";
 import DashboardsPanel from "./dashboards-panel";
+import SettingsPanel from "./settings-panel";
 import ContactMessagesPanel from "../admin/contact-messages-panel";
 import EnquiriesPanel from "../admin/enquiries-panel";
 import ManpowerCategoriesPanel from "../admin/manpower-categories-panel";
@@ -52,6 +54,7 @@ import SkillsPanel from "../admin/skills-panel";
 import IndustriesPanel from "../admin/industries-panel";
 import ServicesPanel from "../admin/services-panel";
 import ClientsPanel from "../admin/clients-panel";
+import ContractsPanel from "../admin/contracts-panel";
 import CandidatesPanel from "../admin/candidates-panel";
 import InterviewManagementPanel from "../admin/interview-panel";
 import JobsPanel from "../admin/jobs-panel";
@@ -60,6 +63,7 @@ import TestimonialsPanel from "../admin/testimonials-panel";
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
   { label: "Clients", view: "clients", icon: Building2, section: "main" },
+  { label: "Contracts", view: "contracts", icon: FileSignature, section: "main" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
@@ -72,15 +76,16 @@ const navigation = [
   { label: "Testimonials", view: "testimonials", icon: Quote, section: "WEBSITE" },
   { label: "Accounts", view: "accounts", icon: UsersRound, section: "ACCESS" },
   { label: "Roles & permissions", view: "roles", icon: ShieldCheck, section: "ACCESS" },
-  { label: "Dashboards", view: "dashboards", icon: LayoutGrid, section: "ACCESS" },
+  { label: "Settings", view: "settings", icon: Settings2, section: "SETTINGS" },
 ];
 
-const sectionOrder = ["main", "LEADS", "WORKFORCE", "WEBSITE", "ACCESS"];
+const sectionOrder = ["main", "LEADS", "WORKFORCE", "WEBSITE", "ACCESS", "SETTINGS"];
 const sectionLabels = {
   LEADS: "LEADS",
   WORKFORCE: "WORKFORCE CATALOGUE",
   WEBSITE: "WEBSITE CONTENT",
   ACCESS: "ACCESS MANAGEMENT",
+  SETTINGS: "SETTINGS",
 };
 
 function Brand() {
@@ -311,6 +316,7 @@ export default function SuperAdminDashboard() {
     content = <DashboardsPanel onNavigate={setActiveView} onCreateAccount={goToAccountCreate} />;
   }
   else if (activeView === "clients") content = <ClientsPanel />;
+  else if (activeView === "contracts") content = <ContractsPanel />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
   else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;
   else if (activeView === "jobs") content = <JobsPanel session={session} />;
@@ -323,6 +329,7 @@ export default function SuperAdminDashboard() {
   else if (activeView === "industries") content = <IndustriesPanel />;
   else if (activeView === "services") content = <ServicesPanel />;
   else if (activeView === "testimonials") content = <TestimonialsPanel />;
+  else if (activeView === "settings") content = <SettingsPanel session={session} />;
   else {
     content = (
       <DashboardOverview

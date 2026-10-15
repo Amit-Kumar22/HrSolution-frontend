@@ -7,7 +7,6 @@ import { formatDate } from "./admin-ui";
 import {
   Chip,
   ConfirmDialog,
-  EmptyState,
   ErrorState,
   LoadingState,
   Modal,
@@ -16,6 +15,7 @@ import { StatusChip } from "./client-modals";
 import ClientSitesTab from "./client-sites-tab";
 import ClientUsersTab from "./client-users-tab";
 import RateCardsTab from "./rate-cards-panel";
+import ContractsPanel from "./contracts-panel";
 
 const TABS = [
   { key: "overview", label: "Overview", icon: Building2 },
@@ -67,60 +67,6 @@ function OverviewTab({ detail }) {
         <p className="cmNotes">{client.notes || "No notes recorded for this client."}</p>
       </div>
     </>
-  );
-}
-
-function ContractsTab({ contracts }) {
-  if (!contracts.length) {
-    return <EmptyState icon={FileSignature} title="No contracts" message="This client has no contracts yet." />;
-  }
-  return (
-    <div className="cmTableWrap" style={{ marginTop: 16 }}>
-      <table className="cmTable">
-        <thead>
-          <tr>
-            <th>Contract</th>
-            <th>Period</th>
-            <th>Service charge</th>
-            <th>Payment terms</th>
-            <th className="cmColCenter">Status</th>
-            <th className="cmColCenter">Documents</th>
-          </tr>
-        </thead>
-        <tbody>
-          {contracts.map((contract) => {
-            const expired = contract.status === "EXPIRED" || (contract.daysUntilExpiry !== null && contract.daysUntilExpiry < 0);
-            const tone = contract.status === "ACTIVE" ? "success" : expired ? "danger" : "neutral";
-            return (
-              <tr key={contract.id}>
-                <td>
-                  <div className="cmEntity">
-                    <span className="cmIconTile"><FileSignature size={16} /></span>
-                    <span>
-                      <strong>{contract.title || contract.contractNumber}</strong>
-                      <small className="cmMuted cmBlock cmCode">{contract.contractNumber}</small>
-                    </span>
-                  </div>
-                </td>
-                <td className="cmMuted">
-                  <span className="cmBlock">{formatDate(contract.startDate)} → {contract.endDate ? formatDate(contract.endDate) : "Ongoing"}</span>
-                  {contract.daysUntilExpiry !== null && contract.daysUntilExpiry !== undefined && contract.daysUntilExpiry >= 0 && (
-                    <small>{contract.daysUntilExpiry} days left</small>
-                  )}
-                </td>
-                <td className="cmMuted">{contract.serviceChargeLabel || `${contract.serviceChargeValue} ${contract.serviceChargeType}`}</td>
-                <td className="cmMuted">{contract.effectivePaymentTermsDays ?? contract.paymentTermsDays} days</td>
-                <td className="cmColCenter">
-                  <Chip tone={tone}>{contract.status}</Chip>
-                  {contract.inForceToday && <Chip tone="accent">In force</Chip>}
-                </td>
-                <td className="cmColCenter">{contract.documentCount}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
   );
 }
 
@@ -248,13 +194,13 @@ export default function ClientDetailDialog({ client, initialTab = "overview", on
         />
       )}
 
-      {tab === "contracts" && (loading ? (
-        <LoadingState label="Loading contracts…" />
-      ) : error ? (
-        <ErrorState message={error} onRetry={load} />
-      ) : detail ? (
-        <ContractsTab contracts={detail.contracts || []} />
-      ) : null)}
+      {tab === "contracts" && (
+        <ContractsPanel
+          client={client}
+          embedded
+          onChanged={(message) => { if (typeof onChanged === "function") onChanged(message); load(); }}
+        />
+      )}
 
       {deleteOpen && (
         <ConfirmDialog

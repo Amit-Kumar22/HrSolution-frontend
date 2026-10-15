@@ -17,9 +17,9 @@ import {
 } from "../../lib/auth";
 import {
   Activity, Bell, BriefcaseBusiness, Building2, CalendarClock, CalendarDays,
-  ChevronDown, ClipboardList, Factory, FileText, Inbox, Layers, LayoutDashboard,
-  LockKeyhole, Mail, Menu, Quote, Search, Settings2, ShieldCheck, Tags,
-  UserSearch, UsersRound, Wallet, Wrench, X,
+  ChevronDown, ClipboardList, Factory, FileSignature, FileText, Inbox, Layers,
+  LayoutDashboard, LockKeyhole, Mail, Menu, Quote, Search, Settings2, ShieldCheck,
+  Tags, UserSearch, UsersRound, Wallet, Wrench, X,
 } from "lucide-react";
 import { getUnreadContactCount } from "../../lib/adminApi";
 import { styles } from "./admin-styles";
@@ -28,6 +28,7 @@ import DashboardOverview from "./dashboard-overview";
 import EnquiriesPanel from "./enquiries-panel";
 import IndustriesPanel from "./industries-panel";
 import ClientsPanel from "./clients-panel";
+import ContractsPanel from "./contracts-panel";
 import CandidatesPanel from "./candidates-panel";
 import InterviewManagementPanel from "./interview-panel";
 import JobsPanel from "./jobs-panel";
@@ -39,6 +40,7 @@ import TestimonialsPanel from "./testimonials-panel";
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
   { label: "Clients", view: "clients", icon: Building2, section: "main" },
+  { label: "Contracts", view: "contracts", icon: FileSignature, section: "main" },
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main", badge: "7" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
@@ -273,6 +275,7 @@ export default function AdminDashboard() {
 
   let content;
   if (activeView === "clients") content = <ClientsPanel />;
+  else if (activeView === "contracts") content = <ContractsPanel />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
   else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;
   else if (activeView === "jobs") content = <JobsPanel session={session} />;

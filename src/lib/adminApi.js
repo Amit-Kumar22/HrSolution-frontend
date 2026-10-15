@@ -818,6 +818,55 @@ export function deleteRateCard(rateCardId, init = {}) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Client contracts                                                    */
+/* ------------------------------------------------------------------ */
+
+export async function listClientContracts(clientId, init = {}) {
+  return asArray(await adminRequest(`/clients/${encodeURIComponent(clientId)}/contracts`, init));
+}
+
+export function createClientContract(clientId, body, init = {}) {
+  return adminRequest(`/clients/${encodeURIComponent(clientId)}/contracts`, { method: "POST", body, ...init });
+}
+
+export function getClientContractInForce(clientId, onDate, init = {}) {
+  return adminRequest(`/clients/${encodeURIComponent(clientId)}/contracts/in-force`, {
+    query: { onDate: onDate || undefined },
+    ...init,
+  });
+}
+
+export function getContract(contractId, init = {}) {
+  return adminRequest(`/contracts/${encodeURIComponent(contractId)}`, init);
+}
+
+export function updateContract(contractId, body, init = {}) {
+  return adminRequest(`/contracts/${encodeURIComponent(contractId)}`, { method: "PUT", body, ...init });
+}
+
+export function activateContract(contractId, init = {}) {
+  return adminRequest(`/contracts/${encodeURIComponent(contractId)}/activate`, { method: "PATCH", ...init });
+}
+
+export function terminateContract(contractId, body, init = {}) {
+  return adminRequest(`/contracts/${encodeURIComponent(contractId)}/terminate`, { method: "PATCH", body, ...init });
+}
+
+export function deleteContract(contractId, init = {}) {
+  return adminRequest(`/contracts/${encodeURIComponent(contractId)}`, { method: "DELETE", ...init });
+}
+
+export function uploadContractDocument(contractId, file, init = {}) {
+  const formData = new FormData();
+  formData.append("file", file);
+  return adminRequest(`/contracts/${encodeURIComponent(contractId)}/document`, {
+    method: "POST",
+    formData,
+    ...init,
+  });
+}
+
+/* ------------------------------------------------------------------ */
 /* Candidates (staff management)                                       */
 /* ------------------------------------------------------------------ */
 
@@ -1203,6 +1252,36 @@ export function applicationStatusLabel(status) {
 export function applicationStatusTone(status) {
   const match = APPLICATION_STATUS_MAP.get(status);
   return match ? match.tone : "neutral";
+}
+
+/* ------------------------------------------------------------------ */
+/* Company settings                                                    */
+/* ------------------------------------------------------------------ */
+
+/** The single company profile row. Readable by any signed-in user. */
+export function getCompanySettings(init = {}) {
+  return adminRequest("/settings/company", init);
+}
+
+/**
+ * Full replacement of the company profile. Send every editable field: the
+ * backend clears anything omitted. The logo is managed by its own endpoint
+ * and must not be sent here.
+ */
+export function updateCompanySettings(body, init = {}) {
+  return adminRequest("/settings/company", { method: "PUT", body, ...init });
+}
+
+/** Replaces the company logo. PNG, JPEG or GIF up to 2 MB. */
+export function uploadCompanyLogo(file, init = {}) {
+  const formData = new FormData();
+  formData.append("file", file);
+  return adminRequest("/settings/company/logo", {
+    method: "POST",
+    formData,
+    signal: null,
+    ...init,
+  });
 }
 
 /* Downloads a document (e.g. a candidate resume) as a binary blob. */

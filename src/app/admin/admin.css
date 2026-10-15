@@ -310,6 +310,7 @@
 
 .cmNotice { margin: 0; padding: 10px 12px; border-radius: 8px; font-size: 12px; line-height: 1.5; }
 .cmNotice-info { background: #eef4ff; color: #2b558f; }
+.cmNotice-success { background: #e9f7ee; color: #1c7a3f; }
 .cmNotice-warn { background: #fff8e8; color: #8a5a00; }
 .cmNotice-error { background: #fff0f0; color: #b42323; }
 
