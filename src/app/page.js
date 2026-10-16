@@ -215,15 +215,26 @@ function ServiceCard({ service }) {
     ? `/services/${encodeURIComponent(service.slug)}`
     : "#services";
 
+  const handleClick = (e) => {
+    const target = e.target;
+    if (target instanceof Element && (target.closest('a') || target.closest('button'))) return;
+    window.location.href = href;
+  };
+
   return (
-    <article className="service-card">
+    <article className="service-card" tabIndex={0} role="link" aria-label={`Learn more about ${service.title}`} onClick={handleClick} onKeyDown={(e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = href;
+      }
+    }}>
       {heroImage && (
         <PublicImage src={heroImage} alt={service.title || ""} className="service-card-image" fallback={null} />
       )}
       <span className="icon-tile icon-blue"><Icon size={20} /></span>
       <h3>{service.title}</h3>
       {summary && <p>{summary}</p>}
-      <Link href={href} aria-label={`Learn more about ${service.title}`}>
+      <Link href={href} aria-label={`Learn more about ${service.title}`} onClick={(e) => e.stopPropagation()}>
         Learn more <ArrowRight size={14} />
       </Link>
     </article>
@@ -267,7 +278,7 @@ function Industries() {
             {industries.map((industry) => {
               const Icon = INDUSTRY_ICONS[String(industry.icon || "").trim().toLowerCase()] || Building2;
               return (
-                <article className="industry-card" key={industry.slug || industry.name}>
+                <article className="industry-card" key={industry.slug || industry.name} tabIndex={0}>
                   <span className="icon-tile icon-amber-light"><Icon size={20} /></span>
                   <h3>{industry.name}</h3>
                   {industry.description && <p>{industry.description}</p>}

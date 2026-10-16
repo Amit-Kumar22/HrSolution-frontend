@@ -340,8 +340,6 @@ export default function SuperAdminDashboard() {
     );
   }
 
-  const isDashboardView = activeView === "dashboard";
-
   return (
     <main className={styles.adminShell}>
       {sidebarOpen && (
@@ -394,7 +392,7 @@ export default function SuperAdminDashboard() {
       </aside>
 
       <section className={styles.mainArea} id="dashboard">
-        <header className={isDashboardView ? styles.topbar : "saTopbarBare"}>
+        <header className={styles.topbar}>
           <button
             className={styles.mobileMenu}
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -402,13 +400,10 @@ export default function SuperAdminDashboard() {
           >
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          {isDashboardView && (
-            <div className="saDashboardBrand">
-              <span className="saDashboardBrandIcon"><ShieldCheck size={17} strokeWidth={2.1} /></span>
-              <span>Super Admin Panel</span>
-            </div>
-          )}
-          {isDashboardView && (
+          <div className="saDashboardBrand">
+            <span className="saDashboardBrandIcon"><ShieldCheck size={17} strokeWidth={2.1} /></span>
+            <span>Super Admin Panel</span>
+          </div>
           <div className={styles.userActions} ref={userActionsRef}>
             <button
               className={styles.notification}
@@ -457,7 +452,6 @@ export default function SuperAdminDashboard() {
               </div>
             )}
           </div>
-          )}
         </header>
 
         <div className={styles.dashboardContent}>
