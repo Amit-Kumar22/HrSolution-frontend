@@ -68,6 +68,52 @@ body:has(.adminShell) { overflow: hidden; }
 .modalActions button { min-height: 40px; padding: 0 16px; border-radius: 8px; font-size: 13px; font-weight: 650; cursor: pointer; }
 .modalActions button:disabled { opacity: .65; cursor: wait; }
 .loadingScreen { min-height: 100vh; display: grid; place-items: center; padding: 25px; background: #f7f9fc; color: #536780; font: 14px Arial, Helvetica, sans-serif; text-align: center; }
+.adminShell:not(.adminShellSuper).clientShell .consoleBrandMark { background: #f9a006; color: #0c2748; }
+.clientTopbarTitle { display: grid; gap: 3px; margin-right: auto; }
+.clientTopbarTitle strong { color: #172b48; font-size: 13px; }
+.clientTopbarTitle span { color: #8b9db5; font-size: 11px; }
+.clientHelpLink { display: flex; align-items: center; gap: 7px; color: #536780; font-size: 12px; text-decoration: none; }
+.clientHelpLink:hover { color: #0c2748; }
+.clientPageHeading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+.clientPageHeading h1 { margin: 3px 0 5px; color: #0c2748; font-size: 26px; letter-spacing: -.03em; }
+.clientPageHeading p:last-child { margin: 0; color: #71839a; font-size: 13px; }
+.clientEyebrow { margin: 0; color: #a56b00; font-size: 10px; font-weight: 750; letter-spacing: .12em; }
+.clientAccountBadge { display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px; border: 1px solid #dfe8e2; border-radius: 999px; background: #f5fbf6; color: #337247; font-size: 11px; font-weight: 650; white-space: nowrap; }
+.clientAccountBadge > span { width: 7px; height: 7px; border-radius: 50%; background: #35a260; }
+.clientMetricGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+.clientMetricCard { min-width: 0; display: grid; gap: 9px; padding: 18px; border: 1px solid #e2e8f0; border-radius: 11px; background: #fff; box-shadow: 0 3px 12px #102b4e08; }
+.clientMetricCard > span { color: #71839a; font-size: 12px; font-weight: 600; }
+.clientMetricCard > strong { color: #102b4e; font-size: 28px; line-height: 1; }
+.clientMetricCard > small { color: #94a1b1; font-size: 11px; }
+.clientMetricCard > .clientMetricStatus { font-size: 17px; }
+.clientCompanyCard { padding: 21px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; box-shadow: 0 3px 12px #102b4e08; }
+.clientCompanyHeading { display: flex; align-items: center; gap: 12px; padding-bottom: 17px; border-bottom: 1px solid #edf1f5; }
+.clientCompanyIcon { width: 40px; height: 40px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 10px; background: #fff5e2; color: #a56b00; }
+.clientCompanyHeading h2 { margin: 0; color: #102b4e; font-size: 15px; }
+.clientCompanyHeading p { margin: 4px 0 0; color: #8796a9; font-size: 11px; }
+.clientCompanyStatus { margin-left: auto; padding: 6px 9px; border-radius: 999px; background: #f3f6fa; color: #526780; font-size: 10px; font-weight: 700; }
+.clientCompanyDetails { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin: 8px 0 0; }
+.clientCompanyDetails > div { display: flex; justify-content: space-between; gap: 14px; padding: 13px 0; border-bottom: 1px solid #f0f3f7; font-size: 12px; }
+.clientCompanyDetails dt { color: #8796a9; }
+.clientCompanyDetails dd { margin: 0; color: #243b59; font-weight: 650; text-align: right; overflow-wrap: anywhere; }
+.clientModuleCard > strong { display: block; margin-top: 22px; color: #102b4e; font-size: 32px; }
+.clientModuleCard > p { margin: 7px 0 0; color: #71839a; font-size: 12px; line-height: 1.55; }
+.clientModuleCard > .clientModuleMessage { max-width: 620px; margin-top: 20px; }
+.clientStatusNotice, .clientErrorNotice { margin: 0 0 16px; padding: 12px 14px; border: 1px solid #f0d7a5; border-radius: 9px; background: #fff9eb; color: #78520d; font-size: 12px; line-height: 1.5; }
+.clientErrorNotice { border-color: #f2b8b8; background: #fff0f0; color: #b42323; }
+@media (max-width: 800px) {
+  .clientMetricGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px) {
+  .clientHelpLink span, .clientTopbarTitle span { display: none; }
+  .clientPageHeading { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .clientPageHeading h1 { font-size: 22px; }
+  .clientMetricGrid { gap: 10px; }
+  .clientMetricCard { padding: 14px 12px; }
+  .clientMetricCard > strong { font-size: 24px; }
+  .clientCompanyCard { padding: 16px; }
+  .clientCompanyDetails { grid-template-columns: 1fr; }
+}
 .pageHeading {
   display: flex;
   justify-content: space-between;
