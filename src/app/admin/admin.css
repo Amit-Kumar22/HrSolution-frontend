@@ -806,7 +806,7 @@ body:has(.adminShell) { overflow: hidden; }
 .cmInterviewPanel .cmSelect { gap: 5px; font-size: 11.5px; }
 .cmInterviewPanel .cmSelect select,
 .cmInterviewPanel .cmSelect input { height: 32px; max-width: 150px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
-.cmInterviewPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmInterviewPanel .cmToolbar .cmBtn { min-height: 26px; padding: 0 8px; gap: 5px; font-size: 11px; }
 .cmInterviewPanel .cmPagination { gap: 10px; margin-top: 12px; }
 .cmInterviewPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
 .cmInterviewPanel .cmPageInfo { font-size: 11.5px; }
@@ -817,7 +817,10 @@ body:has(.adminShell) { overflow: hidden; }
 .ivTabActive { background: var(--navy); color: #fff; }
 .ivTabActive:hover { background: var(--navy); color: #fff; }
 
-.ivStrong { font-weight: 650; color: #24384f; }
+.ivStrong { font-weight: 650; color: #24384f; white-space: nowrap; }
+.cmInterviewPanel .cmTable .cmCode { white-space: nowrap; }
+.cmInterviewPanel .cmTable td { white-space: nowrap; }
+.cmInterviewPanel .cmTable .ivVenueCell { max-width: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ivVenueCell { max-width: 220px; }
 .ivVenueLink { display: inline-flex; align-items: center; gap: 4px; color: #1d5fbf; text-decoration: none; }
 .ivVenueLink:hover { text-decoration: underline; }
