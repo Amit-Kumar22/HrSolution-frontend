@@ -1237,8 +1237,8 @@ export const APPLICATION_STATUSES = Object.freeze([
   { value: "SELECTED", label: "Selected", tone: "success" },
   { value: "OFFERED", label: "Offered", tone: "success" },
   { value: "JOINED", label: "Joined", tone: "success" },
+  { value: "ON_HOLD", label: "Kept on file", tone: "warn" },
   { value: "REJECTED", label: "Rejected", tone: "danger" },
-  { value: "ON_HOLD", label: "On hold", tone: "warn" },
   { value: "WITHDRAWN", label: "Withdrawn", tone: "neutral" },
 ]);
 
@@ -1252,6 +1252,66 @@ export function applicationStatusLabel(status) {
 export function applicationStatusTone(status) {
   const match = APPLICATION_STATUS_MAP.get(status);
   return match ? match.tone : "neutral";
+}
+
+/** A longer explanation shown next to the ON_HOLD badge and in tooltips. */
+export const APPLICATION_STATUS_HINTS = Object.freeze({
+  ON_HOLD: "Kept on file for a future opening.",
+  WITHDRAWN: "The candidate withdrew this application.",
+  REJECTED: "This application was rejected and cannot be reopened.",
+  INTERVIEW_SCHEDULED: "Set automatically when an interview round is scheduled.",
+});
+
+export function applicationStatusHint(status) {
+  return APPLICATION_STATUS_HINTS[status] || "";
+}
+
+/** Statuses the backend never accepts as a manual selection. */
+export const MANUAL_STATUS_BLOCKED = Object.freeze(["INTERVIEW_SCHEDULED"]);
+
+/** Statuses after which the application can no longer move. */
+export const TERMINAL_APPLICATION_STATUSES = Object.freeze(["JOINED", "REJECTED", "WITHDRAWN"]);
+
+export function isTerminalApplicationStatus(status) {
+  return TERMINAL_APPLICATION_STATUSES.includes(status);
+}
+
+/* ------------------------------------------------------------------ */
+/* Application mutations                                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Changes an application status. The backend owns the transition graph: only
+ * statuses returned in `allowedNextStatuses` may be sent.
+ */
+export function updateApplicationStatus(applicationId, status, note, init = {}) {
+  return adminRequest(`/applications/${encodeURIComponent(applicationId)}/status`, {
+    method: "PATCH",
+    body: {
+      status,
+      note: note && note.trim() ? note.trim() : undefined,
+    },
+    ...init,
+  });
+}
+
+/**
+ * Assigns (or, with a null user id, unassigns) a recruiter on an application.
+ * `assignedToUserId` is sent as a real null when unassigning — never "null" or 0.
+ */
+export function assignApplication(applicationId, assignedToUserId, note, init = {}) {
+  const normalised =
+    assignedToUserId === undefined || assignedToUserId === null || assignedToUserId === ""
+      ? null
+      : Number(assignedToUserId);
+  return adminRequest(`/applications/${encodeURIComponent(applicationId)}/assign`, {
+    method: "PATCH",
+    body: {
+      assignedToUserId: normalised,
+      note: note && note.trim() ? note.trim() : undefined,
+    },
+    ...init,
+  });
 }
 
 /* ------------------------------------------------------------------ */

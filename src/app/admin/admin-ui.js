@@ -124,6 +124,26 @@ export function Modal({ title, description, onClose, children, footer, wide = fa
   );
 }
 
+export function Drawer({ title, description, onClose, children, footer, size = "md" }) {
+  return (
+    <div className="cmDrawerBackdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <aside className={`cmDrawer cmDrawer-${size}`} role="dialog" aria-modal="true" aria-label={title}>
+        <div className="cmDrawerHeader">
+          <div className="cmDrawerHeading">
+            <h2>{title}</h2>
+            {description && <p>{description}</p>}
+          </div>
+          <button type="button" className="modalClose" aria-label={`Close ${title}`} onClick={onClose}>
+            <X size={16} />
+          </button>
+        </div>
+        <div className="cmDrawerBody">{children}</div>
+        {footer && <div className="cmDrawerFooter">{footer}</div>}
+      </aside>
+    </div>
+  );
+}
+
 export function ConfirmDialog({ title, message, confirmLabel = "Confirm", busy = false, onConfirm, onCancel, children }) {
   return (
     <div className="modalBackdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !busy) onCancel(); }}>

@@ -1,0 +1,113 @@
+/* ==================================================================== */
+/* Applications module (B12)                                           */
+/* ==================================================================== */
+
+.cmApplicationsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
+.cmApplicationsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmApplicationsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.cmApplicationsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmApplicationsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
+.cmApplicationsPanel > .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmApplicationsPanel .cmSearchBox { flex: 0 0 240px; width: 240px; min-width: 200px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
+.cmApplicationsPanel .cmSearchBox input { font-size: 12px; }
+.cmApplicationsPanel .cmCount { font-size: 11.5px; }
+.cmApplicationsPanel .cmToolbarControls { gap: 8px; }
+.cmApplicationsPanel .cmSelect { gap: 5px; font-size: 11px; white-space: nowrap; }
+.cmApplicationsPanel .cmSelect select,
+.cmApplicationsPanel .cmSelect input { height: 32px; max-width: 140px; padding: 0 8px; border-radius: 7px; font-size: 11.5px; }
+.cmApplicationsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
+.cmApplicationsPanel .cmSwitchLabel { font-size: 11.5px; white-space: nowrap; }
+.cmApplicationsPanel .cmSwitchTrack { width: 32px; height: 18px; }
+.cmApplicationsPanel .cmSwitchTrack i { width: 12px; height: 12px; }
+.cmApplicationsPanel .cmSwitch input:checked + .cmSwitchTrack { transform: none; }
+.cmApplicationsPanel .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(14px); }
+.cmApplicationsPanel .cmTable { font-size: 11.5px; }
+.cmApplicationsPanel .cmTable thead th { padding: 8px 11px; font-size: 10px; }
+.cmApplicationsPanel .cmTable tbody td { padding: 8px 11px; }
+.cmApplicationsPanel .cmTable .cmCode { padding: 2px 6px; font-size: 10.5px; white-space: nowrap; }
+.cmApplicationsPanel .cmTable small { font-size: 10.5px; }
+.cmApplicationsPanel .cmIconButton { width: 29px; height: 29px; }
+.cmApplicationsPanel .cmTableWrap { scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmApplicationsPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
+.cmApplicationsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
+.cmApplicationsPanel .cmPagination { gap: 10px; margin-top: 12px; }
+.cmApplicationsPanel .cmPageBtn { min-height: 28px; padding: 0 9px; gap: 4px; font-size: 11.5px; }
+.cmApplicationsPanel .cmPageInfo { font-size: 11.5px; }
+
+.cmSegmented { display: inline-flex; flex: 0 0 auto; padding: 2px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+.cmSegmentedBtn { display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 0 11px; border: 0; border-radius: 7px; background: transparent; color: #536780; font: inherit; font-size: 11.5px; font-weight: 650; cursor: pointer; transition: background .15s, color .15s; }
+.cmSegmentedBtn:hover { background: #f2f5f9; color: var(--navy); }
+.cmSegmentedActive { background: var(--navy); color: #fff; }
+.cmSegmentedActive:hover { background: var(--navy); color: #fff; }
+
+.cmAppStats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.cmAppStats .cmNotice { grid-column: 1 / -1; }
+.cmAppStat { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmAppStat span { color: #6b7d95; font-size: 10.5px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; }
+.cmAppStat strong { color: var(--navy); font-size: 21px; font-weight: 700; letter-spacing: -.02em; }
+
+.cmAppBoard { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(216px, 1fr); gap: 12px; padding-bottom: 6px; overflow-x: auto; }
+.cmAppColumn { display: flex; flex-direction: column; min-width: 216px; border: 1px solid var(--line); border-radius: 12px; background: #f8fafc; }
+.cmAppColumnHead { display: flex; align-items: center; gap: 8px; padding: 11px 12px; border-bottom: 1px solid var(--line); background: #fff; border-radius: 12px 12px 0 0; }
+.cmAppColumnHead h3 { flex: 1 1 auto; margin: 0; color: #24384f; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+.cmAppColumnCount { min-width: 22px; height: 20px; display: grid; place-items: center; padding: 0 6px; border-radius: 10px; background: #eef2f7; color: #435973; font-size: 10.5px; font-weight: 700; }
+.cmAppColumnDot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: #94a3b8; }
+.cmAppColumnDot-info { background: #2864f0; }
+.cmAppColumnDot-accent { background: #7c3aed; }
+.cmAppColumnDot-success { background: #00a84f; }
+.cmAppColumnDot-warn { background: #d97706; }
+.cmAppColumnDot-danger { background: #ec3030; }
+.cmAppColumnDot-neutral { background: #94a3b8; }
+.cmAppColumnBody { display: flex; flex-direction: column; gap: 8px; padding: 10px; }
+.cmAppColumnEmpty { margin: 0; padding: 14px 4px; color: #9aa8b9; font-size: 11px; text-align: center; }
+.cmAppCard { display: flex; flex-direction: column; gap: 5px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 10px; background: #fff; text-align: left; font: inherit; cursor: pointer; box-shadow: 0 2px 6px #102b4e08; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.cmAppCard:hover { border-color: #b9c9dc; box-shadow: 0 4px 12px #102b4e12; transform: translateY(-1px); }
+.cmAppCardTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.cmAppCardTop strong { color: #24384f; font-size: 12.5px; line-height: 1.4; }
+.cmAppCardJob { color: #5b6f88; font-size: 11px; line-height: 1.45; }
+.cmAppCardMeta { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; color: #8b9db5; font-size: 10.5px; }
+
+/* Drawer */
+.cmDrawerBackdrop { position: fixed; inset: 0; z-index: 70; display: flex; justify-content: flex-end; background: #07172c99; }
+.cmDrawer { width: min(100%, 520px); height: 100%; display: flex; flex-direction: column; background: #fff; box-shadow: -18px 0 46px #06172d40; animation: cmDrawerIn .18s ease-out; }
+.cmDrawer-lg { width: min(100%, 720px); }
+.cmDrawerHeader { flex: 0 0 auto; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 20px 14px; border-bottom: 1px solid #eef2f7; }
+.cmDrawerHeading h2 { margin: 0; color: var(--navy); font-size: 17px; letter-spacing: -.02em; }
+.cmDrawerHeading p { margin: 4px 0 0; color: #91a2b9; font-size: 11.5px; }
+.cmDrawerBody { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 18px 20px 26px; }
+.cmDrawerFooter { flex: 0 0 auto; padding: 13px 20px; border-top: 1px solid #eef2f7; background: #fff; }
+@keyframes cmDrawerIn { from { transform: translateX(24px); opacity: .6; } to { transform: translateX(0); opacity: 1; } }
+
+/* Application history timeline */
+.apHistory { list-style: none; display: grid; gap: 0; margin: 0; padding: 0; }
+.apHistoryItem { position: relative; display: flex; gap: 12px; padding: 0 0 16px; }
+.apHistoryItem::before { content: ""; position: absolute; left: 5px; top: 14px; bottom: 0; width: 2px; background: #e6ecf4; }
+.apHistoryItem:last-child { padding-bottom: 0; }
+.apHistoryItem:last-child::before { display: none; }
+.apHistoryDot { position: relative; z-index: 1; width: 12px; height: 12px; flex: 0 0 auto; margin-top: 3px; border-radius: 50%; background: #fff; border: 3px solid #c4d0e0; }
+.apHistoryDotStart { border-color: #2864f0; }
+.apHistoryBody { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.apHistoryTitle { color: #24384f; font-size: 12.5px; }
+.apHistoryTransition { display: inline-flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.apHistoryArrow { color: #9aa8b9; font-size: 11px; }
+.apHistoryMeta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; color: #8b9db5; font-size: 10.5px; }
+.apHistoryNote { margin: 2px 0 0; padding: 8px 10px; border: 1px solid #e6ecf4; border-radius: 8px; background: #f9fbfd; color: #465a74; font-size: 11.5px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+
+@media (max-width: 900px) {
+  .cmApplicationsPanel .cmSearchBox { flex: 1 1 220px; width: auto; min-width: 0; max-width: none; }
+  .cmDrawer { width: min(100%, 460px); }
+}
+
+@media (max-width: 650px) {
+  .cmApplicationsPanel > .cmToolbar { overflow-x: auto; }
+  .cmApplicationsPanel .cmToolbarControls { flex-wrap: nowrap; }
+  .cmApplicationsPanel .cmSearchBox { flex: 1 1 100%; width: 100%; min-width: 0; max-width: none; }
+  .cmAppBoard { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: 1fr; overflow-x: visible; }
+  .cmAppColumn { min-width: 0; }
+  .cmDrawer { width: 100%; }
+  .cmDrawerHeader { padding: 15px 14px 12px; }
+  .cmDrawerBody { padding: 15px 14px 22px; }
+  .cmDrawerFooter { padding: 11px 14px; }
+  .cmDrawerFooter .cmStatusRow { flex-direction: column; align-items: stretch; }
+  .cmDrawerFooter .cmStatusRow .cmStatusRow { flex-direction: row; flex-wrap: wrap; }
+}

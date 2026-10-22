@@ -50,7 +50,7 @@ const APPLICATION_STATUS_META = {
   OFFERED: { label: "Offered", tone: "success" },
   JOINED: { label: "Joined", tone: "success" },
   REJECTED: { label: "Rejected", tone: "danger" },
-  ON_HOLD: { label: "On hold", tone: "warn" },
+  ON_HOLD: { label: "Kept on file", tone: "warn" },
   WITHDRAWN: { label: "Withdrawn", tone: "neutral" },
 };
 

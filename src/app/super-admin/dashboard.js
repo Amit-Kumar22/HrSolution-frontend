@@ -12,6 +12,7 @@ import {
   Factory,
   FileSignature,
   Inbox,
+  Kanban,
   KeyRound,
   Layers,
   LayoutDashboard,
@@ -57,6 +58,7 @@ import ServicesPanel from "../admin/services-panel";
 import ClientsPanel from "../admin/clients-panel";
 import ContractsPanel from "../admin/contracts-panel";
 import CandidatesPanel from "../admin/candidates-panel";
+import ApplicationsPanel from "../admin/applications-panel";
 import InterviewManagementPanel from "../admin/interview-panel";
 import JobsPanel from "../admin/jobs-panel";
 import TestimonialsPanel from "../admin/testimonials-panel";
@@ -69,6 +71,7 @@ const navigation = [
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
   { label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "WORKFORCE" },
+  { label: "Applications", view: "applications", icon: Kanban, section: "WORKFORCE" },
   { label: "Interviews", view: "interviews", icon: CalendarClock, section: "WORKFORCE" },
   { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
   { label: "Skills", view: "skills", icon: Wrench, section: "WORKFORCE" },
@@ -319,6 +322,7 @@ export default function SuperAdminDashboard() {
   else if (activeView === "clients") content = <ClientsPanel />;
   else if (activeView === "contracts") content = <ContractsPanel />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
+  else if (activeView === "applications") content = <ApplicationsPanel session={session} />;
   else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;
   else if (activeView === "jobs") content = <JobsPanel session={session} />;
   else if (activeView === "contact-messages") {

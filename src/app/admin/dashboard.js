@@ -18,12 +18,13 @@ import {
 } from "../../lib/auth";
 import {
   Activity, Bell, BriefcaseBusiness, Building2, CalendarClock, CalendarDays,
-  ChevronDown, ClipboardList, Factory, FileSignature, FileText, Inbox, Layers,
-  LayoutDashboard, LockKeyhole, Mail, Menu, Quote, Search, ShieldCheck,
+  ChevronDown, ClipboardList, Factory, FileSignature, FileText, Inbox, Kanban,
+  Layers, LayoutDashboard, LockKeyhole, Mail, Menu, Quote, Search, ShieldCheck,
   Tags, UserSearch, UsersRound, Wallet, Wrench, X,
 } from "lucide-react";
 import { getUnreadContactCount } from "../../lib/adminApi";
 import { styles } from "./admin-styles";
+import ApplicationsPanel from "./applications-panel";
 import ContactMessagesPanel from "./contact-messages-panel";
 import DashboardOverview from "./dashboard-overview";
 import EnquiriesPanel from "./enquiries-panel";
@@ -46,6 +47,7 @@ const navigation = [
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "WORKFORCE" },
+  { label: "Applications", view: "applications", icon: Kanban, section: "WORKFORCE" },
   { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
   { label: "Interviews", view: "interviews", icon: CalendarClock, section: "WORKFORCE" },
   { label: "Workers", view: "workers", icon: UsersRound, section: "WORKFORCE" },
@@ -277,6 +279,7 @@ export default function AdminDashboard() {
   if (activeView === "clients") content = <ClientsPanel />;
   else if (activeView === "contracts") content = <ContractsPanel />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
+  else if (activeView === "applications") content = <ApplicationsPanel session={session} />;
   else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;
   else if (activeView === "jobs") content = <JobsPanel session={session} />;
   else if (activeView === "industries") content = <IndustriesPanel />;

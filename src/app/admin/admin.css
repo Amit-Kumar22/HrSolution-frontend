@@ -1049,7 +1049,8 @@ body:has(.adminShell) { overflow: hidden; }
 
 .adminShell .cmCandidatesPanel > .cmToolbar,
 .adminShell .cmJobsPanel > .cmToolbar,
-.adminShell .cmInterviewPanel > .cmToolbar {
+.adminShell .cmInterviewPanel > .cmToolbar,
+.adminShell .cmApplicationsPanel > .cmToolbar {
   width: 100%;
   min-width: 0;
   flex-wrap: nowrap;
@@ -1058,7 +1059,8 @@ body:has(.adminShell) { overflow: hidden; }
 
 .adminShell .cmCandidatesPanel .cmToolbarControls,
 .adminShell .cmJobsPanel .cmToolbarControls,
-.adminShell .cmInterviewPanel .cmToolbarControls {
+.adminShell .cmInterviewPanel .cmToolbarControls,
+.adminShell .cmApplicationsPanel .cmToolbarControls {
   flex-wrap: nowrap;
 }
 
