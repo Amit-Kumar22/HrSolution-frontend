@@ -253,7 +253,7 @@ body:has(.adminShell) { overflow: hidden; }
 .cmDangerButton:disabled { opacity: .6; cursor: wait; }
 
 .cmToolbar { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 15px; overflow-x: visible; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
-.cmToolbar::-webkit-scrollbar { height: 4px; }
+.cmToolbar::-webkit-scrollbar { height: 3px; }
 .cmToolbar::-webkit-scrollbar-track { background: transparent; }
 .cmToolbar::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 .cmToolbar::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
@@ -274,7 +274,10 @@ body:has(.adminShell) { overflow: hidden; }
 .cmClientsPanel .cmHead h1::after { content: ""; display: block; width: 30px; height: 2px; margin-top: 6px; border-radius: 3px; background: #f9a006; }
 .cmClientsPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 12px; }
 .cmClientsPanel .cmToolbar { gap: 5px 8px; margin-bottom: 10px; }
-.cmClientsPanel > .cmToolbar { padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmClientsPanel > .cmToolbar { padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmClientsPanel > .cmToolbar::-webkit-scrollbar { height: 3px; }
+.cmClientsPanel > .cmToolbar::-webkit-scrollbar-track { background: transparent; }
+.cmClientsPanel > .cmToolbar::-webkit-scrollbar-thumb { border-radius: 999px; background: #c4d0e0; }
 .cmClientsPanel .cmSearchBox { flex: 0 0 280px; width: 280px; min-width: 280px; max-width: 280px; height: 32px; padding: 0 11px; gap: 7px; }
 .cmClientsPanel .cmSearchBox input { font-size: 12px; }
 .cmClientsPanel .cmCount { font-size: 11px; }
@@ -377,7 +380,7 @@ body:has(.adminShell) { overflow: hidden; }
 .cmEnquiriesPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 11.5px; }
 
 .cmEnquiriesPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
-.cmEnquiriesPanel .cmToolbar::-webkit-scrollbar { height: 4px; }
+.cmEnquiriesPanel .cmToolbar::-webkit-scrollbar { height: 3px; }
 .cmEnquiriesPanel .cmToolbar::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 .cmEnquiriesPanel .cmSearchBox { flex: 0 0 170px; max-width: 170px; height: 30px; padding: 0 10px; gap: 7px; }
 .cmEnquiriesPanel .cmSearchBox input { font-size: 12px; }
@@ -886,7 +889,7 @@ body:has(.adminShell) { overflow: hidden; }
 }
 
 .adminShell:not(.adminShellSuper) .sidebar::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 .adminShell:not(.adminShellSuper) .sidebar::-webkit-scrollbar-track {
@@ -1102,5 +1105,43 @@ body:has(.adminShell) { overflow: hidden; }
   .adminShell .cmToolbarControls {
     flex: 1 1 100%;
     justify-content: flex-start;
+  }
+}
+
+.adminShell:not(.adminShellSuper) *::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.adminShell:not(.adminShellSuper) *::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.adminShell:not(.adminShellSuper) *::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #c4d0e0;
+}
+
+.adminShell:not(.adminShellSuper) *::-webkit-scrollbar-thumb:hover {
+  background: #a9b9cf;
+}
+
+.adminShell:not(.adminShellSuper) *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.adminShell:not(.adminShellSuper) * {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+}
+
+@-moz-document url-prefix() {
+  .adminShell:not(.adminShellSuper) * {
+    scrollbar-width: thin;
+    scrollbar-color: #c4d0e0 transparent;
+  }
+
+  .adminShell:not(.adminShellSuper) .sidebar {
+    scrollbar-color: #2b4d77 transparent;
   }
 }

@@ -57,6 +57,14 @@ const process = [
   ["04", "Deploy & support", "Workers report ready; our team stays in touch."],
 ];
 
+const COMPANY_STATS = [
+  { target: 5000, suffix: "+", label: "Workers deployed" },
+  { target: 120, suffix: "+", label: "Client companies" },
+  { target: 18, suffix: "", label: "Cities covered" },
+  { target: 14, suffix: " yrs", label: "Industry experience" },
+  { target: 100, suffix: "%", label: "Statutory compliance" },
+];
+
 function SectionHeading({ eyebrow, title, text, light = false }) {
   return (
     <div className={`section-heading${light ? " section-heading-light" : ""}`}>
@@ -93,9 +101,19 @@ function SectionFeedback({ message, onRetry }) {
   );
 }
 
+const HERO_TEAM = [
+  { initials: "RS", tone: "a" },
+  { initials: "AK", tone: "b" },
+  { initials: "MJ", tone: "c" },
+  { initials: "PV", tone: "d" },
+];
+
 function HeroArtwork() {
   return (
     <div className="hero-art" aria-label="Workforce deployment dashboard illustration" role="img">
+      <span className="art-glow art-glow-a" />
+      <span className="art-glow art-glow-b" />
+      <span className="art-grid" />
       <div className="art-orbit" />
       <div className="deployed-card">
         <span className="icon-tile icon-amber"><UsersRound size={22} /></span>
@@ -113,11 +131,24 @@ function HeroArtwork() {
           <div><b>12</b><span>Helper</span></div>
           <div><b>6</b><span>Operator</span></div>
         </div>
+        <div className="deployment-team">
+          <span className="avatar-stack">
+            {HERO_TEAM.map((member) => (
+              <i className={`avatar avatar-${member.tone}`} key={member.initials}>{member.initials}</i>
+            ))}
+          </span>
+          <span className="deployment-team-note">42 verified on site today</span>
+        </div>
+        <div className="chart-head"><span>Deployments · last 7 days</span><b>+18%</b></div>
+        <div className="mini-chart">
+          <i /><i /><i /><i /><i /><i /><i />
+        </div>
       </div>
       <div className="compliance-card">
         <span className="icon-tile icon-green"><FileCheck2 size={19} /></span>
         <span><strong>PF ECR filed · Sep 2026</strong><small>Monthly compliance record</small></span>
       </div>
+      <div className="live-chip"><i /> Live workforce tracking</div>
       <span className="art-dot dot-one" /><span className="art-dot dot-two" />
     </div>
   );
@@ -129,14 +160,19 @@ function Hero() {
 
   return (
     <section className="hero section-soft" id="home">
+      <span className="hero-mesh" aria-hidden="true" />
       <div className="container hero-grid">
         <div className="hero-copy">
           <span className="trust-pill"><i /> Trusted by 120+ companies across Eastern India</span>
-          <h1>Reliable Manpower.<br />Stronger Workforce.<br /><span>Better Business.</span></h1>
+          <h1>
+            Reliable Manpower.<br />
+            Stronger Workforce.<br />
+            <span className="headline-accent">Better Business.</span>
+          </h1>
           <p>{paragraph}</p>
           <div className="hero-actions">
-            <button type="button" className="button button-primary" onClick={openEnquiry}>
-              Hire Manpower <ArrowRight size={16} />
+            <button type="button" className="button button-primary hero-cta" onClick={openEnquiry}>
+              <span className="hero-cta-label">Hire Manpower</span> <ArrowRight size={16} className="hero-cta-arrow" />
             </button>
             <button type="button" className="button button-outline" onClick={openEnquiry}>
               Get a Quote
@@ -169,11 +205,63 @@ function TrustedEmployers() {
 }
 
 function Stats() {
-  const stats = [["5,000+", "Workers deployed"], ["120+", "Client companies"], ["18", "Cities covered"], ["14 yrs", "Industry experience"], ["100%", "Statutory compliance"]];
+  const statsRef = useRef(null);
+  const [counts, setCounts] = useState(null);
+
+  useEffect(() => {
+    const element = statsRef.current;
+    if (!element || !("IntersectionObserver" in window)) return;
+
+    let frameId;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setCounts(COMPANY_STATS.map(({ target }) => target));
+        return;
+      }
+
+      setCounts(COMPANY_STATS.map(() => 1));
+      let startTime;
+      const duration = 1800;
+      const animate = (timestamp) => {
+        if (startTime === undefined) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const easedProgress = 1 - (1 - progress) ** 3;
+        setCounts(COMPANY_STATS.map(({ target }) => Math.floor(1 + (target - 1) * easedProgress)));
+
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(animate);
+        } else {
+          setCounts(COMPANY_STATS.map(({ target }) => target));
+        }
+      };
+
+      frameId = window.requestAnimationFrame(animate);
+    }, { threshold: 0.25 });
+
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      if (frameId !== undefined) window.cancelAnimationFrame(frameId);
+    };
+  }, []);
+
   return (
     <section className="stats-band" aria-label="Company statistics">
-      <div className="container stats-grid">
-        {stats.map(([value, label]) => <div className="stat" key={label}><strong>{value}</strong><span>{label}</span></div>)}
+      <div className="container stats-grid" ref={statsRef}>
+        {COMPANY_STATS.map(({ target, suffix, label }, index) => {
+          const value = counts?.[index] ?? target;
+          const formattedValue = `${value.toLocaleString("en-US")}${suffix}`;
+          const finalValue = `${target.toLocaleString("en-US")}${suffix}`;
+          return (
+            <div className="stat" key={label}>
+              <strong aria-label={finalValue}>{formattedValue}</strong>
+              <span>{label}</span>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -268,18 +356,27 @@ function Industries() {
   if (!loading && !industriesError && industries.length === 0) return null;
 
   return (
-    <section className="section section-white" id="industries">
+    <section className="section industry-section" id="industries" aria-labelledby="industries-title">
       <div className="container">
-        <SectionHeading eyebrow="INDUSTRIES WE SERVE" title="Workforce for every shop floor" text="Category-wise trained manpower matched to the minimum wage, shift and safety norms of your sector." />
+        <div className="industry-heading">
+          <div>
+            <span className="eyebrow">INDUSTRIES WE SERVE</span>
+            <h2 id="industries-title">Workforce for every <span>shop floor</span></h2>
+          </div>
+          <p>Category-wise trained manpower matched to the minimum wage, shift and safety norms of your sector.</p>
+        </div>
         {loading && <SkeletonGrid className="industry-grid" count={8} />}
         {!loading && industriesError && <SectionFeedback message={industriesError} onRetry={reload} />}
         {!loading && !industriesError && industries.length > 0 && (
           <div className="industry-grid">
-            {industries.map((industry) => {
+            {industries.map((industry, index) => {
               const Icon = INDUSTRY_ICONS[String(industry.icon || "").trim().toLowerCase()] || Building2;
               return (
                 <article className="industry-card" key={industry.slug || industry.name} tabIndex={0}>
-                  <span className="icon-tile icon-amber-light"><Icon size={20} /></span>
+                  <div className="industry-card-top">
+                    <span className="icon-tile icon-amber-light"><Icon size={20} /></span>
+                    <span className="industry-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  </div>
                   <h3>{industry.name}</h3>
                   {industry.description && <p>{industry.description}</p>}
                 </article>

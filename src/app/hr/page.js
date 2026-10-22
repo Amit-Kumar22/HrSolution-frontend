@@ -15,6 +15,7 @@ export default function HrPage() {
       candidatesView
       jobsView
       interviewsView
+      variant="Hr"
     />
   );
 }

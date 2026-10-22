@@ -986,3 +986,816 @@
 .adminShell.adminShellSuper .sidebar::-webkit-scrollbar-thumb:hover {
   background: #3f6ba4;
 }
+
+/* ============================================================
+   Role dashboards (/accounts, /hr) — compact refinements
+   ============================================================ */
+.roleDash .pageHeading {
+  position: relative;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 16px 11px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%);
+  box-shadow: 0 2px 8px #102b4e0d;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.roleDash .pageHeading::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--navy), #f9a006);
+}
+
+.roleDash .pageHeading h1 {
+  margin: 0 0 2px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.roleDash .pageHeading h1::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 2px;
+  margin-top: 4px;
+  border-radius: 3px;
+  background: #f9a006;
+}
+
+.roleDash .pageHeading p {
+  max-width: 720px;
+  color: #5b6f88;
+  font-size: 11.5px;
+}
+
+.roleDash .headingActions {
+  gap: 8px;
+}
+
+.roleDash .headingActions button {
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 7px;
+  font-size: 12px;
+}
+
+.roleDash .metricGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.roleDash .metricCard {
+  min-height: 0;
+  padding: 12px 13px 11px;
+  border-radius: 11px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.roleDash .metricCard:hover {
+  border-color: #c5d3e5;
+  box-shadow: 0 4px 12px #102b4e12;
+}
+
+.roleDash .metricTop {
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.roleDash .metricTop > i {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+
+.roleDash .metricTop > i svg {
+  width: 14px;
+  height: 14px;
+}
+
+.roleDash .metricValue {
+  margin-top: 8px;
+  font-size: clamp(18px, 1.7vw, 22px);
+}
+
+.roleDash .metricCard > p {
+  margin: 6px 0 0;
+  overflow: hidden;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roleDash .saSectionLabel {
+  margin: 18px 0 10px;
+  font-size: 13.5px;
+}
+
+.roleDash .saModuleGrid {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.roleDash .saModuleCard {
+  gap: 6px;
+  padding: 13px 14px;
+  border-radius: 11px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.roleDash .saModuleCard:hover {
+  border-color: #c5d3e5;
+  box-shadow: 0 4px 12px #102b4e12;
+}
+
+.roleDash .saModuleCard > i {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.roleDash .saModuleCard > i svg {
+  width: 15px;
+  height: 15px;
+}
+
+.roleDash .saModuleCard strong {
+  font-size: 12.5px;
+}
+
+.roleDash .saModuleCard p {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.roleDash .saModuleCard small {
+  font-size: 10px;
+}
+
+.roleDash .saShares {
+  gap: 4px;
+}
+
+.roleDash .saShare {
+  padding: 2px 6px;
+  font-size: 9.5px;
+}
+
+.roleDash .saInlineNote {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 11.5px;
+}
+
+/* Interview filter toolbar buttons (Refresh / Schedule interview) — compact */
+.roleDash .cmInterviewPanel .cmToolbar .cmBtn {
+  min-height: 26px;
+  padding: 0 9px;
+  gap: 5px;
+  font-size: 11px;
+}
+
+@media (max-width: 650px) {
+  .roleDash .pageHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 12px 10px 14px;
+  }
+
+  .roleDash .pageHeading h1 {
+    font-size: 15.5px;
+  }
+
+  .roleDash .headingActions {
+    width: auto;
+    gap: 8px;
+  }
+
+  .roleDash .headingActions button {
+    flex: 0 0 auto;
+    min-height: 30px;
+    padding: 0 12px;
+    font-size: 11.5px;
+  }
+
+  .roleDash .metricGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .roleDash .metricCard {
+    padding: 10px 11px;
+  }
+
+  .roleDash .metricValue {
+    margin-top: 6px;
+    font-size: 18px;
+  }
+
+  .roleDash .saModuleGrid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px;
+  }
+
+  .roleDash .saModuleCard {
+    padding: 11px 12px;
+  }
+}
+
+/* Topbar context label for every role dashboard */
+.roleDash .saHeaderMeta {
+  display: grid;
+  gap: 2px;
+  margin-right: auto;
+}
+
+.roleDash .saHeaderMeta strong {
+  color: #172b48;
+  font-size: 13px;
+}
+
+.roleDash .saHeaderMeta small {
+  color: #8b9db5;
+  font-size: 11px;
+}
+
+/* ============================================================
+   Accounts dashboard (/accounts) — finance workspace
+   ============================================================ */
+.roleDashAccounts .acOverview {
+  display: grid;
+  gap: 0;
+}
+
+/* Hero ---------------------------------------------------------------- */
+.roleDashAccounts .acHero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 14px;
+  padding: 18px 20px;
+  border-radius: 13px;
+  overflow: hidden;
+  background: linear-gradient(118deg, #0b2545 0%, #103763 48%, #17528f 100%);
+  box-shadow: 0 12px 26px #0c274826;
+}
+
+.roleDashAccounts .acHero::before {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -90px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 160, 6, .34), rgba(249, 160, 6, 0) 68%);
+  pointer-events: none;
+}
+
+.roleDashAccounts .acHero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+}
+
+.roleDashAccounts .acHeroText {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.roleDashAccounts .acEyebrow {
+  margin: 0 0 5px;
+  color: #f9a006;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.roleDashAccounts .acHero h1 {
+  margin: 0 0 6px;
+  color: #fff;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -.025em;
+}
+
+.roleDashAccounts .acHeroLead {
+  margin: 0;
+  max-width: 620px;
+  color: #b9cbe0;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.roleDashAccounts .acHeroAside {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.roleDashAccounts .acStatusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.roleDashAccounts .acStatusPill > i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.roleDashAccounts .acStatusPill--active {
+  background: rgba(0, 168, 79, .16);
+  box-shadow: inset 0 0 0 1px rgba(110, 231, 168, .3);
+  color: #6ee7a8;
+}
+
+.roleDashAccounts .acStatusPill--pending {
+  background: rgba(249, 160, 6, .16);
+  box-shadow: inset 0 0 0 1px rgba(249, 160, 6, .32);
+  color: #fbc76b;
+}
+
+.roleDashAccounts .acStatusPill--blocked {
+  background: rgba(236, 48, 48, .16);
+  box-shadow: inset 0 0 0 1px rgba(255, 154, 154, .3);
+  color: #ff9a9a;
+}
+
+.roleDashAccounts .acStatusPill--unknown {
+  background: rgba(255, 255, 255, .1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .16);
+  color: #cfe0f2;
+}
+
+.roleDashAccounts .acHeroDate {
+  color: #e8f0f8;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.roleDashAccounts .acHeroEmail {
+  color: #8fa6c0;
+  font-size: 11px;
+}
+
+/* KPI strip ----------------------------------------------------------- */
+.roleDashAccounts .acKpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.roleDashAccounts .acKpi {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  align-content: start;
+  padding: 13px 14px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px #102b4e08;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.roleDashAccounts .acKpi:hover {
+  border-color: #c5d3e5;
+  box-shadow: 0 6px 16px #102b4e12;
+}
+
+.roleDashAccounts .acKpiTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #5b6f88;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.roleDashAccounts .acKpiValue {
+  display: block;
+  color: var(--navy);
+  font-size: clamp(19px, 1.8vw, 23px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+}
+
+.roleDashAccounts .acKpiValue--text {
+  font-size: 15px;
+  letter-spacing: -.01em;
+}
+
+.roleDashAccounts .acKpiValue--active { color: #00893f; }
+.roleDashAccounts .acKpiValue--pending { color: #b3760a; }
+.roleDashAccounts .acKpiValue--blocked { color: #d33a3a; }
+.roleDashAccounts .acKpiValue--unknown { color: #6b7d95; }
+
+.roleDashAccounts .acKpi > p {
+  margin: 0;
+  overflow: hidden;
+  color: #7b8ca3;
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.roleDashAccounts .acMeter {
+  height: 4px;
+  margin-top: 3px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eef2f7;
+}
+
+.roleDashAccounts .acMeter > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #16a34a, #00a84f);
+}
+
+/* Icon tiles ---------------------------------------------------------- */
+.roleDashAccounts .acIconTile {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 9px;
+  font-style: normal;
+}
+
+.roleDashAccounts .acIconTile > svg {
+  width: 15px;
+  height: 15px;
+}
+
+.roleDashAccounts .acTone-blue { background: #e8eef7; color: #0c2748; }
+.roleDashAccounts .acTone-indigo { background: #e2eeff; color: #2874ed; }
+.roleDashAccounts .acTone-green { background: #dcfbe9; color: #00a84f; }
+.roleDashAccounts .acTone-amber { background: #fff2c5; color: #c07c00; }
+.roleDashAccounts .acTone-slate { background: #eef2f7; color: #536780; }
+
+/* Layout + panels ----------------------------------------------------- */
+.roleDashAccounts .acLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.roleDashAccounts .acAside {
+  display: grid;
+  gap: 14px;
+}
+
+.roleDashAccounts .acPanel {
+  min-width: 0;
+  padding: 15px 16px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 6px #102b4e08;
+}
+
+.roleDashAccounts .acPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 13px;
+}
+
+.roleDashAccounts .acPanelHead h2 {
+  margin: 0 0 3px;
+  color: #172b48;
+  font-size: 14.5px;
+  letter-spacing: -.01em;
+}
+
+.roleDashAccounts .acPanelHead p {
+  margin: 0;
+  color: #7b8ca3;
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.roleDashAccounts .acPanelActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.roleDashAccounts .acCount {
+  color: #6b7d95;
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+/* Module cards -------------------------------------------------------- */
+.roleDashAccounts .acModuleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: 11px;
+}
+
+.roleDashAccounts .acModule {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 12px 13px;
+  border: 1px solid #e6ecf4;
+  border-radius: 11px;
+  background: #fcfdff;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.roleDashAccounts .acModule:hover {
+  border-color: #c5d3e5;
+  background: #fff;
+  box-shadow: 0 6px 16px #102b4e12;
+  transform: translateY(-1px);
+}
+
+.roleDashAccounts .acModuleHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.roleDashAccounts .acModuleHead > div {
+  min-width: 0;
+}
+
+.roleDashAccounts .acModuleHead strong {
+  display: block;
+  color: #172b48;
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+.roleDashAccounts .acModuleHead small {
+  display: block;
+  margin-top: 2px;
+  color: #8a9bb3;
+  font-size: 10.5px;
+}
+
+.roleDashAccounts .acModuleKey {
+  margin-top: auto;
+  color: #a6b3c3;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.roleDashAccounts .acChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.roleDashAccounts .acChip {
+  padding: 2px 7px;
+  border-radius: 8px;
+  background: #eef2f7;
+  color: #5b6f88;
+  font-size: 9.5px;
+  font-weight: 650;
+}
+
+.roleDashAccounts .acChip--more {
+  background: #fff2c5;
+  color: #96610a;
+}
+
+/* Finance access ------------------------------------------------------ */
+.roleDashAccounts .acAccessList {
+  display: grid;
+}
+
+.roleDashAccounts .acAccessRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 8px;
+  border-radius: 9px;
+  transition: background .15s ease;
+}
+
+.roleDashAccounts .acAccessRow:hover {
+  background: #f7f9fc;
+}
+
+.roleDashAccounts .acAccessRow + .acAccessRow {
+  border-top: 1px solid #f0f3f7;
+}
+
+.roleDashAccounts .acAccessIcon {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 7px;
+  background: #eef2f7;
+  color: #91a2b9;
+  font-style: normal;
+}
+
+.roleDashAccounts .acAccessIcon--granted {
+  background: #dcfbe9;
+  color: #00743c;
+}
+
+.roleDashAccounts .acAccessRow > span {
+  min-width: 0;
+}
+
+.roleDashAccounts .acAccessRow strong {
+  display: block;
+  color: #24384f;
+  font-size: 12.5px;
+}
+
+.roleDashAccounts .acAccessRow small {
+  display: block;
+  margin-top: 2px;
+  color: #8a9bb3;
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.roleDashAccounts .acAccessRow--locked strong {
+  color: #7b8ca3;
+}
+
+/* Account facts ------------------------------------------------------- */
+.roleDashAccounts .acFacts {
+  display: grid;
+  margin: 0 0 12px;
+}
+
+.roleDashAccounts .acFacts > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f3f7;
+}
+
+.roleDashAccounts .acFacts > div:last-child {
+  border-bottom: 0;
+}
+
+.roleDashAccounts .acFacts dt {
+  color: #8a9bb3;
+  font-size: 11.5px;
+}
+
+.roleDashAccounts .acFacts dd {
+  margin: 0;
+  color: #24384f;
+  font-size: 12px;
+  font-weight: 650;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* Buttons + table ----------------------------------------------------- */
+.roleDashAccounts .acLinkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: #0c2748;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.roleDashAccounts .acLinkButton:hover {
+  border-color: #0c2748;
+  background: #f7f9fc;
+}
+
+.roleDashAccounts .acTable {
+  margin-top: 2px;
+}
+
+.roleDashAccounts .acTable .cmTable {
+  min-width: 720px;
+  font-size: 12px;
+}
+
+.roleDashAccounts .acTable .cmTable thead th {
+  padding: 9px 12px;
+  font-size: 10px;
+}
+
+.roleDashAccounts .acTable .cmTable tbody td {
+  padding: 9px 12px;
+}
+
+.roleDashAccounts .acTable .cmEntity strong {
+  font-size: 12px;
+}
+
+.roleDashAccounts .acTable .cmEntity small {
+  color: #8a9bb3;
+  font-size: 10.5px;
+}
+
+/* Responsive ---------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .roleDashAccounts .acLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .roleDashAccounts .acKpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .roleDashAccounts .acHero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 15px 16px;
+  }
+
+  .roleDashAccounts .acHeroAside {
+    justify-items: start;
+  }
+
+  .roleDashAccounts .acHero h1 {
+    font-size: 19px;
+  }
+
+  .roleDashAccounts .acKpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .roleDashAccounts .acKpi {
+    padding: 11px 12px;
+  }
+
+  .roleDashAccounts .acModuleGrid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .roleDashAccounts .acPanelHead {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .roleDashAccounts .acPanelActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

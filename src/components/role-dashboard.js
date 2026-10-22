@@ -31,6 +31,7 @@ import {
   subscribeToAuthSession,
 } from "../lib/auth";
 import { listPermissions } from "../lib/adminApi";
+import { humanize, moduleLabel, moduleOf } from "../lib/permission-modules";
 import { styles } from "../app/admin/admin-styles";
 import { EmptyState } from "../app/admin/admin-ui";
 import ClientsPanel from "./clients-panel";
@@ -38,36 +39,7 @@ import CandidatesPanel from "../app/admin/candidates-panel";
 import InterviewManagementPanel from "../app/admin/interview-panel";
 import JobsPanel from "../app/admin/jobs-panel";
 
-const MODULE_LABELS = {
-  USER: "User & account management",
-  ROLE: "Roles & permissions",
-  CLIENT: "Clients",
-  ENQUIRY: "Enquiries",
-  PAYROLL: "Payroll",
-  ATTENDANCE: "Attendance",
-  WORKFORCE: "Workforce",
-  RECRUITMENT: "Recruitment",
-  CONTRACT: "Contracts",
-  INVOICE: "Invoices",
-  SETTINGS: "Settings",
-  AUDIT: "Audit",
-  CONTENT: "Website content",
-};
-
-function humanize(value) {
-  return String(value || "")
-    .replace(/_/g, " ")
-    .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-function moduleOf(permissionName) {
-  const parts = String(permissionName || "").split("_");
-  if (parts.length <= 1) return "OTHER";
-  return parts.slice(0, parts.length - 1).join("_");
-}
-
-export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false }) {
+export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, variant = "", overview: OverviewComponent = null }) {
   const router = useRouter();
   const sessionState = useSyncExternalStore(
     subscribeToAuthSession,
@@ -178,22 +150,34 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
   const modules = [...grouped.entries()]
     .map(([moduleKey, items]) => ({
       module: moduleKey,
-      label: MODULE_LABELS[moduleKey] || humanize(moduleKey),
+      label: moduleLabel(moduleKey),
       items: [...items].sort(),
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
 
   const nav = [
-    { label: "Dashboard", view: "overview", icon: LayoutDashboard },
-    ...(clientManagement || clientView ? [{ label: "Clients", view: "clients", icon: Building2 }] : []),
-    ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch }] : []),
-    ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness }] : []),
-    ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock }] : []),
-    { label: "My access", view: "access", icon: ShieldCheck },
+    { label: "Dashboard", view: "overview", icon: LayoutDashboard, section: "main" },
+    ...(clientManagement || clientView ? [{ label: "Clients", view: "clients", icon: Building2, section: "main" }] : []),
+    ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch, section: "main" }] : []),
+    ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "main" }] : []),
+    ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock, section: "main" }] : []),
+    { label: "My access", view: "access", icon: ShieldCheck, section: "ACCESS" },
   ];
 
+  const navSections = [];
+  for (const item of nav) {
+    let section = navSections.find((entry) => entry.section === item.section);
+    if (!section) {
+      section = { section: item.section, items: [] };
+      navSections.push(section);
+    }
+    section.items.push(item);
+  }
+
+  const activeNavItem = nav.find((item) => item.view === activeView);
+
   return (
-    <main className={styles.adminShell}>
+    <main className={`${styles.adminShell}${variant ? ` roleDash roleDash${variant}` : ""}`}>
       {sidebarOpen && (
         <button className={styles.backdrop} aria-label="Close sidebar" onClick={() => setSidebarOpen(false)} />
       )}
@@ -206,26 +190,30 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
           </span>
         </Link>
         <nav className={styles.sideNav} aria-label={`${dashboardName} navigation`}>
-          <div className={styles.navGroup}>
-            {nav.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeView === item.view;
-              return (
-                <button
-                  key={item.view}
-                  type="button"
-                  className={`${styles.navItem}${isActive ? ` ${styles.navActive}` : ""}`}
-                  onClick={() => {
-                    setActiveView(item.view);
-                    setSidebarOpen(false);
-                  }}
-                >
-                  <Icon size={17} strokeWidth={1.8} />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
-          </div>
+          {navSections.map((section) => (
+            <div className={styles.navGroup} key={section.section}>
+              {section.section !== "main" && <div className={styles.navSection}>{section.section}</div>}
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeView === item.view;
+                return (
+                  <button
+                    key={item.view}
+                    type="button"
+                    className={`${styles.navItem}${isActive ? ` ${styles.navActive}` : ""}`}
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={() => {
+                      setActiveView(item.view);
+                      setSidebarOpen(false);
+                    }}
+                  >
+                    <Icon size={17} strokeWidth={1.8} />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </nav>
         <div className={styles.payrollNotice}>
           <strong>Signed in as</strong>
@@ -249,6 +237,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
           </button>
           <div className="saHeaderMeta">
             <strong>{dashboardName}</strong>
+            <small>{activeNavItem ? activeNavItem.label : "Dashboard"}</small>
           </div>
           <div className={styles.userActions}>
             <button className={styles.userProfile} aria-expanded={profileOpen} onClick={() => setProfileOpen(!profileOpen)}>
@@ -294,6 +283,16 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
             <JobsPanel session={sessionState} />
           ) : activeView === "interviews" ? (
             <InterviewManagementPanel session={sessionState} />
+          ) : activeView === "overview" && OverviewComponent ? (
+            <OverviewComponent
+              user={user}
+              roles={roles}
+              permissions={permissions}
+              modules={modules}
+              permissionMeta={permissionMeta}
+              catalogueTotal={catalogue ? catalogue.length : 0}
+              onNavigate={setActiveView}
+            />
           ) : (
             <>
           <div className={styles.pageHeading}>

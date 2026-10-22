@@ -4,16 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   AlertCircle,
-  Camera,
   ChevronDown,
   Clock3,
-  Hash,
-  Link2,
   Mail,
   MapPin,
   Menu,
   Phone,
-  ThumbsUp,
   X,
 } from "lucide-react";
 import PublicImage from "./public-image";
@@ -22,7 +18,15 @@ import { useSite } from "./site-provider";
 
 const DEFAULT_NAME = "Shree Manpower";
 const DEFAULT_FOOTER_TEXT =
-  "Reliable manpower supply, recruitment and statutory compliance for growing businesses.";
+  "HR solutions and manpower supply partner for industries across Jharkhand, Bihar, West Bengal and Odisha since 2012.";
+const DEFAULT_FOOTER_SERVICES = [
+  "Manpower supply",
+  "Security services",
+  "Recruitment",
+  "Payroll outsourcing",
+  "Statutory compliance",
+  "Housekeeping",
+];
 
 const NAV_ITEMS = [
   ["Home", "/#home"],
@@ -178,7 +182,6 @@ export function ProfileBanner() {
 
 export function Footer() {
   const { profile, services, loading, servicesError, reload } = useSite();
-  const name = companyNameOf(profile);
   const legalName = legalNameOf(profile);
   const address = buildAddress(profile);
   const phone = profile?.phone;
@@ -186,21 +189,15 @@ export function Footer() {
   const tagline = profile?.tagline?.trim() || DEFAULT_FOOTER_TEXT;
   const year = SITE_YEAR;
 
-  const socials = [
-    ["LinkedIn", profile?.linkedinUrl, Link2],
-    ["Facebook", profile?.facebookUrl, ThumbsUp],
-    ["Twitter", profile?.twitterUrl, Hash],
-    ["Instagram", profile?.instagramUrl, Camera],
-  ].filter(([, url]) => typeof url === "string" && url.trim());
-
   const complianceTags = [
-    profile?.gstin && `GSTIN ${profile.gstin}`,
-    profile?.pan && `PAN ${profile.pan}`,
-    profile?.cin && `CIN ${profile.cin}`,
-  ].filter(Boolean);
+    ["GSTIN", profile?.gstin],
+    ["PF Code", profile?.pfEstablishmentCode],
+    ["ESIC", profile?.esiEstablishmentCode],
+    ["CLRA Licence", profile?.clraLicenceNumber || profile?.clraLicenseNumber],
+    ["PSARA", profile?.psaraLicenceNumber || profile?.psaraLicenseNumber],
+  ];
 
   const showServicesError = Boolean(servicesError) && !loading;
-  const showServicesColumn = loading || showServicesError || services.length > 0;
 
   return (
     <footer className="site-footer">
@@ -232,76 +229,63 @@ export function Footer() {
               Mon–Sat · 9:30 AM–6:30 PM
             </li>
           </ul>
-          {socials.length > 0 && (
-            <div className="footer-social">
-              {socials.map(([label, url, Icon]) => (
-                <a key={label} href={url} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                  <Icon size={15} />
-                </a>
-              ))}
-            </div>
-          )}
         </div>
 
         <div className="footer-column">
           <h3>COMPANY</h3>
           <Link href="/#about">About us</Link>
           <Link href="/#industries">Industries</Link>
+          <Link href="/careers">Careers</Link>
+          <Link href="/login">Client login</Link>
           <Link href="/#contact">Contact</Link>
-          <a href="/login">Admin login</a>
         </div>
 
-        {showServicesColumn && (
-          <div className="footer-column">
-            <h3>SERVICES</h3>
-            {loading && !services.length
-              ? [0, 1, 2, 3].map((index) => <span className="skeleton-line" key={index} />)
-              : services.map((service) =>
-                  service.slug ? (
-                    <Link
-                      key={service.slug}
-                      href={`/services/${encodeURIComponent(service.slug)}`}
-                    >
-                      {service.title}
-                    </Link>
-                  ) : (
-                    <span key={service.title}>{service.title}</span>
-                  ),
-                )}
-            {showServicesError && (
-              <button
-                type="button"
-                className="footer-retry"
-                onClick={reload}
-              >
-                Services unavailable — retry
-              </button>
-            )}
-          </div>
-        )}
+        <div className="footer-column">
+          <h3>SERVICES</h3>
+          {services.length > 0
+            ? services.map((service) =>
+                service.slug ? (
+                  <Link
+                    key={service.slug}
+                    href={`/services/${encodeURIComponent(service.slug)}`}
+                  >
+                    {service.title}
+                  </Link>
+                ) : (
+                  <span key={service.title}>{service.title}</span>
+                ),
+              )
+            : DEFAULT_FOOTER_SERVICES.map((service) => (
+                <Link key={service} href="/#services">
+                  {service}
+                </Link>
+              ))}
+          {showServicesError && (
+            <button
+              type="button"
+              className="footer-retry"
+              onClick={reload}
+            >
+              Retry loading services
+            </button>
+          )}
+        </div>
 
         <div className="footer-column">
           <h3>FOR JOB SEEKERS</h3>
           <Link href="/careers">Current openings</Link>
           <Link href="/register/candidate">Register as candidate</Link>
-          <Link href="/#contact">Worker support</Link>
+          <Link href="/login">Worker login</Link>
+          <Link href="/#contact">Download payslip</Link>
           <Link href="/#contact">FAQs</Link>
-        </div>
-        <div className="footer-column">
-          <h3>FOR EMPLOYERS</h3>
-          <Link href="/register/client">Register your company</Link>
-          <Link href="/#contact">Request manpower</Link>
-          <Link href="/login">Client sign in</Link>
         </div>
       </div>
 
-      {complianceTags.length > 0 && (
-        <div className="compliance-tags">
-          {complianceTags.map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
-        </div>
-      )}
+      <div className="container compliance-tags">
+        {complianceTags.map(([label, value]) => (
+          <span key={label}>{label}{value ? ` ${value}` : ""}</span>
+        ))}
+      </div>
 
       <div className="container footer-bottom">
         <p>
