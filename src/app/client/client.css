@@ -1,0 +1,275 @@
+.clientShell .clHero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
+  box-shadow: 0 8px 18px #0c274826;
+}
+
+.clientShell .clHero::before {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -90px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 160, 6, .3), rgba(249, 160, 6, 0) 68%);
+  pointer-events: none;
+}
+
+.clientShell .clHero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+}
+
+.clientShell .clHeroText { position: relative; z-index: 1; min-width: 0; }
+
+.clientShell .clEyebrow {
+  margin: 0 0 2px;
+  color: #f9a006;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.clientShell .clHero h1 {
+  margin: 0 0 2px;
+  color: #fff;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+
+.clientShell .clHeroLead {
+  margin: 0;
+  color: #c3d3e4;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.clientShell .clHeroAside {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.clientShell .clStatusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: #e7eef8;
+  font-size: 10.5px;
+  font-weight: 650;
+}
+
+.clientShell .clStatusPill i { width: 7px; height: 7px; border-radius: 50%; background: #9fb4cc; }
+.clientShell .clStatusPill--active i { background: #38d18a; box-shadow: 0 0 0 3px rgba(56, 209, 138, .2); }
+.clientShell .clStatusPill--pending i { background: #f9a006; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
+.clientShell .clStatusPill--blocked i { background: #ff6b6b; box-shadow: 0 0 0 3px rgba(255, 107, 107, .2); }
+
+.clientShell .clHeroDate { color: #dbe6f2; font-size: 11px; font-weight: 600; }
+.clientShell .clHeroEmail { color: #9db3cc; font-size: 10.5px; }
+
+/* KPI tiles ------------------------------------------------------------ */
+.clientShell .clKpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.clientShell .clKpi {
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 2px 7px #1230520d;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.clientShell .clKpi:hover { transform: translateY(-1px); box-shadow: 0 8px 18px #12305214; }
+
+.clientShell .clKpiTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.clientShell .clKpiValue {
+  display: block;
+  color: var(--ink);
+  font-size: 23px;
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.clientShell .clKpiValue--text { font-size: 17px; }
+.clientShell .clKpi > p { margin: 5px 0 0; color: var(--muted); font-size: 10.5px; line-height: 1.4; }
+
+.clientShell .clIconTile {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+}
+
+.clientShell .clTone-blue { background: #e8eef7; color: #0c2748; }
+.clientShell .clTone-indigo { background: #e2eeff; color: #2874ed; }
+.clientShell .clTone-green { background: #dcfbe9; color: #00a84f; }
+.clientShell .clTone-amber { background: #fff2c5; color: #c07c00; }
+.clientShell .clTone-slate { background: #eef2f7; color: #536780; }
+
+/* Layout + panels ------------------------------------------------------ */
+.clientShell .clLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(250px, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.clientShell .clAside { display: grid; gap: 12px; align-content: start; }
+
+.clientShell .clPanel {
+  padding: 12px 13px 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 2px 7px #1230520d;
+}
+
+.clientShell .clPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.clientShell .clPanelHead h2 { margin: 0 0 3px; color: var(--ink); font-size: 13.5px; letter-spacing: -.02em; }
+.clientShell .clPanelHead p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.4; }
+
+.clientShell .clCount {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #eef3f9;
+  color: #536780;
+  font-size: 10.5px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+/* Company details ------------------------------------------------------ */
+.clientShell .clDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 22px;
+  margin: 0;
+}
+
+.clientShell .clDetails > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid #f0f3f7;
+  font-size: 11.5px;
+}
+
+.clientShell .clDetails dt { color: var(--muted); }
+.clientShell .clDetails dd { margin: 0; color: var(--ink); font-weight: 650; text-align: right; overflow-wrap: anywhere; }
+
+/* Quick actions -------------------------------------------------------- */
+.clientShell .clActionGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+
+.clientShell .clAction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 9px;
+  border: 1px solid #e6ecf4;
+  border-radius: 10px;
+  background: #fbfcfe;
+  color: var(--ink);
+  text-align: left;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.clientShell .clAction:hover { background: #fff; border-color: #cfdcec; transform: translateX(2px); }
+.clientShell .clAction > span { min-width: 0; flex: 1 1 auto; }
+.clientShell .clAction strong { display: block; font-size: 12px; font-weight: 700; }
+.clientShell .clAction small { display: block; color: var(--muted); font-size: 10px; }
+.clientShell .clAction > svg { color: #9db0c8; flex: 0 0 auto; }
+
+/* Account summary ------------------------------------------------------ */
+.clientShell .clAccessList { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+
+.clientShell .clAccessList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #e6ecf4;
+}
+
+.clientShell .clAccessList li:last-child { border-bottom: 0; padding-bottom: 0; }
+.clientShell .clAccessList span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; }
+.clientShell .clAccessList strong {
+  max-width: 150px;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clientShell .clModuleMessage { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.clientShell .clientAccountSettingsActions { display: flex; justify-content: flex-end; margin-top: 18px; padding-top: 14px; border-top: 1px solid #edf1f6; }
+
+@media (max-width: 1100px) {
+  .clientShell .clKpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .clientShell .clLayout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .clientShell .clHero { flex-direction: column; align-items: flex-start; }
+  .clientShell .clHeroAside { justify-items: start; }
+  .clientShell .clKpis { grid-template-columns: minmax(0, 1fr); }
+  .clientShell .clActionGrid { grid-template-columns: minmax(0, 1fr); }
+  .clientShell .clDetails { grid-template-columns: minmax(0, 1fr); }
+}

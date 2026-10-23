@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AlertCircle, ArrowLeft, ArrowRight } from "lucide-react";
+import { AlertCircle, ArrowRight } from "lucide-react";
 import { Footer, Navbar } from "@/components/site-chrome";
 import { SiteProvider } from "@/components/site-provider";
+import HistoryBack from "@/components/history-back";
 import JobApplyButton from "@/components/job-apply-button";
-import { locationOf } from "@/components/public-job-card";
+import { locationOf } from "@/lib/job-format";
 import { getPublicJobBySlug } from "@/lib/publicApi";
 
 const SHIFT_LABELS = { DAY: "Day shift", NIGHT: "Night shift", ROTATIONAL: "Rotational shift" };
@@ -53,9 +54,7 @@ function JobContent({ job, slug }) {
     <>
       <section className="section section-soft job-detail-hero">
         <div className="container">
-          <Link className="service-back" href="/careers">
-            <ArrowLeft size={14} /> Back to all jobs
-          </Link>
+          <HistoryBack fallbackHref="/#careers">Back</HistoryBack>
           <span className="job-category">
             <i />
             {job.categoryName || "General"}

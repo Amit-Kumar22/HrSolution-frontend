@@ -1,4 +1,6 @@
 import RoleDashboard from "@/components/role-dashboard";
+import HrOverview from "@/components/hr-overview";
+import "./hr.css";
 
 export const metadata = {
   title: "HR Dashboard | Shakti Manpower",
@@ -16,6 +18,7 @@ export default function HrPage() {
       jobsView
       interviewsView
       variant="Hr"
+      overview={HrOverview}
     />
   );
 }

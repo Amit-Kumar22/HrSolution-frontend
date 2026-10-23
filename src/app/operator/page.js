@@ -1,4 +1,6 @@
 import RoleDashboard from "@/components/role-dashboard";
+import OperatorOverview from "@/components/operator-overview";
+import "./operator.css";
 
 export const metadata = {
   title: "Operator Dashboard | Shakti Manpower",
@@ -12,6 +14,8 @@ export default function OperatorPage() {
       dashboardName="Operator Dashboard"
       description="Your operations workspace. You only see the modules and actions granted to your role."
       clientManagement
+      variant="Operator"
+      overview={OperatorOverview}
     />
   );
 }

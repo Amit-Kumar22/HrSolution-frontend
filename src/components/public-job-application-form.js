@@ -138,8 +138,8 @@ export default function PublicJobApplicationForm({ slug, jobTitle }) {
           Keep your reference handy — quote it if you call us about this application.
         </p>
         <div className="job-detail-actions">
-          <Link className="button button-primary" href="/careers">
-            Browse more jobs <ArrowRight size={15} />
+          <Link className="button button-outline" href="/#careers">
+            Back to job openings
           </Link>
         </div>
       </div>
@@ -155,8 +155,8 @@ export default function PublicJobApplicationForm({ slug, jobTitle }) {
         <h2>This vacancy is no longer open</h2>
         <p>{blocked}</p>
         <div className="job-detail-actions">
-          <Link className="button button-primary" href="/careers">
-            See all open jobs <ArrowRight size={15} />
+          <Link className="button button-primary" href="/#careers">
+            Back to job openings <ArrowRight size={15} />
           </Link>
         </div>
       </div>

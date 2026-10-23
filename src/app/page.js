@@ -506,10 +506,13 @@ function TestimonialCard({ item }) {
     <article className="testimonial-card">
       {rating > 0 && (
         <div className="stars" aria-label={`${rating} out of 5 stars`}>
-          {"★".repeat(rating)}{"☆".repeat(5 - rating)}
+          {"★".repeat(rating)}
+          {"☆".repeat(5 - rating)}
+          <em className="stars-value">{rating}.0</em>
         </div>
       )}
       {content && <p>“{content}”</p>}
+      {name && <span className="testimonial-badge">Verified client</span>}
       <div className="client">
         <span>
           {photoUrl ? (
@@ -532,15 +535,32 @@ function Testimonials() {
   const { testimonials, loading, testimonialsError, reload } = useSite();
   const showList = !loading && !testimonialsError && testimonials.length > 0;
   const showEmpty = !loading && !testimonialsError && testimonials.length === 0;
+  const rated = testimonials.filter((item) => Number(item.rating) > 0);
+  const average = rated.length
+    ? (rated.reduce((total, item) => total + Number(item.rating || 0), 0) / rated.length).toFixed(1)
+    : "";
 
   return (
-    <section className="section section-white" id="testimonials">
+    <section className="section section-white testimonials-section" id="testimonials">
       <div className="container">
-        <SectionHeading
-          eyebrow="CLIENT STORIES"
-          title="What our clients value"
-          text="Real feedback from businesses that rely on our workforce teams every day."
-        />
+        <div className="testimonials-heading">
+          <div>
+            <span className="eyebrow">CLIENT STORIES</span>
+            <h2>What our clients value</h2>
+            <p>Real feedback from businesses that rely on our workforce teams every day.</p>
+          </div>
+          {showList && (
+            <div className="testimonial-rating">
+              <div>
+                <strong>{average}</strong>
+                <span className="stars" aria-hidden="true">★★★★★</span>
+              </div>
+              <small>
+                {rated.length} client rating{rated.length === 1 ? "" : "s"} · verified placements
+              </small>
+            </div>
+          )}
+        </div>
         {loading && <SkeletonGrid className="testimonial-grid" count={3} />}
         {!loading && testimonialsError && <SectionFeedback message={testimonialsError} onRetry={reload} />}
         {showList && (
@@ -549,9 +569,6 @@ function Testimonials() {
               <TestimonialCard key={item.id ?? index} item={item} />
             ))}
           </div>
-        )}
-        {showList && (
-          <div className="carousel-dots" aria-hidden="true"><i /><i /><i /></div>
         )}
         {showEmpty && (
           <div className="testimonial-empty">

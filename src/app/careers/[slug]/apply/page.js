@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AlertCircle, ArrowLeft, ArrowRight } from "lucide-react";
+import { AlertCircle, ArrowRight } from "lucide-react";
 import { Footer, Navbar } from "@/components/site-chrome";
 import { SiteProvider } from "@/components/site-provider";
+import HistoryBack from "@/components/history-back";
 import PublicJobApplicationForm from "@/components/public-job-application-form";
-import { locationOf } from "@/components/public-job-card";
+import { locationOf } from "@/lib/job-format";
 import { getPublicJobBySlug } from "@/lib/publicApi";
 
 export const instant = false;
@@ -47,9 +48,7 @@ export default async function CareerApplyPage({ params }) {
       <main>
         <section className="section section-soft job-detail-hero">
           <div className="container">
-            <Link className="service-back" href={`/careers/${encodeURIComponent(slug)}`}>
-              <ArrowLeft size={14} /> Back to job details
-            </Link>
+            <HistoryBack fallbackHref="/#careers">Back</HistoryBack>
             <span className="eyebrow">APPLY</span>
             <h1>Apply for {title}</h1>
             {!loadError && (
@@ -74,8 +73,8 @@ export default async function CareerApplyPage({ params }) {
                   <a className="button button-outline" href={`/careers/${encodeURIComponent(slug)}/apply`}>
                     Try again
                   </a>
-                  <Link className="button button-primary" href="/careers">
-                    Back to all jobs <ArrowRight size={15} />
+                  <Link className="button button-primary" href="/#careers">
+                    Back to job openings <ArrowRight size={15} />
                   </Link>
                 </div>
               </div>

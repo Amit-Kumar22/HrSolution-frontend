@@ -1,0 +1,415 @@
+.roleDashHr .hrOverview { display: grid; gap: 14px; }
+
+/* Hero ---------------------------------------------------------------- */
+.roleDashHr .hrHero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
+  box-shadow: 0 8px 18px #0c274826;
+}
+
+.roleDashHr .hrHero::before {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -90px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 160, 6, .32), rgba(249, 160, 6, 0) 68%);
+  pointer-events: none;
+}
+
+.roleDashHr .hrHero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+}
+
+.roleDashHr .hrHeroText { position: relative; z-index: 1; min-width: 0; }
+
+.roleDashHr .hrEyebrow {
+  margin: 0 0 2px;
+  color: #f9a006;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.roleDashHr .hrHero h1 {
+  margin: 0 0 2px;
+  color: #fff;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+
+.roleDashHr .hrHeroLead {
+  max-width: 620px;
+  margin: 0;
+  color: #c3d3e4;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.roleDashHr .hrHeroAside {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.roleDashHr .hrStatusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: #e7eef8;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.roleDashHr .hrStatusPill i { width: 7px; height: 7px; border-radius: 50%; background: #9fb4cc; }
+.roleDashHr .hrStatusPill--active i { background: #38d18a; box-shadow: 0 0 0 3px rgba(56, 209, 138, .2); }
+.roleDashHr .hrStatusPill--pending i { background: #f9a006; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
+.roleDashHr .hrStatusPill--blocked i { background: #ff6b6b; box-shadow: 0 0 0 3px rgba(255, 107, 107, .2); }
+
+.roleDashHr .hrHeroDate { color: #dbe6f2; font-size: 11.5px; font-weight: 600; }
+.roleDashHr .hrHeroEmail { color: #9db3cc; font-size: 11px; }
+
+/* KPI tiles ------------------------------------------------------------ */
+.roleDashHr .hrKpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.roleDashHr .hrKpi {
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 2px 8px #1230520d;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.roleDashHr .hrKpi:hover { transform: translateY(-2px); box-shadow: 0 10px 22px #12305214; }
+
+.roleDashHr .hrKpiTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.roleDashHr .hrKpiValue {
+  display: block;
+  color: var(--ink);
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.roleDashHr .hrKpi > p { margin: 7px 0 0; color: var(--muted); font-size: 11.5px; line-height: 1.45; }
+
+.roleDashHr .hrIconTile {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border-radius: 9px;
+}
+
+.roleDashHr .hrTone-blue { background: #e8eef7; color: #0c2748; }
+.roleDashHr .hrTone-indigo { background: #e2eeff; color: #2874ed; }
+.roleDashHr .hrTone-green { background: #dcfbe9; color: #00a84f; }
+.roleDashHr .hrTone-amber { background: #fff2c5; color: #c07c00; }
+.roleDashHr .hrTone-slate { background: #eef2f7; color: #536780; }
+
+/* Panels --------------------------------------------------------------- */
+.roleDashHr .hrLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.roleDashHr .hrAside { display: grid; gap: 14px; align-content: start; }
+
+.roleDashHr .hrLayout > .hrPanel { display: flex; flex-direction: column; }
+
+.roleDashHr .hrPanel {
+  padding: 15px 16px 16px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 2px 8px #1230520d;
+}
+
+.roleDashHr .hrPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.roleDashHr .hrPanelHead h2 { margin: 0 0 4px; color: var(--ink); font-size: 15.5px; letter-spacing: -.02em; }
+.roleDashHr .hrPanelHead p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.roleDashHr .hrPanelActions { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+
+.roleDashHr .hrCount {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eef3f9;
+  color: #536780;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.roleDashHr .hrLinkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1d5fbf;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.roleDashHr .hrLinkButton:hover { color: #12488f; text-decoration: underline; }
+
+/* Compact view tabs (mirrors the admin segmented controls) --------------- */
+
+.roleDashHr .hrTabBar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 0 10px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: #f5f8fc;
+}
+
+.roleDashHr .hrTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #536780;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.roleDashHr .hrTab span {
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #e4ebf4;
+  color: #435973;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.roleDashHr .hrTab:hover { background: #eaf0f8; color: var(--navy); }
+
+.roleDashHr .hrTabActive { background: var(--navy); color: #fff; }
+.roleDashHr .hrTabActive:hover { background: var(--navy); color: #fff; }
+.roleDashHr .hrTabActive span { background: #ffffff26; color: #fff; }
+
+/* Job list ------------------------------------------------------------- */
+.roleDashHr .hrJobList { list-style: none; margin: 0; padding: 0; flex: 1 1 auto; }
+
+.roleDashHr .hrJobRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 2px;
+  border-top: 1px solid #eef2f7;
+}
+
+.roleDashHr .hrJobRow:first-child { border-top: 0; padding-top: 2px; }
+
+.roleDashHr .hrJobMain { min-width: 0; }
+.roleDashHr .hrJobMain strong { display: block; color: var(--ink); font-size: 13.5px; font-weight: 700; }
+.roleDashHr .hrJobMain span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.roleDashHr .hrJobMeta { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.roleDashHr .hrJobOpenings { color: #536780; font-size: 11.5px; font-weight: 650; }
+
+/* Quick actions -------------------------------------------------------- */
+.roleDashHr .hrActionGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+
+.roleDashHr .hrAction {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #e6ecf4;
+  border-radius: 11px;
+  background: #fbfcfe;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.roleDashHr .hrAction:hover { background: #fff; border-color: #cfdcec; transform: translateX(2px); }
+.roleDashHr .hrAction > span { min-width: 0; flex: 1 1 auto; }
+.roleDashHr .hrAction strong { display: block; font-size: 12.5px; font-weight: 700; }
+.roleDashHr .hrAction small { display: none; }
+.roleDashHr .hrAction > svg { display: none; }
+
+/* Facts ---------------------------------------------------------------- */
+.roleDashHr .hrFacts { margin: 0 0 12px; display: grid; gap: 8px; }
+.roleDashHr .hrFacts > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e6ecf4;
+}
+
+.roleDashHr .hrFacts dt { margin: 0; color: var(--muted); font-size: 11.5px; }
+.roleDashHr .hrFacts dd { margin: 0; color: var(--ink); font-size: 12.5px; font-weight: 650; text-align: right; }
+
+.roleDashHr .hrMeter {
+  height: 6px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eef2f7;
+}
+
+.roleDashHr .hrMeter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f9a006, #ffc44d); }
+
+/* Modules -------------------------------------------------------------- */
+.roleDashHr .hrModuleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+  gap: 12px;
+}
+
+.roleDashHr .hrModule {
+  padding: 13px 14px;
+  border: 1px solid #e6ecf4;
+  border-radius: 12px;
+  background: #fbfcfe;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.roleDashHr .hrModule:hover { border-color: #cfdcec; transform: translateY(-2px); box-shadow: 0 8px 18px #12305212; }
+
+.roleDashHr .hrModuleHead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.roleDashHr .hrModuleHead strong { display: block; color: var(--ink); font-size: 13px; }
+.roleDashHr .hrModuleHead small { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
+
+.roleDashHr .hrChips { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.roleDashHr .hrChip {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #eef3f9;
+  color: #46587a;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.roleDashHr .hrChip--more { background: #fff2c5; color: #a15c00; }
+
+/* Table ---------------------------------------------------------------- */
+.roleDashHr .hrTable .cmTable { border-radius: 10px; }
+.roleDashHr .hrWhen { display: inline-flex; align-items: center; gap: 5px; }
+
+/* Compact interview table (12 columns fit without cropping) -------------- */
+.roleDashHr .hrTable .cmTable { min-width: 860px; font-size: 11.5px; }
+.roleDashHr .hrTable .cmTable thead th { padding: 6px 8px; font-size: 9.5px; letter-spacing: .03em; }
+.roleDashHr .hrTable .cmTable tbody td { padding: 5px 8px; font-size: 11px; line-height: 1.35; }
+.roleDashHr .hrTable .cmEntity { gap: 6px; }
+.roleDashHr .hrTable .cmEntity strong { font-size: 11px; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.roleDashHr .hrTable .cmEntity small { font-size: 9.5px; }
+.roleDashHr .hrTable .cmIconTile { width: 22px; height: 22px; border-radius: 6px; }
+.roleDashHr .hrTable .cmIconTile svg { width: 12px; height: 12px; }
+.roleDashHr .hrTable .cmCode { padding: 2px 5px; font-size: 10px; }
+.roleDashHr .hrTable .cmCellWrap { max-width: 150px; font-size: 10.5px; line-height: 1.35; }
+.roleDashHr .hrTable .cmChip { padding: 1px 6px; font-size: 9.5px; }
+.roleDashHr .hrTable .cmStatus { padding: 2px 7px; font-size: 10px; }
+.roleDashHr .hrTable .cmColActions { white-space: nowrap; }
+.roleDashHr .hrFeedbackCell {
+  max-width: 160px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.3;
+}
+
+.roleDashHr .hrFootnote {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 11.5px;
+}
+
+.roleDashHr .hrFootnote svg { color: #9db0c8; flex: 0 0 auto; }
+
+@media (max-width: 1100px) {
+  .roleDashHr .hrKpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .roleDashHr .hrLayout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .roleDashHr .hrHero { flex-direction: column; align-items: flex-start; }
+  .roleDashHr .hrHeroAside { align-items: flex-start; }
+  .roleDashHr .hrKpis { grid-template-columns: minmax(0, 1fr); }
+  .roleDashHr .hrJobRow { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .roleDashHr .hrModuleGrid { grid-template-columns: minmax(0, 1fr); }
+}

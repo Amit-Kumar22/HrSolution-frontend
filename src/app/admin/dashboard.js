@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -23,6 +23,7 @@ import {
   Tags, UserSearch, UsersRound, Wallet, Wrench, X,
 } from "lucide-react";
 import { getUnreadContactCount } from "../../lib/adminApi";
+import { humanize } from "../../lib/permission-modules";
 import { styles } from "./admin-styles";
 import ApplicationsPanel from "./applications-panel";
 import ContactMessagesPanel from "./contact-messages-panel";
@@ -43,7 +44,7 @@ const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
   { label: "Clients", view: "clients", icon: Building2, section: "main" },
   { label: "Contracts", view: "contracts", icon: FileSignature, section: "main" },
-  { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main", badge: "7" },
+  { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "WORKFORCE" },
@@ -59,7 +60,7 @@ const navigation = [
   { label: "Industries", view: "industries", icon: Factory, section: "WEBSITE" },
   { label: "Services", view: "services", icon: Layers, section: "WEBSITE" },
   { label: "Testimonials", view: "testimonials", icon: Quote, section: "WEBSITE" },
-  { label: "Compliance", view: "compliance", icon: ShieldCheck, section: "ADMIN", badge: "3" },
+  { label: "Compliance", view: "compliance", icon: ShieldCheck, section: "ADMIN" },
   { label: "Audit log", view: "audit", icon: Activity, section: "ADMIN" },
 ];
 
@@ -107,6 +108,9 @@ export default function AdminDashboard() {
   const [passwordChanged, setPasswordChanged] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchRef = useRef(null);
 
   const [unreadRefreshToken, setUnreadRefreshToken] = useState(0);
 
@@ -172,6 +176,24 @@ export default function AdminDashboard() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [profileOpen]);
+
+  useEffect(() => {
+    if (!searchOpen) return undefined;
+    function handlePointerDown(event) {
+      const node = searchRef.current;
+      if (node && !node.contains(event.target)) setSearchOpen(false);
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [searchOpen]);
+
+  const searchResults = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return [];
+    return navigation
+      .filter((item) => item.label.toLowerCase().includes(query) || item.view.toLowerCase().includes(query))
+      .slice(0, 6);
+  }, [searchQuery]);
 
   async function handleLogout(allDevices = false) {
     if (!sessionState || isLoggingOut) return;
@@ -271,9 +293,15 @@ export default function AdminDashboard() {
   }
 
   const session = sessionState;
-  const fullName = "Admin";
-  const roleName = "Admin";
-  const initials = fullName.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase();
+  const sessionUser = (session && session.user) || {};
+  const fullName = sessionUser.fullName
+    || [sessionUser.firstName, sessionUser.lastName].filter(Boolean).join(" ")
+    || sessionUser.email
+    || "Admin";
+  const roleName = Array.isArray(sessionUser.roles) && sessionUser.roles.length
+    ? `${humanize(sessionUser.roles[0])}${sessionUser.roles.length > 1 ? ` +${sessionUser.roles.length - 1}` : ""}`
+    : "Administrator";
+  const initials = fullName.split(/\s+/).map((part) => part[0]).filter(Boolean).slice(0, 2).join("").toUpperCase() || "A";
 
   let content;
   if (activeView === "clients") content = <ClientsPanel />;
@@ -289,7 +317,7 @@ export default function AdminDashboard() {
   else if (activeView === "enquiries") content = <EnquiriesPanel />;
   else if (activeView === "manpower-categories") content = <ManpowerCategoriesPanel />;
   else if (activeView === "skills") content = <SkillsPanel />;
-  else if (activeView === "dashboard") content = <DashboardOverview session={session} />;
+  else if (activeView === "dashboard") content = <DashboardOverview session={session} onNavigate={setActiveView} />;
   else {
     const activeNav = navigation.find((item) => item.view === activeView);
     content = <ModulePlaceholder label={activeNav ? activeNav.label : "Module"} />;
@@ -334,9 +362,9 @@ export default function AdminDashboard() {
           })}
         </nav>
         <div className={styles.payrollNotice}>
-          <strong>FY 2026–27 · October</strong>
-          <span>Payroll cut-off in 4 days</span>
-          <small>Lock attendance for 32 sites before 10-10-2026.</small>
+          <strong>{unreadCount > 0 ? `${unreadCount} message${unreadCount === 1 ? "" : "s"} to answer` : "Inbox is clear"}</strong>
+          <span>Contact messages waiting</span>
+          <small>Open Leads → Contact messages to reply to new enquiries.</small>
         </div>
         <button className={styles.signOut} type="button" onClick={() => handleLogout()} disabled={isLoggingOut}>
           <LockKeyhole size={15} />{isLoggingOut ? "Signing out…" : "Sign out"}
@@ -348,10 +376,49 @@ export default function AdminDashboard() {
           <button className={styles.mobileMenu} onClick={() => setSidebarOpen(!sidebarOpen)} aria-label={sidebarOpen ? "Close navigation" : "Open navigation"}>
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
-          <label className={styles.searchBox}>
-            <Search size={17} />
-            <input type="search" placeholder="Search workers, clients, invoices..." aria-label="Search workers, clients, invoices" />
-          </label>
+          <div className={styles.searchBoxWrap} ref={searchRef}>
+            <label className={styles.searchBox}>
+              <Search size={17} />
+              <input
+                type="search"
+                value={searchQuery}
+                placeholder="Jump to a module…"
+                aria-label="Search admin modules"
+                onChange={(event) => { setSearchQuery(event.target.value); setSearchOpen(true); }}
+                onFocus={() => setSearchOpen(true)}
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") { setSearchOpen(false); setSearchQuery(""); }
+                }}
+              />
+            </label>
+            {searchOpen && searchResults.length > 0 && (
+              <ul className={styles.searchResults}>
+                {searchResults.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.view}>
+                      <button
+                        type="button"
+                        className={styles.searchResultItem}
+                        onClick={() => {
+                          setActiveView(item.view);
+                          setSearchQuery("");
+                          setSearchOpen(false);
+                          setSidebarOpen(false);
+                        }}
+                      >
+                        <Icon size={15} strokeWidth={1.8} />
+                        <span>
+                          <strong>{item.label}</strong>
+                          <small>{sectionLabels[item.section] || "Console"}</small>
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
           <div className={styles.userActions} ref={userActionsRef}>
             <button
               className={styles.notification}

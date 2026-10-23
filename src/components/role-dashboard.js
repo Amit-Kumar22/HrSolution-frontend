@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -51,6 +51,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
   const [activeView, setActiveView] = useState("overview");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [catalogue, setCatalogue] = useState(null);
+  const userActionsRef = useRef(null);
 
   useEffect(() => {
     if (sessionState === AUTH_SESSION_LOADING) return;
@@ -93,6 +94,22 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
       cancelled = true;
     };
   }, [sessionState]);
+
+  useEffect(() => {
+    if (!profileOpen) return undefined;
+    function handlePointerDown(event) {
+      if (userActionsRef.current && !userActionsRef.current.contains(event.target)) setProfileOpen(false);
+    }
+    function handleKeyDown(event) {
+      if (event.key === "Escape") setProfileOpen(false);
+    }
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [profileOpen]);
 
   const permissionModules = useMemo(() => catalogue || [], [catalogue]);
 
@@ -239,7 +256,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
             <strong>{dashboardName}</strong>
             <small>{activeNavItem ? activeNavItem.label : "Dashboard"}</small>
           </div>
-          <div className={styles.userActions}>
+          <div className={styles.userActions} ref={userActionsRef}>
             <button className={styles.userProfile} aria-expanded={profileOpen} onClick={() => setProfileOpen(!profileOpen)}>
               <span className={styles.avatar}>{initials}</span>
               <span>

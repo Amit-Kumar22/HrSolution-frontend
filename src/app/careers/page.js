@@ -14,18 +14,21 @@ export default function CareersPage() {
       <Navbar />
       <main>
         <section className="section section-soft careers-hero">
-          <div className="container">
-            <span className="eyebrow">CAREERS</span>
-            <h1>Current job openings</h1>
-            <p>
-              Verified employers, PF &amp; ESI benefits and salary on time — every month. Find a role that fits you and
-              apply in minutes.
-            </p>
+          <div className="container careers-hero-inner">
+            <div className="careers-hero-copy">
+              <span className="eyebrow">CAREERS</span>
+              <h1>Current job openings</h1>
+              <p>Find a role that fits you and apply in minutes.</p>
+            </div>
           </div>
         </section>
 
-        <section className="section section-white" id="openings">
+        <section className="section section-white careers-openings" id="openings">
           <div className="container">
+            <div className="careers-openings-heading">
+              <span className="eyebrow">OPEN POSITIONS</span>
+              <h2>Explore opportunities</h2>
+            </div>
             <CareersBrowser />
           </div>
         </section>

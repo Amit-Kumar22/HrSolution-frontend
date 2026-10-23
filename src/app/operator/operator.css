@@ -1,0 +1,338 @@
+.roleDashOperator .opOverview { display: grid; gap: 12px; }
+
+/* Hero ---------------------------------------------------------------- */
+.roleDashOperator .opHero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
+  box-shadow: 0 8px 18px #0c274826;
+}
+
+.roleDashOperator .opHero::before {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -90px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 160, 6, .3), rgba(249, 160, 6, 0) 68%);
+  pointer-events: none;
+}
+
+.roleDashOperator .opHero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+}
+
+.roleDashOperator .opHeroText { position: relative; z-index: 1; min-width: 0; }
+
+.roleDashOperator .opEyebrow {
+  margin: 0 0 2px;
+  color: #f9a006;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+.roleDashOperator .opHero h1 {
+  margin: 0 0 2px;
+  color: #fff;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+
+.roleDashOperator .opHeroLead {
+  margin: 0;
+  color: #c3d3e4;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.roleDashOperator .opHeroAside {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.roleDashOperator .opStatusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: #e7eef8;
+  font-size: 10.5px;
+  font-weight: 650;
+}
+
+.roleDashOperator .opStatusPill i { width: 7px; height: 7px; border-radius: 50%; background: #9fb4cc; }
+.roleDashOperator .opStatusPill--active i { background: #38d18a; box-shadow: 0 0 0 3px rgba(56, 209, 138, .2); }
+.roleDashOperator .opStatusPill--pending i { background: #f9a006; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
+.roleDashOperator .opStatusPill--blocked i { background: #ff6b6b; box-shadow: 0 0 0 3px rgba(255, 107, 107, .2); }
+
+.roleDashOperator .opHeroDate { color: #dbe6f2; font-size: 11px; font-weight: 600; }
+.roleDashOperator .opHeroEmail { color: #9db3cc; font-size: 10.5px; }
+
+/* KPI tiles ------------------------------------------------------------ */
+.roleDashOperator .opKpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.roleDashOperator .opKpi {
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 2px 7px #1230520d;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.roleDashOperator .opKpi:hover { transform: translateY(-1px); box-shadow: 0 8px 18px #12305214; }
+
+.roleDashOperator .opKpiTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.roleDashOperator .opKpiValue {
+  display: block;
+  color: var(--ink);
+  font-size: 23px;
+  line-height: 1;
+  letter-spacing: -.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.roleDashOperator .opKpi > p { margin: 5px 0 0; color: var(--muted); font-size: 10.5px; line-height: 1.4; }
+
+.roleDashOperator .opIconTile {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  border-radius: 8px;
+}
+
+.roleDashOperator .opTone-blue { background: #e8eef7; color: #0c2748; }
+.roleDashOperator .opTone-indigo { background: #e2eeff; color: #2874ed; }
+.roleDashOperator .opTone-green { background: #dcfbe9; color: #00a84f; }
+.roleDashOperator .opTone-amber { background: #fff2c5; color: #c07c00; }
+.roleDashOperator .opTone-slate { background: #eef2f7; color: #536780; }
+
+/* Layout + panels ----------------------------------------------------- */
+.roleDashOperator .opLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(250px, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+.roleDashOperator .opAside { display: grid; gap: 12px; align-content: start; }
+
+.roleDashOperator .opPanel {
+  padding: 12px 13px 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: #fff;
+  box-shadow: 0 2px 7px #1230520d;
+}
+
+.roleDashOperator .opPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.roleDashOperator .opPanelHead h2 { margin: 0 0 3px; color: var(--ink); font-size: 13.5px; letter-spacing: -.02em; }
+.roleDashOperator .opPanelHead p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.4; }
+.roleDashOperator .opPanelActions { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+
+.roleDashOperator .opCount {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #eef3f9;
+  color: #536780;
+  font-size: 10.5px;
+  font-weight: 650;
+}
+
+.roleDashOperator .opLinkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1d5fbf;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.roleDashOperator .opLinkButton:hover { color: #12488f; text-decoration: underline; }
+.roleDashOperator .opLinkButton--block { margin-top: 9px; }
+
+/* Client list ---------------------------------------------------------- */
+.roleDashOperator .opClientList,
+.roleDashOperator .opEnquiryList { list-style: none; margin: 0; padding: 0; }
+
+.roleDashOperator .opClientRow,
+.roleDashOperator .opEnquiryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 2px;
+  border-top: 1px solid #eef2f7;
+}
+
+.roleDashOperator .opClientRow:first-child,
+.roleDashOperator .opEnquiryRow:first-child { border-top: 0; padding-top: 0; }
+
+.roleDashOperator .opClientMain,
+.roleDashOperator .opEnquiryMain { min-width: 0; }
+
+.roleDashOperator .opClientMain strong,
+.roleDashOperator .opEnquiryMain strong {
+  display: block;
+  color: var(--ink);
+  font-size: 12.5px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roleDashOperator .opClientMain span,
+.roleDashOperator .opEnquiryMain span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.roleDashOperator .opEnquiryMeta { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.roleDashOperator .opEnquiryMeta > span { color: #536780; font-size: 10.5px; font-weight: 650; }
+
+/* Quick actions -------------------------------------------------------- */
+.roleDashOperator .opActionGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+
+.roleDashOperator .opAction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 9px;
+  border: 1px solid #e6ecf4;
+  border-radius: 10px;
+  background: #fbfcfe;
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.roleDashOperator .opAction:hover { background: #fff; border-color: #cfdcec; transform: translateX(2px); }
+.roleDashOperator .opAction > span { min-width: 0; flex: 1 1 auto; }
+.roleDashOperator .opAction strong { display: block; font-size: 12px; font-weight: 700; }
+.roleDashOperator .opAction small { display: none; }
+.roleDashOperator .opAction > svg { display: none; }
+
+/* Access summary ------------------------------------------------------- */
+.roleDashOperator .opAccessList { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+
+.roleDashOperator .opAccessList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #e6ecf4;
+}
+
+.roleDashOperator .opAccessList li:last-child { border-bottom: 0; padding-bottom: 0; }
+.roleDashOperator .opAccessList span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; }
+.roleDashOperator .opAccessList strong { color: var(--ink); font-size: 12.5px; font-weight: 700; }
+
+/* Modules -------------------------------------------------------------- */
+.roleDashOperator .opModuleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+.roleDashOperator .opModule {
+  padding: 11px 12px;
+  border: 1px solid #e6ecf4;
+  border-radius: 10px;
+  background: #fbfcfe;
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.roleDashOperator .opModule:hover { border-color: #cfdcec; transform: translateY(-1px); box-shadow: 0 6px 14px #12305212; }
+
+.roleDashOperator .opModuleHead { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.roleDashOperator .opModuleHead strong { display: block; color: var(--ink); font-size: 12px; }
+.roleDashOperator .opModuleHead small { display: block; margin-top: 1px; color: var(--muted); font-size: 10px; }
+
+.roleDashOperator .opModuleChips { display: flex; flex-wrap: wrap; gap: 4px; }
+
+.roleDashOperator .opChip {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #eef3f9;
+  color: #46587a;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.roleDashOperator .opChip--more { background: #fff2c5; color: #a15c00; }
+
+@media (max-width: 1100px) {
+  .roleDashOperator .opKpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .roleDashOperator .opLayout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .roleDashOperator .opHero { flex-direction: column; align-items: flex-start; }
+  .roleDashOperator .opHeroAside { justify-items: start; }
+  .roleDashOperator .opKpis { grid-template-columns: minmax(0, 1fr); }
+  .roleDashOperator .opActionGrid { grid-template-columns: minmax(0, 1fr); }
+  .roleDashOperator .opClientRow,
+  .roleDashOperator .opEnquiryRow { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
