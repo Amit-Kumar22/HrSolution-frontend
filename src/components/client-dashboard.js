@@ -14,6 +14,7 @@ import {
   LockKeyhole,
   MapPin,
   Menu,
+  ReceiptText,
   Settings,
   ShieldCheck,
   Users,
@@ -32,13 +33,48 @@ import {
   subscribeToAuthSession,
 } from "@/lib/auth";
 import { getMyClient } from "@/lib/clientApi";
+import ClientContracts from "@/components/client-contracts";
+import ClientCompanyProfile from "@/components/client-company-profile";
+import ClientSites from "@/components/client-sites";
+import ClientSiteDetails from "@/components/client-site-details";
+import ClientUsers from "@/components/client-users";
+import { Chip, ErrorState, LoadingState } from "@/app/admin/admin-ui";
+import {
+  companyBillingAddress,
+  companyName,
+  companyStatusMeta,
+  gstTreatmentLabel,
+} from "@/lib/client-format";
 import { styles } from "@/app/admin/admin-styles";
 
 const navigation = [
-  { label: "Overview", view: "dashboard", icon: LayoutDashboard, section: "WORKSPACE" },
+  { label: "Overview", href: "/client", view: "dashboard", icon: LayoutDashboard, section: "WORKSPACE" },
+  { label: "Company profile", href: "/client/company", view: "company-profile", icon: Building2, section: "WORKSPACE" },
+  { label: "Sites", href: "/client/sites", view: "sites", icon: MapPin, section: "WORKSPACE" },
+  { label: "Users", href: "/client/users", view: "users", icon: Users, section: "WORKSPACE" },
+  { label: "My contracts", href: "/client/contracts", view: "contracts", icon: FileSignature, section: "WORKSPACE" },
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "WORKSPACE" },
-  { label: "Account settings", href: "/client/account", icon: Settings, section: "ACCOUNT" },
+  { label: "Account settings", href: "/client/account", view: "account-settings", icon: Settings, section: "ACCOUNT" },
 ];
+
+const viewCopy = {
+  "company-profile": {
+    title: "Company profile",
+    lead: "Registration, statutory and billing details for your company.",
+  },
+  sites: {
+    title: "Sites",
+    lead: "Locations where your workforce is deployed.",
+  },
+  "site-details": {
+    title: "Site details",
+    lead: "Address, in-charge and status for the selected site.",
+  },
+  users: {
+    title: "Users",
+    lead: "People at your company who can access the client portal.",
+  },
+};
 
 const statusGuidance = {
   PENDING_APPROVAL: "Your company registration is awaiting approval. Client workspace features will unlock once your account is approved.",
@@ -80,7 +116,7 @@ function ClientBrand() {
   );
 }
 
-export default function ClientDashboard({ initialView = "dashboard" }) {
+export default function ClientDashboard({ initialView = "dashboard", siteId = null }) {
   const router = useRouter();
   const sessionState = useSyncExternalStore(
     subscribeToAuthSession,
@@ -88,7 +124,9 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
     getServerAuthSnapshot,
   );
   const [company, setCompany] = useState(null);
+  const [companyLoading, setCompanyLoading] = useState(true);
   const [companyError, setCompanyError] = useState("");
+  const [companyReloadToken, setCompanyReloadToken] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [activeView, setActiveView] = useState(initialView);
@@ -111,16 +149,24 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
     let cancelled = false;
     (async () => {
       try {
-        const data = await getMyClient();
-        if (!cancelled) setCompany(data);
+        const data = await getMyClient({ force: companyReloadToken > 0 });
+        if (!cancelled) {
+          setCompany(data);
+          setCompanyError("");
+        }
       } catch (error) {
-        if (!cancelled) setCompanyError(error instanceof Error ? error.message : "Your company details could not be loaded.");
+        if (!cancelled) {
+          setCompany(null);
+          setCompanyError(error instanceof Error ? error.message : "Your company details could not be loaded.");
+        }
+      } finally {
+        if (!cancelled) setCompanyLoading(false);
       }
     })();
     return () => {
       cancelled = true;
     };
-  }, [sessionState]);
+  }, [companyReloadToken, sessionState]);
 
   useEffect(() => {
     if (!sessionState || typeof sessionState !== "object" || !sessionState.accessToken) return;
@@ -182,12 +228,19 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
   const initials = name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase();
   const guidance = statusGuidance[user.status];
   const account = accountStatus(user.status);
+  const companyStatus = companyStatusMeta(company?.status);
   const today = formatDateValue(new Date());
   const sections = ["WORKSPACE", "ACCOUNT"];
 
   function chooseView(view) {
     setActiveView(view);
     setSidebarOpen(false);
+  }
+
+  function retryCompany() {
+    setCompanyLoading(true);
+    setCompanyError("");
+    setCompanyReloadToken((token) => token + 1);
   }
 
   return (
@@ -203,12 +256,16 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
               <div className={styles.navSection}>{section}</div>
               {navigation.filter((item) => item.section === section).map((item) => {
                 const Icon = item.icon;
+                const isActive =
+                  activeView === item.view ||
+                  (item.view === "sites" && activeView === "site-details");
                 return item.href ? (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={`${styles.navItem}${activeView === "account-settings" ? ` ${styles.navActive}` : ""}`}
-                    onClick={() => chooseView("account-settings")}
+                    className={`${styles.navItem}${isActive ? ` ${styles.navActive}` : ""}`}
+                    aria-current={isActive ? "page" : undefined}
+                    onClick={() => chooseView(item.view)}
                   >
                     <Icon size={17} strokeWidth={1.8} />
                     <span>{item.label}</span>
@@ -218,8 +275,8 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
                     key={item.label}
                     type="button"
                     onClick={() => chooseView(item.view)}
-                    className={`${styles.navItem}${activeView === item.view ? ` ${styles.navActive}` : ""}`}
-                    aria-current={activeView === item.view ? "page" : undefined}
+                    className={`${styles.navItem}${isActive ? ` ${styles.navActive}` : ""}`}
+                    aria-current={isActive ? "page" : undefined}
                   >
                     <Icon size={17} strokeWidth={1.8} />
                     <span>{item.label}</span>
@@ -293,32 +350,38 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
         <div className={styles.dashboardContent}>
           {logoutError && <p className={styles.actionError} role="alert">{logoutError}</p>}
 
-          <section className="clHero">
-            <div className="clHeroText">
-              <p className="clEyebrow">Client portal</p>
-              <h1>
-                {activeView === "dashboard" ? `Welcome back, ${name}` : activeView === "account-settings" ? "Account settings" : navigation.find((item) => item.view === activeView)?.label}
-              </h1>
-              <p className="clHeroLead">
-                {activeView === "account-settings"
-                  ? "Review your client profile and account information."
-                  : "Company profile, sites and service agreements — all in one compact view."}
-              </p>
-            </div>
-            <div className="clHeroAside">
-              <span className={`clStatusPill clStatusPill--${account.tone}`}>
-                <i />
-                {account.label}
-              </span>
-              <span className="clHeroDate" suppressHydrationWarning>
-                {today}
-              </span>
-              <span className="clHeroEmail">{user.email || "—"}</span>
-            </div>
-          </section>
+          {activeView !== "contracts" && (
+            <section className="clHero">
+              <div className="clHeroText">
+                <p className="clEyebrow">Client portal</p>
+                <h1>
+                  {activeView === "dashboard"
+                    ? `Welcome back, ${name}`
+                    : viewCopy[activeView]?.title || navigation.find((item) => item.view === activeView)?.label}
+                </h1>
+                <p className="clHeroLead">
+                  {activeView === "account-settings"
+                    ? "Review your client profile and account information."
+                    : viewCopy[activeView]?.lead || "Company profile, sites and service agreements — all in one compact view."}
+                </p>
+              </div>
+              <div className="clHeroAside">
+                <span className={`clStatusPill clStatusPill--${account.tone}`}>
+                  <i />
+                  {account.label}
+                </span>
+                <span className="clHeroDate" suppressHydrationWarning>
+                  {today}
+                </span>
+                <span className="clHeroEmail">{user.email || "—"}</span>
+              </div>
+            </section>
+          )}
 
           {guidance && <div className="clientStatusNotice" role="status">{guidance}</div>}
-          {companyError && <div className="clientErrorNotice" role="alert">{companyError}</div>}
+          {companyError && (activeView === "dashboard" || activeView === "account-settings") ? (
+            <ErrorState message={companyError} onRetry={retryCompany} />
+          ) : null}
 
           {activeView === "account-settings" ? (
             <section className="clPanel clientAccountSettings" aria-labelledby="client-account-settings-title">
@@ -343,11 +406,11 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
                 </div>
                 <div>
                   <dt>Phone number</dt>
-                  <dd>{company?.contactPhone || user.phone || "—"}</dd>
+                  <dd>{user.phone || "—"}</dd>
                 </div>
                 <div>
                   <dt>Company</dt>
-                  <dd>{company?.legalName || "—"}</dd>
+                  <dd>{company ? companyName(company) : "—"}</dd>
                 </div>
                 <div>
                   <dt>Client code</dt>
@@ -359,9 +422,40 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
                 </div>
               </dl>
               <div className="clientAccountSettingsActions">
+                <Link className="button button-outline" href="/client/company">View company profile</Link>
                 <Link className="button button-outline" href="/sessions">Manage active sessions</Link>
               </div>
             </section>
+          ) : activeView === "company-profile" ? (
+            <ClientCompanyProfile
+              company={company}
+              loading={companyLoading}
+              error={companyError}
+              onRetry={retryCompany}
+            />
+          ) : activeView === "sites" ? (
+            <ClientSites
+              company={company}
+              companyLoading={companyLoading}
+              companyError={companyError}
+              onCompanyRetry={retryCompany}
+            />
+          ) : activeView === "users" ? (
+            <ClientUsers
+              company={company}
+              companyLoading={companyLoading}
+              companyError={companyError}
+              onCompanyRetry={retryCompany}
+            />
+          ) : activeView === "site-details" ? (
+            <ClientSiteDetails key={siteId} siteId={siteId} />
+          ) : activeView === "contracts" ? (
+            <ClientContracts
+              company={company}
+              companyLoading={companyLoading}
+              companyError={companyError}
+              session={sessionState}
+            />
           ) : activeView === "dashboard" ? (
             <>
               <section className="clKpis" aria-label="Company summary">
@@ -387,13 +481,13 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
                 </article>
                 <article className="clKpi">
                   <div className="clKpiTop">
-                    <span>Account status</span>
+                    <span>Company status</span>
                     <i className="clIconTile clTone-green">
                       <ShieldCheck size={15} />
                     </i>
                   </div>
-                  <strong className="clKpiValue clKpiValue--text">{account.label}</strong>
-                  <p>Client portal access</p>
+                  <strong className="clKpiValue clKpiValue--text">{companyStatus.label}</strong>
+                  <p>Current company record</p>
                 </article>
               </section>
 
@@ -401,45 +495,63 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
                 <section className="clPanel" aria-labelledby="client-company-title">
                   <div className="clPanelHead">
                     <div>
-                      <h2 id="client-company-title">Company profile</h2>
-                      <p>Your company information on file with Shakti Manpower.</p>
+                      <h2 id="client-company-title">{company ? companyName(company) : "Company profile"}</h2>
+                      <p>
+                        {company?.clientCode || "—"}
+                        {company?.industryName ? ` · ${company.industryName}` : ""}
+                      </p>
                     </div>
-                    <span className="clCount">{company?.status || user.status || "Loading"}</span>
+                    <Chip tone={companyStatus.tone}>{companyStatus.label}</Chip>
                   </div>
-                  <dl className="clDetails">
-                    <div>
-                      <dt>Legal name</dt>
-                      <dd>{company?.legalName || "—"}</dd>
-                    </div>
-                    <div>
-                      <dt>Client code</dt>
-                      <dd>{company?.clientCode || "—"}</dd>
-                    </div>
-                    <div>
-                      <dt>Industry</dt>
-                      <dd>{company?.industryName || "—"}</dd>
-                    </div>
-                    <div>
-                      <dt>GSTIN</dt>
-                      <dd>{company?.gstin || "—"}</dd>
-                    </div>
-                    <div>
-                      <dt>Billing location</dt>
-                      <dd>{[company?.billingCity, company?.billingState].filter(Boolean).join(", ") || "—"}</dd>
-                    </div>
-                    <div>
-                      <dt>Contact email</dt>
-                      <dd>{user.email || "—"}</dd>
-                    </div>
-                    <div>
-                      <dt>Contact phone</dt>
-                      <dd>{company?.contactPhone || user.phone || "—"}</dd>
-                    </div>
-                    <div>
-                      <dt>Onboarded on</dt>
-                      <dd>{company?.onboardedOn ? formatDateValue(company.onboardedOn) : "—"}</dd>
-                    </div>
-                  </dl>
+                  {companyLoading ? (
+                    <LoadingState label="Loading company profile…" />
+                  ) : company ? (
+                    <>
+                      <dl className="clDetails">
+                        <div>
+                          <dt>Display name</dt>
+                          <dd>{company.displayName || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>Legal name</dt>
+                          <dd>{company.legalName || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>Trade name</dt>
+                          <dd>{company.tradeName || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>Client code</dt>
+                          <dd>{company.clientCode || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>GSTIN</dt>
+                          <dd>{company.gstin || "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>GST treatment</dt>
+                          <dd>{gstTreatmentLabel(company.gstTreatment)}</dd>
+                        </div>
+                        <div>
+                          <dt>Payment terms</dt>
+                          <dd>{company.paymentTermsDays != null ? `${company.paymentTermsDays} days` : "—"}</dd>
+                        </div>
+                        <div>
+                          <dt>Onboarded on</dt>
+                          <dd>{company.onboardedOn ? formatDateValue(company.onboardedOn) : "—"}</dd>
+                        </div>
+                        <div className="clDetailFull">
+                          <dt>Billing address</dt>
+                          <dd>{companyBillingAddress(company)}</dd>
+                        </div>
+                      </dl>
+                      <div className="clPanelFooter">
+                        <Link className="button button-outline" href="/client/company">View full company profile</Link>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="clModuleMessage">Company information is not available.</p>
+                  )}
                 </section>
 
                 <aside className="clAside">
@@ -506,25 +618,25 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
                         <span>
                           <Building2 size={13} /> Company
                         </span>
-                        <strong>{company?.legalName || "—"}</strong>
+                        <strong>{company ? companyName(company) : "—"}</strong>
                       </li>
                       <li>
                         <span>
-                          <MapPin size={13} /> Sites
+                          <FileSignature size={13} /> Client code
                         </span>
-                        <strong>{company?.activeSiteCount ?? "—"}</strong>
+                        <strong>{company?.clientCode || "—"}</strong>
                       </li>
                       <li>
                         <span>
-                          <FileSignature size={13} /> Contracts
+                          <ReceiptText size={13} /> Payment terms
                         </span>
-                        <strong>{company?.activeContractCount ?? "—"}</strong>
+                        <strong>{company?.paymentTermsDays != null ? `${company.paymentTermsDays} days` : "—"}</strong>
                       </li>
                       <li>
                         <span>
-                          <Users size={13} /> Workspace
+                          <ShieldCheck size={13} /> GST treatment
                         </span>
-                        <strong>{company?.linkedUserCount ?? "—"}</strong>
+                        <strong>{gstTreatmentLabel(company?.gstTreatment)}</strong>
                       </li>
                     </ul>
                   </section>
@@ -536,7 +648,7 @@ export default function ClientDashboard({ initialView = "dashboard" }) {
               <div className="clPanelHead">
                 <div>
                   <h2>{navigation.find((item) => item.view === activeView)?.label}</h2>
-                  <p>{company?.legalName || "Your company"} workspace</p>
+                  <p>{company ? companyName(company) : "Your company"} workspace</p>
                 </div>
                 <i className="clIconTile clTone-indigo">
                   <ClipboardList size={15} />

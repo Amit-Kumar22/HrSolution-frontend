@@ -261,9 +261,206 @@
 .clientShell .clModuleMessage { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
 .clientShell .clientAccountSettingsActions { display: flex; justify-content: flex-end; margin-top: 18px; padding-top: 14px; border-top: 1px solid #edf1f6; }
 
+/* Contracts ------------------------------------------------------------ */
+.clientShell .clientContractsPanel { min-width: 0; }
+.clientShell .clientContractsPanel .cmToolbar { margin-bottom: 10px; }
+.clientShell .clientContractsPanel .cmSearchBox { flex: 1 1 240px; }
+.clientShell .clientContractsPanel .cmTable { min-width: 1120px; font-size: 11.5px; }
+.clientShell .clientContractsPanel .cmTable thead th { padding: 8px 10px; font-size: 9.5px; }
+.clientShell .clientContractsPanel .cmTable tbody td { padding: 8px 10px; }
+.clientShell .clientContractsPanel .cmChip { padding: 3px 8px; font-size: 10px; }
+.clientShell .clientContractsPanel .cmCode { padding: 2px 6px; font-size: 10.5px; white-space: nowrap; }
+
+.clientShell .clientContractTitle {
+  display: block;
+  max-width: 210px;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.clientShell .clientContractDocCount { display: inline-flex; align-items: center; gap: 5px; color: #536780; font-size: 11px; }
+.clientShell .clientContractsPanel .clientContractViewButton { min-height: 28px; padding: 0 9px; gap: 5px; font-size: 11px; white-space: nowrap; }
+.clientShell .clientContractsPanel .cmEmpty,
+.clientShell .clientContractsPanel .cmError,
+.clientShell .clientContractsPanel .cmLoading { margin-top: 4px; }
+
+.clientShell .clientAccountSettingsActions { gap: 8px; flex-wrap: wrap; }
+.clientShell .clientPanelActions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.clientShell .clientPanelActions .cmBtn { min-height: 30px; padding: 0 10px; gap: 6px; font-size: 11.5px; }
+
+.clientShell .clDetailFull { grid-column: 1 / -1; }
+.clientShell .clDetailFull dd { text-align: left; }
+.clientShell .clPanelFooter { display: flex; justify-content: flex-end; margin-top: 10px; padding-top: 10px; border-top: 1px solid #edf1f6; }
+
+/* Company profile ------------------------------------------------------ */
+.clientShell .clCompanyIdentity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 11px;
+  margin-bottom: 11px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.clientShell .clCompanyIdentity > div { flex: 1 1 auto; min-width: 0; }
+.clientShell .clCompanyIdentity h2 { margin: 0; color: var(--ink); font-size: 16px; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.clientShell .clCompanyIdentity p { margin: 2px 0 0; color: var(--muted); font-size: 11px; }
+
+.clientShell .clCompanyStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.clientShell .clCompanyStats > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #e6ecf4;
+  border-radius: 9px;
+  background: #fbfcfe;
+  color: #536780;
+  font-size: 10.5px;
+}
+
+.clientShell .clCompanyStats svg { flex: 0 0 auto; color: #2874ed; }
+.clientShell .clCompanyStats span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clientShell .clCompanyStats strong { margin-left: auto; color: var(--ink); font-size: 12.5px; white-space: nowrap; }
+
+.clientShell .clCompanySections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; }
+.clientShell .clCompanySections section { min-width: 0; }
+.clientShell .clCompanySections h3 {
+  margin: 0 0 2px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #edf1f6;
+  color: #536780;
+  font-size: 9.5px;
+  font-weight: 750;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.clientShell .clCompanySections .clDetails { grid-template-columns: minmax(0, 1fr); }
+.clientShell .clCompanySectionFull { grid-column: 1 / -1; }
+.clientShell .clCompanySectionFull .clDetails { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 22px; }
+.clientShell .clCompanyNotes {
+  margin: 0;
+  padding: 9px 11px;
+  border: 1px solid #e6ecf4;
+  border-radius: 9px;
+  background: #fbfcfe;
+  color: #3d526b;
+  font-size: 11.5px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+/* Sites ---------------------------------------------------------------- */
+.clientShell .clientSitesTable { min-width: 1160px; font-size: 11.5px; }
+.clientShell .clientSitesTable thead th { padding: 8px 10px; font-size: 9.5px; }
+.clientShell .clientSitesTable tbody td { padding: 8px 10px; }
+.clientShell .clientSitesTable .cmChip { padding: 3px 8px; font-size: 10px; }
+.clientShell .clientSitesTable .cmCode { padding: 2px 6px; font-size: 10.5px; }
+.clientShell .clientSitesTable .cmIconTile { width: 30px; height: 30px; border-radius: 8px; background: #e8eef7; color: #0c2748; }
+.clientShell .clientSitesTable .cmEntity { gap: 8px; }
+.clientShell .clientSitesTable .cmEntity strong { display: block; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clientShell .clientSiteViewButton { min-height: 28px; padding: 0 9px; gap: 5px; font-size: 11px; white-space: nowrap; }
+.clientShell .clientSitesPanel .cmEmpty,
+.clientShell .clientSitesPanel .cmError,
+.clientShell .clientSitesPanel .cmLoading { margin-top: 4px; }
+
+.clientShell .clientBackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  color: #1d5fbf;
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.clientShell .clientBackLink:hover { text-decoration: underline; }
+
+.clientShell .clSiteIdentity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 11px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #edf1f6;
+}
+.clientShell .clSiteIdentity > div { flex: 1 1 auto; min-width: 0; }
+.clientShell .clSiteIdentity h3 { margin: 0; color: var(--ink); font-size: 15px; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.clientShell .clSiteIdentity p { margin: 2px 0 0; color: var(--muted); font-size: 11px; }
+.clientShell .clSiteContactStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 18px;
+  margin-bottom: 14px;
+  color: #536780;
+  font-size: 11.5px;
+}
+.clientShell .clSiteContactStrip span { display: inline-flex; align-items: center; gap: 5px; min-width: 0; overflow-wrap: anywhere; }
+.clientShell .clientSiteDetails .cmDetailGrid { margin-top: 2px; }
+
+/* Client users --------------------------------------------------------- */
+.clientShell .clientUsersTable { min-width: 900px; font-size: 11.5px; }
+.clientShell .clientUsersTable thead th { padding: 8px 10px; font-size: 9.5px; }
+.clientShell .clientUsersTable tbody td { padding: 8px 10px; }
+.clientShell .clientUsersTable .cmChip { padding: 3px 8px; font-size: 10px; }
+.clientShell .clientUsersTable .cmIconTile { width: 30px; height: 30px; border-radius: 8px; background: #e8eef7; color: #0c2748; }
+.clientShell .clientUsersTable .cmEntity { gap: 8px; }
+.clientShell .clientUsersTable .cmEntity strong { display: block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clientShell .clientUsersPanel .cmEmpty,
+.clientShell .clientUsersPanel .cmError,
+.clientShell .clientUsersPanel .cmLoading { margin-top: 4px; }
+
+/* Client topbar -------------------------------------------------------- */
+.clientShell .consoleTopbar {
+  height: 44px;
+  gap: 12px;
+  padding: 0 24px;
+  border-bottom: 1px solid #dbe4ef;
+}
+
+.clientShell .clientTopbarTitle { gap: 1px; }
+.clientShell .clientTopbarTitle strong { font-size: 11.5px; line-height: 1.2; }
+.clientShell .clientTopbarTitle span { font-size: 9.5px; line-height: 1.2; }
+.clientShell .clientHelpLink { gap: 5px; font-size: 10.5px; }
+.clientShell .consoleTopbar .userActions { gap: 10px; }
+.clientShell .consoleTopbar .userProfile { gap: 7px; }
+.clientShell .consoleTopbar .avatar { width: 30px; height: 30px; font-size: 10.5px; }
+.clientShell .consoleTopbar .userProfile strong { font-size: 11px; line-height: 1.2; }
+.clientShell .consoleTopbar .userProfile small { margin-top: 0; font-size: 9px; line-height: 1.2; }
+.clientShell .consoleTopbar .mobileMenu { width: 30px; height: 30px; border-radius: 7px; }
+
+@media (max-width: 650px) {
+  .clientShell .consoleTopbar { height: 42px; gap: 9px; padding: 0 12px; }
+}
+
 @media (max-width: 1100px) {
   .clientShell .clKpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .clientShell .clLayout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .clientShell .clientContractsPanel .cmToolbar { flex-wrap: wrap; }
+  .clientShell .clientContractsPanel .cmSearchBox { flex-basis: 100%; }
+  .clientShell .clientContractsPanel .cmToolbarControls { width: 100%; flex-wrap: wrap; }
+  .clientShell .clientContractsPanel .cmToolbar .cmBtn { flex: 1 1 auto; justify-content: center; }
+  .clientShell .clCompanyStats { grid-template-columns: minmax(0, 1fr); }
+  .clientShell .clCompanySections { grid-template-columns: minmax(0, 1fr); }
+  .clientShell .clCompanySectionFull { grid-column: auto; }
+  .clientShell .clCompanySectionFull .clDetails { grid-template-columns: minmax(0, 1fr); }
+  .clientShell .clCompanyIdentity { flex-wrap: wrap; }
+  .clientShell .clientPanelActions { width: 100%; justify-content: flex-start; }
 }
 
 @media (max-width: 700px) {

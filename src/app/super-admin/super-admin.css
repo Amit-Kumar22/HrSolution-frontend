@@ -164,7 +164,7 @@
 
 .adminShellSuper .consoleTopbar {
   position: relative;
-  height: 60px;
+  height: 48px;
   gap: 16px;
   padding: 0 28px;
   border-bottom-color: #e5eaf2;
@@ -257,14 +257,14 @@
   .saTopbarBare {
     display: flex;
     align-items: center;
-    height: 62px;
+    height: 48px;
     padding: 0 14px;
     border-bottom: 1px solid #e3e9f0;
     background: #fff;
   }
 
   .adminShellSuper .consoleTopbar {
-    height: 56px;
+    height: 46px;
     gap: 9px;
     padding: 0 12px;
   }
