@@ -28,7 +28,20 @@ const styles = {
   formOptions: "formOptions", remember: "remember", demoNote: "demoNote",
   protected: "protected", newHere: "newHere", registerActions: "registerActions",
   mobileFooter: "mobileFooter", forgotLink: "forgotLink", backToLogin: "backToLogin",
+  demoPanel: "demoPanel", demoPanelTitle: "demoPanelTitle", demoList: "demoList",
+  demoItem: "demoItem", demoRole: "demoRole", demoCreds: "demoCreds",
 };
+
+const DEMO_ACCOUNTS = [
+  { role: "Super Admin", email: "admin@hrsolution.prod", password: "12345" },
+  { role: "Admin", email: "admin@hrsolution.local", password: "Demo@12345" },
+  { role: "Accounts", email: "accounts@hrsolution.local", password: "Demo@12345" },
+  { role: "HR", email: "hr@hrsolution.local", password: "Demo@12345" },
+  { role: "Operator", email: "ops@hrsolution.local", password: "Demo@12345" },
+  { role: "Supervisor", email: "supervisor@hrsolution.local", password: "Demo@12345" },
+  { role: "Client", email: "client@gmail.com", password: "Demo@12345" },
+  { role: "Job Seeker", email: "sumit@gmail.com", password: "Sumit@123" },
+];
 
 function Brand() {
   return (
@@ -87,6 +100,13 @@ export default function LoginScreen() {
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  function fillDemoAccount(account) {
+    setEmail(account.email);
+    setPassword(account.password);
+    setError("");
+    setErrorStatus(0);
   }
 
   function showForgotPassword() {
@@ -209,6 +229,26 @@ export default function LoginScreen() {
                 </div>
                 <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Signing in…" : "Log in"}</button>
               </form>
+              <div className={styles.demoPanel}>
+                <p className={styles.demoPanelTitle}>Demo login accounts</p>
+                <div className={styles.demoList}>
+                  {DEMO_ACCOUNTS.map((account) => (
+                    <button
+                      key={account.email}
+                      type="button"
+                      className={styles.demoItem}
+                      onClick={() => fillDemoAccount(account)}
+                      title="Click to auto-fill email and password"
+                    >
+                      <span className={styles.demoRole}>{account.role}</span>
+                      <span className={styles.demoCreds}>
+                        <span>{account.email}</span>
+                        <span>{account.password}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </>
           ) : (
             <>
