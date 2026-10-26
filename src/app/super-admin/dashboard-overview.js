@@ -11,6 +11,7 @@ import {
 } from "../admin/admin-ui";
 import { displayName, initialsOf, roleLabel, statusMeta } from "./account-meta";
 import { styles } from "./super-admin-styles";
+import { UrgentRequisitionsWidget } from "../admin/requisitions-panel";
 
 function Metric({ tone, label, value, note, icon: Icon }) {
   return (
@@ -156,6 +157,10 @@ export default function DashboardOverview({ session, onNavigate }) {
               </table>
             </div>
           )}
+
+          <div style={{ marginTop: 18 }}>
+            <UrgentRequisitionsWidget onNavigate={onNavigate} />
+          </div>
         </>
       )}
     </div>

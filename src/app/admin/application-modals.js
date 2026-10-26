@@ -43,6 +43,8 @@ import {
   formatDateTime,
 } from "./admin-ui";
 import { FeedbackChip, ModeChip, RatingValue, ResultChip } from "./interview-modals";
+import { ConvertToWorkerModal } from "./worker-modals";
+import { workerCapabilities } from "../../lib/workerApi";
 
 /* ------------------------------------------------------------------ */
 /* Shared bits                                                         */
@@ -785,7 +787,7 @@ function sortHistory(history) {
     });
 }
 
-export function ApplicationDetailDrawer({ applicationId, canManage = false, onClose, onChanged }) {
+export function ApplicationDetailDrawer({ applicationId, session = null, canManage = false, onClose, onChanged }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -794,6 +796,7 @@ export function ApplicationDetailDrawer({ applicationId, canManage = false, onCl
   const [resumeError, setResumeError] = useState("");
   const [statusTarget, setStatusTarget] = useState(null);
   const [assignTarget, setAssignTarget] = useState(null);
+  const [convertOpen, setConvertOpen] = useState(false);
   const seq = useRef(0);
 
   function load() {
@@ -840,6 +843,11 @@ export function ApplicationDetailDrawer({ applicationId, canManage = false, onCl
       (data && (data.history ?? data.statusHistory ?? data.statusChanges ?? data.timeline)) || null;
     return sortHistory(source);
   }, [data]);
+
+  const workerCaps = useMemo(() => workerCapabilities(session), [session]);
+  const canConvert = Boolean(
+    canManage && workerCaps.canManage && application && application.status === "JOINED",
+  );
 
   const interviews = useMemo(() => {
     const source =
@@ -923,6 +931,15 @@ export function ApplicationDetailDrawer({ applicationId, canManage = false, onCl
                     <UserCheck size={14} /> Assign recruiter
                   </button>
                 </>
+              )}
+              {canConvert && (
+                <button
+                  type="button"
+                  className="secondaryButton cmBtn cmPageBtn"
+                  onClick={() => setConvertOpen(true)}
+                >
+                  <UserPlus size={14} /> Convert to worker
+                </button>
               )}
               <button type="button" className="primaryButton cmBtn cmPageBtn" onClick={onClose}>
                 Close
@@ -1176,6 +1193,23 @@ export function ApplicationDetailDrawer({ applicationId, canManage = false, onCl
             refresh();
             if (onChanged) {
               onChanged(userId == null ? "Recruiter unassigned." : "Recruiter assigned.");
+            }
+          }}
+        />
+      )}
+
+      {convertOpen && application && (
+        <ConvertToWorkerModal
+          application={application}
+          onClose={() => setConvertOpen(false)}
+          onConverted={(worker) => {
+            setConvertOpen(false);
+            if (onChanged) {
+              onChanged(
+                worker
+                  ? `${worker.fullName || "The candidate"} was converted to worker ${worker.employeeCode || `#${worker.id}`}.`
+                  : "Application converted to a worker.",
+              );
             }
           }}
         />

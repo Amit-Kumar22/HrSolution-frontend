@@ -29,6 +29,7 @@ import {
 import { humanize, moduleIcon, moduleLabel, moduleTone } from "@/lib/permission-modules";
 import { listPublicJobs } from "@/lib/publicApi";
 import { Chip, EmptyState, LoadingState, Notice } from "@/app/admin/admin-ui";
+import { UrgentRequisitionsWidget } from "@/app/admin/requisitions-panel";
 
 const STATUS_TONES = {
   ACTIVE: { label: "Active", tone: "active" },
@@ -612,6 +613,10 @@ export default function HrOverview({ user, roles, permissions, modules, permissi
           </div>
         </section>
       )}
+
+      <section className="hrPanel" aria-label="Urgent to Fill" style={{ marginTop: 18 }}>
+        <UrgentRequisitionsWidget onNavigate={onNavigate} />
+      </section>
 
       <p className="hrFootnote">
         <ShieldCheck size={13} /> Everything on this page is derived from the permissions granted to{" "}

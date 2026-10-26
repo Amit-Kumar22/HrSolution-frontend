@@ -586,6 +586,23 @@
   .cp-rowActions { align-items: flex-end; }
 }
 
+.cp-workerToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 9px 12px;
+  border: 1px solid #e1e7ef;
+  border-radius: 10px;
+  background: #f7f9fc;
+  color: #33465f;
+  font-size: 12px;
+}
+.cp-workerToolbar span { display: inline-flex; align-items: center; gap: 6px; }
+.cp-workerToolbar button { display: inline-flex; align-items: center; gap: 6px; height: auto; padding: 7px 10px; font-size: 11.5px; }
+.cp-workerToolbar + .cp-inlineNote { margin: 10px 0 16px; }
+
 @media (prefers-reduced-motion: reduce) {
   .cp-spinner { animation: none; }
   .cp-jobCard { transition: none; }

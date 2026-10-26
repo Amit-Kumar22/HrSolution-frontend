@@ -21,6 +21,7 @@ import {
 import { statusLabel, statusTone } from "@/lib/client-forms";
 import { humanize, moduleIcon, moduleLabel, moduleTone } from "@/lib/permission-modules";
 import { Chip, EmptyState, LoadingState, Notice } from "@/app/admin/admin-ui";
+import { UrgentRequisitionsWidget } from "@/app/admin/requisitions-panel";
 
 const ACCOUNT_TONES = {
   ACTIVE: { label: "Active", tone: "active" },
@@ -390,6 +391,10 @@ export default function OperatorOverview({ user, roles, permissions, modules, ca
           </div>
         </section>
       )}
+
+      <section className="opPanel" aria-label="Urgent to Fill" style={{ marginTop: 18 }}>
+        <UrgentRequisitionsWidget onNavigate={onNavigate} />
+      </section>
     </div>
   );
 }

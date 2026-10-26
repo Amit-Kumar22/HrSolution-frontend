@@ -9,6 +9,7 @@ import {
   Building2,
   CalendarClock,
   ChevronDown,
+  ClipboardList,
   Factory,
   FileSignature,
   Inbox,
@@ -62,17 +63,21 @@ import ApplicationsPanel from "../admin/applications-panel";
 import InterviewManagementPanel from "../admin/interview-panel";
 import JobsPanel from "../admin/jobs-panel";
 import TestimonialsPanel from "../admin/testimonials-panel";
+import RequisitionsPanel from "../admin/requisitions-panel";
+import WorkerPanel from "../admin/worker-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
   { label: "Clients", view: "clients", icon: Building2, section: "main" },
   { label: "Contracts", view: "contracts", icon: FileSignature, section: "main" },
+  { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
   { label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "WORKFORCE" },
   { label: "Applications", view: "applications", icon: Kanban, section: "WORKFORCE" },
   { label: "Interviews", view: "interviews", icon: CalendarClock, section: "WORKFORCE" },
+  { label: "Workers", view: "workers", icon: UsersRound, section: "WORKFORCE" },
   { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
   { label: "Skills", view: "skills", icon: Wrench, section: "WORKFORCE" },
   { label: "Industries", view: "industries", icon: Factory, section: "WEBSITE" },
@@ -321,6 +326,8 @@ export default function SuperAdminDashboard() {
   }
   else if (activeView === "clients") content = <ClientsPanel />;
   else if (activeView === "contracts") content = <ContractsPanel />;
+  else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
+  else if (activeView === "workers") content = <WorkerPanel session={session} />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
   else if (activeView === "applications") content = <ApplicationsPanel session={session} />;
   else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;

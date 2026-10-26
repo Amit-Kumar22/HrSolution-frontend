@@ -17,6 +17,8 @@ export default function HrPage() {
       candidatesView
       jobsView
       interviewsView
+      requisitionsView
+      workersView
       variant="Hr"
       overview={HrOverview}
     />

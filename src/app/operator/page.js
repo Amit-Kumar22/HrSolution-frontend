@@ -14,6 +14,8 @@ export default function OperatorPage() {
       dashboardName="Operator Dashboard"
       description="Your operations workspace. You only see the modules and actions granted to your role."
       clientManagement
+      requisitionsView
+      workersView
       variant="Operator"
       overview={OperatorOverview}
     />

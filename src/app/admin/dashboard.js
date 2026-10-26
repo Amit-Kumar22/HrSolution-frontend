@@ -39,6 +39,8 @@ import ManpowerCategoriesPanel from "./manpower-categories-panel";
 import ServicesPanel from "./services-panel";
 import SkillsPanel from "./skills-panel";
 import TestimonialsPanel from "./testimonials-panel";
+import RequisitionsPanel from "./requisitions-panel";
+import WorkerPanel from "./worker-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
@@ -313,6 +315,8 @@ export default function AdminDashboard() {
   else if (activeView === "industries") content = <IndustriesPanel />;
   else if (activeView === "services") content = <ServicesPanel />;
   else if (activeView === "testimonials") content = <TestimonialsPanel />;
+  else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
+  else if (activeView === "workers") content = <WorkerPanel session={session} />;
   else if (activeView === "contact-messages") content = <ContactMessagesPanel onUnreadChange={refreshUnreadCount} />;
   else if (activeView === "enquiries") content = <EnquiriesPanel />;
   else if (activeView === "manpower-categories") content = <ManpowerCategoriesPanel />;

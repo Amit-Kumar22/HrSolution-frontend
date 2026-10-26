@@ -26,6 +26,7 @@ import {
 } from "../../lib/adminApi";
 import { humanize, moduleLabel, moduleOf } from "../../lib/permission-modules";
 import { Chip, formatDateTime } from "./admin-ui";
+import { UrgentRequisitionsWidget } from "./requisitions-panel";
 
 const ACCOUNT_TONES = {
   ACTIVE: { label: "Active", tone: "success" },
@@ -55,7 +56,7 @@ const CLIENT_TONES = {
 
 const QUICK_ACTIONS = [
   { view: "clients", label: "Clients", hint: "Accounts and sites", icon: Building2, tone: "blue" },
-  { view: "jobs", label: "Requisitions", hint: "Open and close roles", icon: BriefcaseBusiness, tone: "indigo" },
+  { view: "requisitions", label: "Requisitions", hint: "Raise and approve demand", icon: BriefcaseBusiness, tone: "indigo" },
   { view: "enquiries", label: "Enquiries", hint: "New client requests", icon: Inbox, tone: "amber" },
   { view: "applications", label: "Applications", hint: "Hiring pipeline", icon: Kanban, tone: "green" },
 ];
@@ -427,6 +428,10 @@ export default function DashboardOverview({ session, onNavigate }) {
             </ul>
           )}
         </section>
+      </div>
+
+      <div className="adGrid1" style={{ marginTop: 18 }}>
+        <UrgentRequisitionsWidget onNavigate={onNavigate} />
       </div>
 
       <p className="adNote">

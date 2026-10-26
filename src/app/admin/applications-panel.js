@@ -693,6 +693,7 @@ export default function ApplicationsPanel({ session, capabilities }) {
       {detailId && (
         <ApplicationDetailDrawer
           applicationId={detailId}
+          session={session}
           canManage={caps.canManage}
           onClose={() => setDetailId(null)}
           onChanged={(message) => {

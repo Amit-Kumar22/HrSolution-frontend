@@ -38,6 +38,7 @@ import ClientCompanyProfile from "@/components/client-company-profile";
 import ClientSites from "@/components/client-sites";
 import ClientSiteDetails from "@/components/client-site-details";
 import ClientUsers from "@/components/client-users";
+import RequisitionsPanel from "@/app/admin/requisitions-panel";
 import { Chip, ErrorState, LoadingState } from "@/app/admin/admin-ui";
 import {
   companyBillingAddress,
@@ -456,6 +457,8 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
               companyError={companyError}
               session={sessionState}
             />
+          ) : activeView === "requisitions" ? (
+            <RequisitionsPanel session={sessionState} />
           ) : activeView === "dashboard" ? (
             <>
               <section className="clKpis" aria-label="Company summary">

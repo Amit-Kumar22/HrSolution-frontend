@@ -13,6 +13,7 @@ export default function AccountsPage() {
       dashboardName="Accounts Dashboard"
       description="Your finance workspace. You only see the modules and actions granted to your role."
       clientView
+      workersView
       variant="Accounts"
       overview={AccountsOverview}
     />

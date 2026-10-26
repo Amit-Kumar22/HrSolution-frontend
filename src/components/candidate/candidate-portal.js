@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   Briefcase,
   FileText,
+  IdCard,
   LayoutDashboard,
   ListChecks,
   LogOut,
@@ -19,6 +20,7 @@ import {
   getDashboardPath,
   getServerAuthSnapshot,
   getUnauthenticatedRedirectPath,
+  hasRole,
   isCandidateRole,
   logout,
   subscribeToAuthSession,
@@ -30,6 +32,7 @@ import CandidateResume from "./candidate-resume";
 import CandidateJobs from "./candidate-jobs";
 import CandidateApplications from "./candidate-applications";
 import CandidateAccount from "./candidate-account";
+import CandidateWorkerProfile from "./candidate-worker-profile";
 
 const TABS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -63,6 +66,13 @@ export default function CandidatePortal() {
   const session = useMemo(
     () => (sessionState && typeof sessionState === "object" && sessionState.accessToken ? sessionState : null),
     [sessionState],
+  );
+  const isWorker = Boolean(session && hasRole(session, "WORKER"));
+  const tabs = useMemo(
+    () => (isWorker
+      ? [...TABS.slice(0, 5), { id: "worker", label: "My Worker Profile", icon: IdCard }, TABS[5]]
+      : TABS),
+    [isWorker],
   );
 
   const redirectToLogin = useCallback(() => {
@@ -214,7 +224,7 @@ export default function CandidatePortal() {
       </header>
 
       <nav className="cp-tabs" aria-label="Candidate portal sections">
-        {TABS.map((tab) => {
+        {tabs.map((tab) => {
           const Icon = tab.icon;
           const active = activeTab === tab.id;
           return (
@@ -287,6 +297,8 @@ export default function CandidatePortal() {
             onBrowseJobs={() => setActiveTab("jobs")}
           />
         )}
+
+        {activeTab === "worker" && isWorker && <CandidateWorkerProfile session={session} />}
 
         {activeTab === "account" && <CandidateAccount session={session} />}
       </div>

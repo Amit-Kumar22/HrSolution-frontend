@@ -124,7 +124,22 @@ export function Modal({ title, description, onClose, children, footer, wide = fa
   );
 }
 
-export function Drawer({ title, description, onClose, children, footer, size = "md" }) {
+export function Drawer({ title, description, onClose, children, footer, size = "md", inline = false }) {
+  if (inline) {
+    return (
+      <section className={`cmDrawer cmDrawer-${size} cmDrawerInline`} aria-label={title}>
+        <div className="cmDrawerHeader">
+          <div className="cmDrawerHeading">
+            <h2>{title}</h2>
+            {description && <p>{description}</p>}
+          </div>
+        </div>
+        <div className="cmDrawerBody">{children}</div>
+        {footer && <div className="cmDrawerFooter">{footer}</div>}
+      </section>
+    );
+  }
+
   return (
     <div className="cmDrawerBackdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
       <aside className={`cmDrawer cmDrawer-${size}`} role="dialog" aria-modal="true" aria-label={title}>
@@ -144,7 +159,7 @@ export function Drawer({ title, description, onClose, children, footer, size = "
   );
 }
 
-export function ConfirmDialog({ title, message, confirmLabel = "Confirm", busy = false, onConfirm, onCancel, children }) {
+export function ConfirmDialog({ title, message, confirmLabel = "Confirm", confirmVariant = "danger", busy = false, onConfirm, onCancel, children }) {
   return (
     <div className="modalBackdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !busy) onCancel(); }}>
       <div className="modalCard cmConfirmCard" role="alertdialog" aria-modal="true" aria-label={title}>
@@ -159,7 +174,7 @@ export function ConfirmDialog({ title, message, confirmLabel = "Confirm", busy =
           <button type="button" className="secondaryButton cmBtn" onClick={onCancel} disabled={busy}>
             Cancel
           </button>
-          <button type="button" className="cmDangerButton cmBtn" onClick={onConfirm} disabled={busy}>
+          <button type="button" className={confirmVariant === "primary" ? "primaryButton cmBtn" : "cmDangerButton cmBtn"} onClick={onConfirm} disabled={busy}>
             {busy ? <><Loader2 size={15} className="spin" /> Working…</> : confirmLabel}
           </button>
         </div>

@@ -8,6 +8,7 @@ import {
   Building2,
   CalendarClock,
   ChevronDown,
+  ClipboardList,
   LayoutDashboard,
   Layers,
   LockKeyhole,
@@ -15,6 +16,7 @@ import {
   Menu,
   ShieldCheck,
   UserSearch,
+  UsersRound,
   X,
 } from "lucide-react";
 import {
@@ -38,8 +40,10 @@ import ClientsPanel from "./clients-panel";
 import CandidatesPanel from "../app/admin/candidates-panel";
 import InterviewManagementPanel from "../app/admin/interview-panel";
 import JobsPanel from "../app/admin/jobs-panel";
+import RequisitionsPanel from "../app/admin/requisitions-panel";
+import WorkerPanel from "../app/admin/worker-panel";
 
-export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, variant = "", overview: OverviewComponent = null }) {
+export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, requisitionsView = false, workersView = false, variant = "", overview: OverviewComponent = null }) {
   const router = useRouter();
   const sessionState = useSyncExternalStore(
     subscribeToAuthSession,
@@ -172,9 +176,32 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
     }))
     .sort((a, b) => a.label.localeCompare(b.label));
 
+  const canUseRequisitions =
+    requisitionsView &&
+    roles.some((role) =>
+      ["HR", "HR_RECRUITER", "HR_MANAGER", "OPERATOR", "OPERATIONS", "OPERATIONS_MANAGER"].includes(String(role)),
+    );
+
+  const canUseWorkers =
+    workersView &&
+    roles.some((role) =>
+      [
+        "HR",
+        "HR_RECRUITER",
+        "HR_MANAGER",
+        "OPERATOR",
+        "OPERATIONS",
+        "OPERATIONS_MANAGER",
+        "ACCOUNTS",
+        "ACCOUNTANT",
+      ].includes(String(role)),
+    );
+
   const nav = [
     { label: "Dashboard", view: "overview", icon: LayoutDashboard, section: "main" },
     ...(clientManagement || clientView ? [{ label: "Clients", view: "clients", icon: Building2, section: "main" }] : []),
+    ...(canUseRequisitions ? [{ label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" }] : []),
+    ...(canUseWorkers ? [{ label: "Workers", view: "workers", icon: UsersRound, section: "main" }] : []),
     ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch, section: "main" }] : []),
     ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "main" }] : []),
     ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock, section: "main" }] : []),
@@ -298,6 +325,10 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
             <CandidatesPanel session={sessionState} />
           ) : activeView === "jobs" ? (
             <JobsPanel session={sessionState} />
+          ) : activeView === "requisitions" ? (
+            <RequisitionsPanel session={sessionState} />
+          ) : activeView === "workers" ? (
+            <WorkerPanel session={sessionState} />
           ) : activeView === "interviews" ? (
             <InterviewManagementPanel session={sessionState} />
           ) : activeView === "overview" && OverviewComponent ? (
