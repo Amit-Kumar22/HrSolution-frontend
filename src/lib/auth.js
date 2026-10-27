@@ -24,7 +24,8 @@ export const INTERNAL_ROLES = Object.freeze([
   "SITE_SUPERVISOR",
 ]);
 export const CLIENT_ROLES = Object.freeze(["CLIENT"]);
-export const CANDIDATE_ROLES = Object.freeze(["CANDIDATE", "WORKER"]);
+export const CANDIDATE_ROLES = Object.freeze(["CANDIDATE"]);
+export const WORKER_ROLES = Object.freeze(["WORKER"]);
 
 let cachedSessionStorageValue;
 let cachedAuthSession = null;
@@ -244,6 +245,7 @@ export function handleAuthPageShow() {
     "/supervisor",
     "/client",
     "/candidate",
+    "/worker",
     "/account",
     "/sessions",
   ];
@@ -688,6 +690,10 @@ export function isCandidateRole(sessionOrUser) {
   return hasRole(sessionOrUser, CANDIDATE_ROLES);
 }
 
+export function isWorkerRole(sessionOrUser) {
+  return hasRole(sessionOrUser, WORKER_ROLES);
+}
+
 /* Maps a backend role to the dashboard that serves it. The first matching
    entry wins, so privileged roles are listed before the generic fallback. */
 export const ROLE_DASHBOARDS = Object.freeze([
@@ -696,12 +702,14 @@ export const ROLE_DASHBOARDS = Object.freeze([
   { roles: ["OPERATOR", "OPERATIONS", "OPERATIONS_MANAGER", "SECURITY_GUARD"], path: "/operator", label: "Operator Dashboard" },
   { roles: ["ACCOUNTS", "ACCOUNTANT"], path: "/accounts", label: "Accounts Dashboard" },
   { roles: ["SUPERVISOR", "SITE_SUPERVISOR"], path: "/supervisor", label: "Supervisor Dashboard" },
+  { roles: ["WORKER"], path: "/worker", label: "Worker Portal" },
   { roles: ["ADMIN", "MANAGER", "RECRUITER"], path: "/admin", label: "Admin Dashboard" },
 ]);
 
 export function getDashboardPath(sessionOrUser) {
   const roles = rolesOf(sessionOrUser);
   if (roles.some((role) => CLIENT_ROLES.includes(role))) return "/client";
+  if (roles.some((role) => WORKER_ROLES.includes(role))) return "/worker";
   if (roles.some((role) => CANDIDATE_ROLES.includes(role))) return "/candidate";
   for (const entry of ROLE_DASHBOARDS) {
     if (roles.some((role) => entry.roles.includes(role))) return entry.path;

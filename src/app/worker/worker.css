@@ -1,0 +1,169 @@
+.workerPortal {
+  min-height: 100vh;
+  background: #f4f7fa;
+  color: #102b4e;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.workerPortalState {
+  max-width: 520px;
+  margin: 80px auto;
+  padding: 40px 24px;
+  border: 1px dashed #cfd9e5;
+  border-radius: 14px;
+  background: #fff;
+  color: #63748b;
+  font-size: 14px;
+  text-align: center;
+}
+
+.workerPortalTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px clamp(16px, 4vw, 40px);
+  background: #0c2748;
+  color: #fff;
+}
+
+.workerPortalBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.workerPortalBrandMark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 9px;
+  background: #f9a006;
+  color: #0c2748;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.workerPortalBrand > span:last-child { display: grid; gap: 2px; }
+.workerPortalBrand strong { font-size: 14px; }
+.workerPortalBrand small { color: #9db0c8; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.workerPortalUser { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+.workerPortalAvatar {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #24466b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.workerPortalUserName {
+  max-width: 220px;
+  overflow: hidden;
+  color: #d3e1f1;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workerPortalSignOut {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid #35527a;
+  border-radius: 7px;
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.workerPortalSignOut:hover { background: #173b64; }
+.workerPortalSignOut:disabled { cursor: wait; opacity: .7; }
+
+.workerPortalTabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0 clamp(12px, 4vw, 40px);
+  border-top: 1px solid #1d3c66;
+  background: #0c2748;
+  scrollbar-width: thin;
+}
+
+.workerPortalTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: #a9bcd4;
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.workerPortalTab:hover { color: #fff; }
+.workerPortalTabActive { border-bottom-color: #f9a006; color: #fff; }
+
+.workerPortalContent {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 26px clamp(16px, 4vw, 40px) 56px;
+}
+
+.workerPortalWelcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #0c2748, #173b64);
+  color: #fff;
+}
+
+.workerPortalWelcomeCopy { min-width: 0; }
+.workerPortalEyebrow { color: #ffc04d; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.workerPortalWelcome h1 { margin: 7px 0 5px; font-size: clamp(22px, 3vw, 30px); letter-spacing: -.03em; }
+.workerPortalWelcome p { max-width: 650px; margin: 0; color: #c8d8e9; font-size: 13px; line-height: 1.55; }
+
+.workerPortalPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #f9a006;
+  color: #1c2a3a;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.workerPortalPrimary:hover { background: #ffb52e; }
+
+@media (max-width: 640px) {
+  .workerPortalTopbar { align-items: flex-start; }
+  .workerPortalUser { flex-wrap: wrap; justify-content: flex-end; }
+  .workerPortalAvatar,
+  .workerPortalUserName { display: none; }
+  .workerPortalWelcome { align-items: flex-start; flex-direction: column; padding: 20px; }
+}
