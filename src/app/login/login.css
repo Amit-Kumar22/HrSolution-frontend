@@ -11,8 +11,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 48px clamp(36px, 5vw, 64px);
+  gap: clamp(24px, 4vh, 40px);
+  padding: clamp(32px, 6vh, 48px) clamp(36px, 5vw, 64px);
   background: #0c2748;
   color: #fff;
 }
@@ -22,7 +22,7 @@
 .loginBrandCopy { display: flex; flex-direction: column; gap: 2px; }
 .loginBrandCopy strong { font-size: 15px; }
 .loginBrandCopy small { color: #96a8be; font-size: 9px; letter-spacing: .1em; }
-.pitch { max-width: 480px; margin: 45px auto; }
+.pitch { width: 100%; max-width: 480px; margin: 0 auto; }
 .pitch h1 { margin: 0 0 24px; color: #fff; font-size: clamp(34px, 3.2vw, 44px); line-height: 1.15; letter-spacing: -.035em; }
 .pitch > p { margin: 0; color: #c0ccda; font-size: 15px; line-height: 1.7; }
 .securityList { display: grid; gap: 13px; list-style: none; margin: 22px 0 25px; padding: 0; color: #d5deea; font-size: 13px; }
@@ -30,9 +30,9 @@
 .securityList svg { width: 21px; height: 21px; padding: 4px; flex: 0 0 auto; border-radius: 50%; background: #f9a006; color: #0c2748; stroke-width: 3; }
 .roleList { display: flex; flex-wrap: wrap; gap: 7px; }
 .roleList span { padding: 6px 11px; border: 1px solid #294361; border-radius: 18px; color: #c4d0df; font-size: 10px; }
-.copyright { color: #657a95; font-size: 11px; }
+.copyright { margin-top: auto; color: #657a95; font-size: 11px; }
 
-.formPanel { display: grid; place-items: center; padding: 48px; }
+.formPanel { min-height: 100vh; display: grid; place-items: center; padding: 48px; }
 .formWrap { width: min(100%, 360px); }
 .formWrap h2 { margin: 0 0 6px; color: #0c2748; font-size: 28px; letter-spacing: -.03em; }
 .intro { margin: 0 0 27px; color: #63748b; font-size: 13px; line-height: 1.5; }

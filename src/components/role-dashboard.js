@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "reac
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  ArrowRightLeft,
   BriefcaseBusiness,
   Building2,
   CalendarClock,
@@ -27,6 +28,7 @@ import {
   getDashboardPath,
   getServerAuthSnapshot,
   getUnauthenticatedRedirectPath,
+  hasPermission,
   hasRole,
   logout,
   refreshAuthSession,
@@ -42,8 +44,10 @@ import InterviewManagementPanel from "../app/admin/interview-panel";
 import JobsPanel from "../app/admin/jobs-panel";
 import RequisitionsPanel from "../app/admin/requisitions-panel";
 import WorkerPanel from "../app/admin/worker-panel";
+import OperatorDeploymentsPanel from "./operator-deployments-panel";
+import DeploymentsPanel from "../app/admin/deployments-panel";
 
-export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, requisitionsView = false, workersView = false, variant = "", overview: OverviewComponent = null }) {
+export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, requisitionsView = false, workersView = false, deploymentsView = false, variant = "", overview: OverviewComponent = null }) {
   const router = useRouter();
   const sessionState = useSyncExternalStore(
     subscribeToAuthSession,
@@ -197,11 +201,16 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
       ].includes(String(role)),
     );
 
+  const canUseDeployments =
+    deploymentsView &&
+    (hasPermission(sessionState, "DEPLOYMENT_READ") || hasPermission(sessionState, "DEPLOYMENT_MANAGE"));
+
   const nav = [
     { label: "Dashboard", view: "overview", icon: LayoutDashboard, section: "main" },
     ...(clientManagement || clientView ? [{ label: "Clients", view: "clients", icon: Building2, section: "main" }] : []),
     ...(canUseRequisitions ? [{ label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" }] : []),
     ...(canUseWorkers ? [{ label: "Workers", view: "workers", icon: UsersRound, section: "main" }] : []),
+    { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" },
     ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch, section: "main" }] : []),
     ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "main" }] : []),
     ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock, section: "main" }] : []),
@@ -321,6 +330,12 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
         <div className={styles.dashboardContent}>
           {activeView === "clients" ? (
             <ClientsPanel readOnly={!clientManagement} />
+          ) : activeView === "deployments" ? (
+            variant === "Operator" ? (
+              <OperatorDeploymentsPanel session={sessionState} />
+            ) : (
+              <DeploymentsPanel session={sessionState} />
+            )
           ) : activeView === "candidates" ? (
             <CandidatesPanel session={sessionState} />
           ) : activeView === "jobs" ? (

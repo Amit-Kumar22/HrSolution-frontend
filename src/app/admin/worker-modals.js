@@ -124,7 +124,7 @@ function emptyPersonForm(worker) {
   };
 }
 
-export function WorkerFormModal({ mode = "create", worker, capabilities, onClose, onSaved }) {
+export function WorkerFormModal({ mode = "create", worker, capabilities, onClose, onSaved, layered = false }) {
   const [form, setForm] = useState(() => emptyPersonForm(worker));
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
@@ -213,6 +213,7 @@ export function WorkerFormModal({ mode = "create", worker, capabilities, onClose
     <Modal
       wide
       title={editing ? "Edit worker" : "Onboard worker"}
+      layered={layered}
       description={
         editing
           ? "Update the worker record. The backend replaces Aadhaar and PAN with what is sent and clears them when omitted."

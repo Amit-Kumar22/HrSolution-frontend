@@ -7,9 +7,9 @@ import { formatDate } from "./admin-ui";
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   ErrorState,
   LoadingState,
-  Modal,
 } from "./admin-ui";
 import { StatusChip } from "./client-modals";
 import ClientSitesTab from "./client-sites-tab";
@@ -122,8 +122,8 @@ export default function ClientDetailDialog({ client, initialTab = "overview", on
   }
 
   return (
-    <Modal
-      wide
+    <Drawer
+      size="lg"
       title={client.legalName || "Client details"}
       description={`${client.clientCode ? `Client code ${client.clientCode} · ` : ""}${client.status || ""}`}
       onClose={onClose}
@@ -213,6 +213,6 @@ export default function ClientDetailDialog({ client, initialTab = "overview", on
         />
       )}
       {deleteError && <p className="actionError" role="alert">{deleteError}</p>}
-    </Modal>
+    </Drawer>
   );
 }

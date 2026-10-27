@@ -529,7 +529,8 @@ export function deleteClient(id, init = {}) {
 }
 
 export async function listClientSites(clientId, init = {}) {
-  return asArray(await adminRequest(`/clients/${encodeURIComponent(clientId)}/sites`, init));
+  const payload = await adminRequest(`/clients/${encodeURIComponent(clientId)}/sites`, init);
+  return Array.isArray(payload) ? payload : asArray(payload && payload.content);
 }
 
 export function getSite(siteId, init = {}) {

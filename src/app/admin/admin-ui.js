@@ -104,9 +104,9 @@ export function Notice({ tone = "info", children }) {
   return <p className={`cmNotice cmNotice-${tone}`}>{children}</p>;
 }
 
-export function Modal({ title, description, onClose, children, footer, wide = false }) {
+export function Modal({ title, description, onClose, children, footer, wide = false, layered = false }) {
   return (
-    <div className="modalBackdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+    <div className={`modalBackdrop${layered ? " modalBackdropLayered" : ""}`} onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
       <div className={`modalCard cmModalCard${wide ? " cmModalWide" : ""}`} role="dialog" aria-modal="true" aria-label={title}>
         <div className="modalHeader">
           <div>

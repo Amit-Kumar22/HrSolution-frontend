@@ -21,6 +21,7 @@ import { GST_STATES, stateNameOf } from "@/lib/gst-states";
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   EmptyState,
   ErrorState,
   Field,
@@ -79,7 +80,6 @@ function SiteFormDialog({ client, site, onClose, onDone }) {
 
   return (
     <Modal
-      wide
       title={site ? "Edit site" : "Add site"}
       description={`${client?.legalName || ""}${site ? ` · ${site.siteCode}` : ""}`}
       onClose={onClose}
@@ -178,7 +178,8 @@ function SiteDetailDialog({ siteId, onClose }) {
   }, [siteId]);
 
   return (
-    <Modal
+    <Drawer
+      size="lg"
       title="Site details"
       description={`Site #${siteId}`}
       onClose={onClose}
@@ -201,7 +202,7 @@ function SiteDetailDialog({ siteId, onClose }) {
           <div className="cmDetailRow"><span className="cmDetailLabel">Status</span><span className="cmDetailValue">{site.active ? <Chip tone="success">Active</Chip> : <Chip tone="neutral">Inactive</Chip>}</span></div>
         </div>
       )}
-    </Modal>
+    </Drawer>
   );
 }
 

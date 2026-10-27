@@ -41,6 +41,7 @@ import {
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   EmptyState,
   ErrorState,
   Field,
@@ -335,7 +336,8 @@ function RateCardDetailDialog({ rateCardId, onClose }) {
   }, [rateCardId, reloadToken]);
 
   return (
-    <Modal
+    <Drawer
+      size="lg"
       title="Rate card details"
       description={`Rate card #${rateCardId}`}
       onClose={onClose}
@@ -386,7 +388,7 @@ function RateCardDetailDialog({ rateCardId, onClose }) {
           </div>
         </>
       ) : null}
-    </Modal>
+    </Drawer>
   );
 }
 

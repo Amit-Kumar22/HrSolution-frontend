@@ -200,7 +200,7 @@ export async function listMySites(clientId) {
   const payload = await clientRequest(`/clients/${encodeURIComponent(clientId)}/sites`, {
     fallbackMessage: "Your sites could not be loaded.",
   });
-  return Array.isArray(payload) ? payload : [];
+  return Array.isArray(payload) ? payload : Array.isArray(payload && payload.content) ? payload.content : [];
 }
 
 export function getMySite(siteId) {

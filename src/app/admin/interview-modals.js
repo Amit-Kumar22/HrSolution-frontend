@@ -27,6 +27,7 @@ import {
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   EmptyState,
   Field,
   LoadingState,
@@ -295,7 +296,6 @@ export function InterviewFormModal({
 
   return (
     <Modal
-      wide
       title={isEdit ? "Reschedule interview" : "Schedule interview"}
       description={
         isEdit
@@ -512,8 +512,8 @@ export function InterviewDetailModal({
   const canRecord = Boolean(interview && interview.result === "PENDING" && !interview.upcoming);
 
   return (
-    <Modal
-      wide
+    <Drawer
+      size="lg"
       title={interview ? `Interview #${interview.id}` : "Interview"}
       description={interview ? `${interview.candidateName || "Candidate"} · ${interview.jobTitle || `Job #${interview.jobId}`}` : undefined}
       onClose={onClose}
@@ -610,7 +610,7 @@ export function InterviewDetailModal({
           )}
         </>
       ) : null}
-    </Modal>
+    </Drawer>
   );
 }
 
@@ -875,7 +875,7 @@ export function ApplicationInterviewsModal({ applicationId, application = null, 
     : `Application #${applicationId}`;
 
   return (
-    <Modal wide title="Interview history" description={title} onClose={onClose}>
+    <Drawer size="lg" title="Interview history" description={title} onClose={onClose}>
       {flash && (
         <p className={flash.tone === "error" ? "actionError" : "actionSuccess"} role="status">
           {flash.message}
@@ -1032,6 +1032,6 @@ export function ApplicationInterviewsModal({ applicationId, application = null, 
           }}
         />
       )}
-    </Modal>
+    </Drawer>
   );
 }

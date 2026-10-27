@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  ArrowRightLeft,
   Bell,
   BriefcaseBusiness,
   Building2,
@@ -38,6 +39,7 @@ import {
   getDashboardPath,
   getServerAuthSnapshot,
   getUnauthenticatedRedirectPath,
+  hasPermission,
   hasRole,
   logout,
   refreshAuthSession,
@@ -65,12 +67,14 @@ import JobsPanel from "../admin/jobs-panel";
 import TestimonialsPanel from "../admin/testimonials-panel";
 import RequisitionsPanel from "../admin/requisitions-panel";
 import WorkerPanel from "../admin/worker-panel";
+import DeploymentsPanel from "../admin/deployments-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
   { label: "Clients", view: "clients", icon: Building2, section: "main" },
   { label: "Contracts", view: "contracts", icon: FileSignature, section: "main" },
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" },
+  { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
@@ -294,6 +298,8 @@ export default function SuperAdminDashboard() {
   }
 
   const session = sessionState;
+  const canViewDeployments =
+    hasPermission(session, "DEPLOYMENT_READ") || hasPermission(session, "DEPLOYMENT_MANAGE");
   const user = session.user || {};
   const fullName =
     user.fullName || [user.firstName, user.lastName].filter(Boolean).join(" ") || "Super Admin";
@@ -327,6 +333,7 @@ export default function SuperAdminDashboard() {
   else if (activeView === "clients") content = <ClientsPanel />;
   else if (activeView === "contracts") content = <ContractsPanel />;
   else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
+  else if (activeView === "deployments") content = <DeploymentsPanel session={session} />;
   else if (activeView === "workers") content = <WorkerPanel session={session} />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
   else if (activeView === "applications") content = <ApplicationsPanel session={session} />;
@@ -360,7 +367,9 @@ export default function SuperAdminDashboard() {
         <Brand />
         <nav className={styles.sideNav} aria-label="Super Admin navigation">
           {sectionOrder.map((section) => {
-            const items = navigation.filter((item) => item.section === section);
+            const items = navigation.filter(
+              (item) => item.section === section && (item.view !== "deployments" || canViewDeployments),
+            );
             if (!items.length) return null;
             return (
               <div className={styles.navGroup} key={section}>

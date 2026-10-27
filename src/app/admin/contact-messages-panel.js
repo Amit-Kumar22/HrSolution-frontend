@@ -24,6 +24,7 @@ import {
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   EmptyState,
   ErrorState,
   FlashBanner,
@@ -405,8 +406,8 @@ export default function ContactMessagesPanel({ onUnreadChange }) {
       )}
 
       {detail && (
-        <Modal
-          wide
+        <Drawer
+          size="lg"
           title={detail.name ? `Message from ${detail.name}` : "Contact message"}
           description={`Received ${formatDateTime(detail.createdAt)}`}
           onClose={closeDetail}
@@ -497,7 +498,7 @@ export default function ContactMessagesPanel({ onUnreadChange }) {
               </button>
             </div>
           </div>
-        </Modal>
+        </Drawer>
       )}
 
       {deleteTarget && (

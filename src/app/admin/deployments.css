@@ -1,0 +1,152 @@
+.depPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.depTabs {
+  margin: 4px 0 14px;
+}
+
+.depToolbar {
+  gap: 8px 10px;
+  padding: 10px 12px;
+  border: 1px solid #dce4ee;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 2px 6px #102b4e08;
+}
+
+.depToolbar .cmSelect {
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.depToolbar .cmSelect select,
+.depToolbar .cmSelect input {
+  height: 32px;
+  padding: 0 9px;
+  font-size: 11.5px;
+  border: 1px solid #dce4ee;
+  border-radius: 7px;
+  background: #fff;
+  color: #233c5a;
+}
+
+.depToolbar .cmBtn {
+  min-height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.depTableWrap {
+  margin-top: 4px;
+}
+
+.depTableWrap .cmTable {
+  font-size: 11.5px;
+}
+
+.depPanel .cmPagination {
+  margin-top: 14px;
+}
+
+.depFormGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.depFormGrid .cmField:last-child,
+.depFormGrid .depFormNotice {
+  grid-column: 1 / -1;
+}
+
+.depFormSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid #dce4ee;
+  border-radius: 9px;
+  background: #f8fafc;
+  font-size: 12.5px;
+}
+
+.depDetailGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.depDetailGrid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.depDetailGrid dt {
+  margin: 0;
+  color: #8b9db5;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.depDetailGrid dd {
+  margin: 0;
+  color: #22364f;
+  font-size: 12.5px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.depDetailFull {
+  grid-column: 1 / -1;
+}
+
+.depFinanceSection {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid #dce4ee;
+}
+
+.depFinanceSection h3 {
+  margin: 0 0 12px;
+  color: #102b4e;
+  font-size: 13px;
+}
+
+.depDrawerFooter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.depRoster {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+@media (max-width: 900px) {
+  .depFormGrid,
+  .depDetailGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .depToolbar {
+    align-items: stretch;
+  }
+
+  .depToolbar .cmSelect {
+    width: 100%;
+  }
+
+  .depToolbar .cmSelect select,
+  .depToolbar .cmSelect input {
+    flex: 1;
+    min-width: 0;
+  }
+}

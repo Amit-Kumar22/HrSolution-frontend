@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  ArrowRightLeft,
   ArrowUpRight,
   Building2,
   ChevronDown,
@@ -28,6 +29,7 @@ import {
   getDashboardPath,
   getServerAuthSnapshot,
   getUnauthenticatedRedirectPath,
+  hasPermission,
   logout,
   refreshAuthSession,
   subscribeToAuthSession,
@@ -39,6 +41,7 @@ import ClientSites from "@/components/client-sites";
 import ClientSiteDetails from "@/components/client-site-details";
 import ClientUsers from "@/components/client-users";
 import RequisitionsPanel from "@/app/admin/requisitions-panel";
+import DeploymentsPanel from "@/app/admin/deployments-panel";
 import { Chip, ErrorState, LoadingState } from "@/app/admin/admin-ui";
 import {
   companyBillingAddress,
@@ -55,6 +58,7 @@ const navigation = [
   { label: "Users", href: "/client/users", view: "users", icon: Users, section: "WORKSPACE" },
   { label: "My contracts", href: "/client/contracts", view: "contracts", icon: FileSignature, section: "WORKSPACE" },
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "WORKSPACE" },
+  { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "WORKSPACE" },
   { label: "Account settings", href: "/client/account", view: "account-settings", icon: Settings, section: "ACCOUNT" },
 ];
 
@@ -74,6 +78,10 @@ const viewCopy = {
   users: {
     title: "Users",
     lead: "People at your company who can access the client portal.",
+  },
+  deployments: {
+    title: "Deployments",
+    lead: "Workers posted to your sites, deployment history and site rosters.",
   },
 };
 
@@ -232,6 +240,8 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
   const companyStatus = companyStatusMeta(company?.status);
   const today = formatDateValue(new Date());
   const sections = ["WORKSPACE", "ACCOUNT"];
+  const canViewDeployments =
+    hasPermission(sessionState, "DEPLOYMENT_READ") || hasPermission(sessionState, "DEPLOYMENT_MANAGE");
 
   function chooseView(view) {
     setActiveView(view);
@@ -255,7 +265,7 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
           {sections.map((section) => (
             <div className={styles.navGroup} key={section}>
               <div className={styles.navSection}>{section}</div>
-              {navigation.filter((item) => item.section === section).map((item) => {
+              {navigation.filter((item) => item.section === section && (!item.permission || canViewDeployments)).map((item) => {
                 const Icon = item.icon;
                 const isActive =
                   activeView === item.view ||
@@ -459,6 +469,8 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
             />
           ) : activeView === "requisitions" ? (
             <RequisitionsPanel session={sessionState} />
+          ) : activeView === "deployments" ? (
+            <DeploymentsPanel session={sessionState} />
           ) : activeView === "dashboard" ? (
             <>
               <section className="clKpis" aria-label="Company summary">

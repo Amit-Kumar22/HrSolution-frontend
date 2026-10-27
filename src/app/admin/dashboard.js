@@ -12,12 +12,13 @@ import {
   getDashboardPath,
   getServerAuthSnapshot,
   getUnauthenticatedRedirectPath,
+  hasPermission,
   logout,
   refreshAuthSession,
   subscribeToAuthSession,
 } from "../../lib/auth";
 import {
-  Activity, Bell, BriefcaseBusiness, Building2, CalendarClock, CalendarDays,
+  Activity, ArrowRightLeft, Bell, BriefcaseBusiness, Building2, CalendarClock, CalendarDays,
   ChevronDown, ClipboardList, Factory, FileSignature, FileText, Inbox, Kanban,
   Layers, LayoutDashboard, LockKeyhole, Mail, Menu, Quote, Search, ShieldCheck,
   Tags, UserSearch, UsersRound, Wallet, Wrench, X,
@@ -41,12 +42,14 @@ import SkillsPanel from "./skills-panel";
 import TestimonialsPanel from "./testimonials-panel";
 import RequisitionsPanel from "./requisitions-panel";
 import WorkerPanel from "./worker-panel";
+import DeploymentsPanel from "./deployments-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
   { label: "Clients", view: "clients", icon: Building2, section: "main" },
   { label: "Contracts", view: "contracts", icon: FileSignature, section: "main" },
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" },
+  { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "WORKFORCE" },
@@ -189,13 +192,17 @@ export default function AdminDashboard() {
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [searchOpen]);
 
+  const canViewDeployments =
+    hasPermission(sessionState, "DEPLOYMENT_READ") || hasPermission(sessionState, "DEPLOYMENT_MANAGE");
+
   const searchResults = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return [];
     return navigation
+      .filter((item) => item.view !== "deployments" || canViewDeployments)
       .filter((item) => item.label.toLowerCase().includes(query) || item.view.toLowerCase().includes(query))
       .slice(0, 6);
-  }, [searchQuery]);
+  }, [searchQuery, canViewDeployments]);
 
   async function handleLogout(allDevices = false) {
     if (!sessionState || isLoggingOut) return;
@@ -316,6 +323,7 @@ export default function AdminDashboard() {
   else if (activeView === "services") content = <ServicesPanel />;
   else if (activeView === "testimonials") content = <TestimonialsPanel />;
   else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
+  else if (activeView === "deployments") content = <DeploymentsPanel session={session} />;
   else if (activeView === "workers") content = <WorkerPanel session={session} />;
   else if (activeView === "contact-messages") content = <ContactMessagesPanel onUnreadChange={refreshUnreadCount} />;
   else if (activeView === "enquiries") content = <EnquiriesPanel />;
@@ -334,7 +342,9 @@ export default function AdminDashboard() {
         <Brand />
         <nav className={styles.sideNav} aria-label="Admin navigation">
           {sectionOrder.map((section) => {
-            const items = navigation.filter((item) => item.section === section);
+            const items = navigation.filter(
+              (item) => item.section === section && (item.view !== "deployments" || canViewDeployments),
+            );
             if (!items.length) return null;
             return (
               <div className={styles.navGroup} key={section}>

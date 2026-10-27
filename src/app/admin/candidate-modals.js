@@ -29,6 +29,7 @@ import {
   Chip,
   EmptyState,
   Field,
+  Drawer,
   LoadingState,
   Modal,
   Notice,
@@ -195,7 +196,6 @@ export function CandidateFormModal({ mode, candidateId, categories, onClose, onS
 
   return (
     <Modal
-      wide
       title={isEdit ? `Edit candidate${values.fullName ? ` — ${values.fullName}` : ""}` : "Add candidate"}
       description={
         isEdit
@@ -526,8 +526,8 @@ export function CandidateDetailModal({
   const hasResume = Boolean(candidate && candidate.resumeDocumentId);
 
   return (
-    <Modal
-      wide
+    <Drawer
+      size="lg"
       title={candidate ? candidate.fullName || `Candidate #${candidate.id}` : "Candidate"}
       description={candidate ? `Candidate #${candidate.id}` : undefined}
       onClose={onClose}
@@ -782,6 +782,6 @@ export function CandidateDetailModal({
           }}
         />
       )}
-    </Modal>
+    </Drawer>
   );
 }

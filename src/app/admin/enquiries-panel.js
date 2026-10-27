@@ -14,6 +14,7 @@ import {
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   EmptyState,
   ErrorState,
   Field,
@@ -452,8 +453,8 @@ export default function EnquiriesPanel() {
       )}
 
       {detail && (
-        <Modal
-          wide
+        <Drawer
+          size="lg"
           title={detail.reference ? `Enquiry ${detail.reference}` : "Enquiry"}
           description={detail.companyName || undefined}
           onClose={closeDetail}
@@ -610,7 +611,7 @@ export default function EnquiriesPanel() {
               </div>
             </form>
           </div>
-        </Modal>
+        </Drawer>
       )}
 
       {deleteTarget && (

@@ -15,6 +15,7 @@ export default function OperatorPage() {
       description="Your operations workspace. You only see the modules and actions granted to your role."
       clientManagement
       requisitionsView
+      deploymentsView
       workersView
       variant="Operator"
       overview={OperatorOverview}

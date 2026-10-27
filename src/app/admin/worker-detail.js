@@ -748,6 +748,7 @@ export default function WorkerDetailDrawer({ workerId, capabilities, selfWorkerI
           mode="edit"
           worker={worker}
           capabilities={capabilities}
+          layered
           onClose={() => setEditing(false)}
           onSaved={(updated) => {
             setEditing(false);

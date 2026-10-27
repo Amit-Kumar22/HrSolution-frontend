@@ -336,10 +336,25 @@ export function deleteBankAccount(accountId) {
 }
 
 export async function listWorkerDeployments(workerId) {
-  const payload = await req(`/workers/${encodeURIComponent(workerId)}/deployments`, {
-    fallbackMessage: "The deployment history could not be loaded.",
-  });
-  return Array.isArray(payload) ? payload : [];
+  try {
+    const payload = await req(`/deployments/worker/${encodeURIComponent(workerId)}/history`, {
+      fallbackMessage: "The deployment history could not be loaded.",
+    });
+    if (Array.isArray(payload)) return payload;
+    if (payload && Array.isArray(payload.content)) return payload.content;
+    return [];
+  } catch (err) {
+    try {
+      const payload = await req(`/workers/${encodeURIComponent(workerId)}/deployments`, {
+        fallbackMessage: "The deployment history could not be loaded.",
+      });
+      if (Array.isArray(payload)) return payload;
+      if (payload && Array.isArray(payload.content)) return payload.content;
+      return [];
+    } catch (err2) {
+      throw err;
+    }
+  }
 }
 
 export const WORKER_STATUSES = Object.freeze([

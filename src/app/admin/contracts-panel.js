@@ -49,6 +49,7 @@ import {
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   EmptyState,
   ErrorState,
   Field,
@@ -131,7 +132,6 @@ function ContractFormDialog({ client, contract, onClose, onDone }) {
 
   return (
     <Modal
-      wide
       title={contract ? "Edit contract" : "Draft a contract"}
       description={
         contract
@@ -368,8 +368,8 @@ function ContractDetailDialog({ contractId, onClose, onChanged, canWrite }) {
   }
 
   return (
-    <Modal
-      wide
+    <Drawer
+      size="lg"
       title="Contract details"
       description={contract ? `${contract.contractNumber}${contract.title ? ` — ${contract.title}` : ""}` : `Contract #${contractId}`}
       onClose={onClose}
@@ -435,7 +435,7 @@ function ContractDetailDialog({ contractId, onClose, onChanged, canWrite }) {
           </div>
         </>
       ) : null}
-    </Modal>
+    </Drawer>
   );
 }
 

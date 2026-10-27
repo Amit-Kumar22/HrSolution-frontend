@@ -38,6 +38,7 @@ import {
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   Field,
   LoadingState,
   Modal,
@@ -320,7 +321,6 @@ export function JobFormModal({ mode = "create", job = null, onClose, onSaved }) 
 
   return (
     <Modal
-      wide
       title={isEdit ? "Edit job advert" : "Create job advert"}
       description={
         isEdit
@@ -1137,8 +1137,8 @@ export function JobDetailModal({
   }, [jobId]);
 
   return (
-    <Modal
-      wide
+    <Drawer
+      size="lg"
       title={job ? job.title : "Job details"}
       description={job ? (job.slug ? `/${job.slug}` : undefined) : undefined}
       onClose={onClose}
@@ -1225,6 +1225,6 @@ export function JobDetailModal({
           )}
         </>
       ) : null}
-    </Modal>
+    </Drawer>
   );
 }

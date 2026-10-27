@@ -34,6 +34,7 @@ import {
 import {
   Chip,
   ConfirmDialog,
+  Drawer,
   EmptyState,
   ErrorState,
   Field,
@@ -655,7 +656,8 @@ export default function AccountsPanel({ initialCreateOpen = false, currentUserId
       )}
 
       {detail && (
-        <Modal
+        <Drawer
+          size="lg"
           title="Account details"
           description={`Account #${detail.id}`}
           onClose={() => setDetail(null)}
@@ -766,7 +768,7 @@ export default function AccountsPanel({ initialCreateOpen = false, currentUserId
               </div>
             </>
           )}
-        </Modal>
+        </Drawer>
       )}
 
       {editTarget && (
