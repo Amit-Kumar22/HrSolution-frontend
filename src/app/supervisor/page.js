@@ -1,6 +1,6 @@
 import RoleDashboard from "@/components/role-dashboard";
 import SupervisorOverview from "@/components/supervisor-overview";
-import "../operator/operator.css";
+import "./supervisor.css";
 
 export const metadata = {
   title: "Supervisor Dashboard | Shakti Manpower",
@@ -10,10 +10,10 @@ export const metadata = {
 export default function SupervisorPage() {
   return (
     <RoleDashboard
-      allowedRoles={["SUPERVISOR"]}
+      allowedRoles={["SUPERVISOR", "SITE_SUPERVISOR"]}
       dashboardName="Supervisor Dashboard"
       description="Your supervision workspace. You only see the modules and actions granted to your role."
-      variant="Operator"
+      variant="Supervisor"
       overview={SupervisorOverview}
     />
   );

@@ -92,7 +92,7 @@ export default function AccountDashboard({ role, heading, subtitle, roleTitle, h
     } catch {
       setLogoutError("We could not reach the server, but you have been signed out on this device.");
     } finally {
-      router.replace("/");
+      window.location.replace("/");
       setIsLoggingOut(false);
     }
   }

@@ -1,0 +1,279 @@
+.roleDashSupervisor .ssOverview {
+  display: grid;
+  gap: 16px;
+}
+
+.roleDashSupervisor .ssHero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 16px;
+  overflow: hidden;
+  padding: 10px 16px;
+  border: 1px solid #163b6026;
+  border-radius: 16px;
+  background: linear-gradient(118deg, #0b2545 0%, #123a63 56%, #1b5b9c 100%);
+  box-shadow: 0 10px 24px #0c27481c;
+}
+
+.roleDashSupervisor .ssHero::before {
+  position: absolute;
+  top: -105px;
+  right: 18%;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f9a00638, #f9a00600 68%);
+  content: "";
+  pointer-events: none;
+}
+
+.roleDashSupervisor .ssHero::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f9a006, #f9a00600 70%);
+  content: "";
+}
+
+.roleDashSupervisor .ssHeroCopy,
+.roleDashSupervisor .ssHeroMeta {
+  position: relative;
+  z-index: 1;
+}
+
+.roleDashSupervisor .ssHeroCopy { min-width: 0; }
+.roleDashSupervisor .ssEyebrow,
+.roleDashSupervisor .ssSectionKicker {
+  display: block;
+  margin-bottom: 5px;
+  color: #b77300;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.roleDashSupervisor .ssEyebrow { color: #ffc04d; }
+.roleDashSupervisor .ssHero h1 {
+  margin: 0 0 7px;
+  color: #fff;
+  font-size: clamp(22px, 2.4vw, 30px);
+  letter-spacing: -.04em;
+  line-height: 1.1;
+}
+
+.roleDashSupervisor .ssHeroCopy p {
+  max-width: 690px;
+  margin: 0;
+  color: #d1deeb;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.roleDashSupervisor .ssHeroMeta {
+  display: grid;
+  justify-items: end;
+  gap: 7px;
+  color: #e6eef7;
+  font-size: 12px;
+  text-align: right;
+}
+
+.roleDashSupervisor .ssHeroMeta small { color: #b4c5d8; font-size: 11px; }
+.roleDashSupervisor .ssWideAction,
+.roleDashSupervisor .ssTextAction,
+.roleDashSupervisor .ssIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+
+.roleDashSupervisor .ssMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.roleDashSupervisor .ssMetric {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid #e6ebf1;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 3px 10px #1230520b;
+}
+
+.roleDashSupervisor .ssMetricIcon,
+.roleDashSupervisor .ssSheetIcon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+}
+
+.roleDashSupervisor .ssMetric > div { display: grid; min-width: 0; gap: 3px; }
+.roleDashSupervisor .ssMetric small { color: #63748a; font-size: 11px; font-weight: 650; }
+.roleDashSupervisor .ssMetric strong { color: #142a42; font-size: 25px; line-height: 1; }
+.roleDashSupervisor .ssMetric > div > span { overflow: hidden; color: #8895a5; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.roleDashSupervisor .ssMetricBlue .ssMetricIcon { background: #e9f1fb; color: #1c5d9c; }
+.roleDashSupervisor .ssMetricAmber .ssMetricIcon { background: #fff4d8; color: #b97800; }
+.roleDashSupervisor .ssMetricGreen .ssMetricIcon { background: #e1f7eb; color: #16834a; }
+.roleDashSupervisor .ssMetricViolet .ssMetricIcon { background: #eeeaff; color: #6650bd; }
+
+.roleDashSupervisor .ssContentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(270px, .9fr);
+  align-items: start;
+  gap: 14px;
+}
+
+.roleDashSupervisor .ssSideStack { display: grid; gap: 14px; }
+.roleDashSupervisor .ssPanel {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid #e6ebf1;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 10px #1230520b;
+}
+
+.roleDashSupervisor .ssPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 13px;
+}
+
+.roleDashSupervisor .ssPanelHead h2,
+.roleDashSupervisor .ssAccountPanel h2 {
+  margin: 0 0 4px;
+  color: #142a42;
+  font-size: 16px;
+  letter-spacing: -.02em;
+}
+
+.roleDashSupervisor .ssPanelHead p,
+.roleDashSupervisor .ssAccountPanel p {
+  margin: 0;
+  color: #718096;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.roleDashSupervisor .ssPanelAccent { color: #b97800; }
+.roleDashSupervisor .ssPanelActions { display: flex; align-items: center; gap: 12px; }
+.roleDashSupervisor .ssIconButton {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e2e8ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #586b80;
+}
+
+.roleDashSupervisor .ssIconButton:hover { border-color: #b9c9da; background: #f5f8fb; }
+.roleDashSupervisor .ssTextAction { padding: 0; background: transparent; color: #1e5d9e; font-size: 11px; }
+.roleDashSupervisor .ssTextAction:hover { color: #103f70; }
+
+.roleDashSupervisor .ssSheetList { display: grid; }
+.roleDashSupervisor .ssSheetRow {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 12px 0;
+  border-top: 1px solid #edf1f5;
+}
+
+.roleDashSupervisor .ssSheetRow:first-child { border-top: 0; padding-top: 3px; }
+.roleDashSupervisor .ssSheetIcon { width: 32px; height: 32px; background: #eef4fa; color: #235d94; }
+.roleDashSupervisor .ssSheetInfo { display: grid; flex: 1 1 auto; min-width: 0; gap: 4px; }
+.roleDashSupervisor .ssSheetInfo strong { overflow: hidden; color: #263b51; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.roleDashSupervisor .ssSheetInfo span { overflow: hidden; color: #7a899a; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+
+.roleDashSupervisor .ssStatus {
+  flex: 0 0 auto;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eef2f6;
+  color: #526579;
+  font-size: 9px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.roleDashSupervisor .ssStatus-draft { background: #fff3d6; color: #946000; }
+.roleDashSupervisor .ssStatus-submitted { background: #e6f1ff; color: #265d9c; }
+.roleDashSupervisor .ssStatus-client-approved,
+.roleDashSupervisor .ssStatus-approved { background: #e3f7ec; color: #147643; }
+.roleDashSupervisor .ssStatus-locked { background: #edf0f4; color: #536274; }
+
+.roleDashSupervisor .ssPermissionList {
+  display: grid;
+  gap: 0;
+  margin: 4px 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.roleDashSupervisor .ssPermissionList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 0;
+  border-top: 1px solid #edf1f5;
+  color: #16834a;
+}
+
+.roleDashSupervisor .ssPermissionList li:first-child { border-top: 0; }
+.roleDashSupervisor .ssPermissionList li > svg { flex: 0 0 auto; margin-top: 1px; }
+.roleDashSupervisor .ssPermissionList li span { display: grid; gap: 3px; }
+.roleDashSupervisor .ssPermissionList strong { color: #253a50; font-size: 11px; }
+.roleDashSupervisor .ssPermissionList small { color: #7a899a; font-size: 10px; line-height: 1.4; }
+.roleDashSupervisor .ssAccessNote { margin: 0 0 12px; color: #68798c; font-size: 10px; line-height: 1.45; }
+.roleDashSupervisor .ssWideAction {
+  width: 100%;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #d5e1ed;
+  border-radius: 8px;
+  background: #f7fafd;
+  color: #1e5d9e;
+  font-size: 11px;
+}
+
+.roleDashSupervisor .ssWideAction:hover { border-color: #b5c9dd; background: #edf4fa; }
+.roleDashSupervisor .ssAccountPanel h2 { margin-top: 2px; }
+.roleDashSupervisor .ssAccountPanel .ssTextAction { margin-top: 12px; }
+
+@media (max-width: 1050px) {
+  .roleDashSupervisor .ssMetrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .roleDashSupervisor .ssContentGrid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .roleDashSupervisor .ssHero { grid-template-columns: minmax(0, 1fr); padding: 12px 14px; }
+  .roleDashSupervisor .ssHeroMeta { justify-items: start; text-align: left; }
+  .roleDashSupervisor .ssMetrics { grid-template-columns: minmax(0, 1fr); }
+  .roleDashSupervisor .ssPanel { padding: 14px; }
+  .roleDashSupervisor .ssPanelHead { flex-direction: column; }
+  .roleDashSupervisor .ssPanelActions { width: 100%; justify-content: space-between; }
+  .roleDashSupervisor .ssSheetRow { flex-wrap: wrap; }
+  .roleDashSupervisor .ssStatus { margin-left: 43px; }
+}

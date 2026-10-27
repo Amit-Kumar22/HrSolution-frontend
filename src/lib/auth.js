@@ -21,6 +21,7 @@ export const INTERNAL_ROLES = Object.freeze([
   "OPERATOR",
   "ACCOUNTS",
   "SUPERVISOR",
+  "SITE_SUPERVISOR",
 ]);
 export const CLIENT_ROLES = Object.freeze(["CLIENT"]);
 export const CANDIDATE_ROLES = Object.freeze(["CANDIDATE", "WORKER"]);
@@ -694,7 +695,7 @@ export const ROLE_DASHBOARDS = Object.freeze([
   { roles: ["HR", "HR_RECRUITER", "HR_MANAGER"], path: "/hr", label: "HR Dashboard" },
   { roles: ["OPERATOR", "OPERATIONS", "OPERATIONS_MANAGER", "SECURITY_GUARD"], path: "/operator", label: "Operator Dashboard" },
   { roles: ["ACCOUNTS", "ACCOUNTANT"], path: "/accounts", label: "Accounts Dashboard" },
-  { roles: ["SUPERVISOR"], path: "/supervisor", label: "Supervisor Dashboard" },
+  { roles: ["SUPERVISOR", "SITE_SUPERVISOR"], path: "/supervisor", label: "Supervisor Dashboard" },
   { roles: ["ADMIN", "MANAGER", "RECRUITER"], path: "/admin", label: "Admin Dashboard" },
 ]);
 

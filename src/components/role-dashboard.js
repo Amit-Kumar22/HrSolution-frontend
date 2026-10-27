@@ -8,6 +8,7 @@ import {
   BriefcaseBusiness,
   Building2,
   CalendarClock,
+  CalendarDays,
   ChevronDown,
   ClipboardList,
   LayoutDashboard,
@@ -44,6 +45,7 @@ import InterviewManagementPanel from "../app/admin/interview-panel";
 import JobsPanel from "../app/admin/jobs-panel";
 import RequisitionsPanel from "../app/admin/requisitions-panel";
 import WorkerPanel from "../app/admin/worker-panel";
+import AttendancePanel from "../app/admin/attendance-panel";
 import OperatorDeploymentsPanel from "./operator-deployments-panel";
 import DeploymentsPanel from "../app/admin/deployments-panel";
 
@@ -134,7 +136,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
     setIsLoggingOut(true);
     try {
       await logout(sessionState, allDevices);
-      router.replace("/");
+      window.location.replace("/");
     } finally {
       setIsLoggingOut(false);
     }
@@ -205,12 +207,32 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
     deploymentsView &&
     (hasPermission(sessionState, "DEPLOYMENT_READ") || hasPermission(sessionState, "DEPLOYMENT_MANAGE"));
 
+  const canUseAttendance = roles.some((role) =>
+    [
+      "SUPER_ADMIN",
+      "ADMIN",
+      "MANAGER",
+      "HR",
+      "HR_RECRUITER",
+      "HR_MANAGER",
+      "OPERATOR",
+      "OPERATIONS",
+      "OPERATIONS_MANAGER",
+      "SUPERVISOR",
+      "SITE_SUPERVISOR",
+      "ACCOUNTS",
+      "ACCOUNTANT",
+      "CLIENT",
+    ].includes(String(role)),
+  );
+
   const nav = [
     { label: "Dashboard", view: "overview", icon: LayoutDashboard, section: "main" },
     ...(clientManagement || clientView ? [{ label: "Clients", view: "clients", icon: Building2, section: "main" }] : []),
     ...(canUseRequisitions ? [{ label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" }] : []),
     ...(canUseWorkers ? [{ label: "Workers", view: "workers", icon: UsersRound, section: "main" }] : []),
-    { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" },
+    ...(canUseAttendance ? [{ label: "Attendance", view: "attendance", icon: CalendarDays, section: "main" }] : []),
+    ...(canUseDeployments ? [{ label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" }] : []),
     ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch, section: "main" }] : []),
     ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "main" }] : []),
     ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock, section: "main" }] : []),
@@ -344,6 +366,8 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
             <RequisitionsPanel session={sessionState} />
           ) : activeView === "workers" ? (
             <WorkerPanel session={sessionState} />
+          ) : activeView === "attendance" ? (
+            <AttendancePanel session={sessionState} isClient={roles.includes("CLIENT")} />
           ) : activeView === "interviews" ? (
             <InterviewManagementPanel session={sessionState} />
           ) : activeView === "overview" && OverviewComponent ? (

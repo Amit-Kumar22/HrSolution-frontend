@@ -7,6 +7,7 @@ import {
   ArrowRightLeft,
   ArrowUpRight,
   Building2,
+  CalendarCheck,
   ChevronDown,
   ClipboardList,
   FileSignature,
@@ -42,6 +43,7 @@ import ClientSiteDetails from "@/components/client-site-details";
 import ClientUsers from "@/components/client-users";
 import RequisitionsPanel from "@/app/admin/requisitions-panel";
 import DeploymentsPanel from "@/app/admin/deployments-panel";
+import AttendancePanel from "@/app/admin/attendance-panel";
 import { Chip, ErrorState, LoadingState } from "@/app/admin/admin-ui";
 import {
   companyBillingAddress,
@@ -59,6 +61,7 @@ const navigation = [
   { label: "My contracts", href: "/client/contracts", view: "contracts", icon: FileSignature, section: "WORKSPACE" },
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "WORKSPACE" },
   { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "WORKSPACE" },
+  { label: "Attendance", view: "attendance", icon: CalendarCheck, section: "WORKSPACE" },
   { label: "Account settings", href: "/client/account", view: "account-settings", icon: Settings, section: "ACCOUNT" },
 ];
 
@@ -214,7 +217,7 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
     setIsLoggingOut(true);
     try {
       await logout(sessionState);
-      router.replace("/");
+      window.location.replace("/");
     } catch (error) {
       setLogoutError(error instanceof Error ? error.message : "Logout failed. Please try again.");
     } finally {
@@ -471,6 +474,8 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
             <RequisitionsPanel session={sessionState} />
           ) : activeView === "deployments" ? (
             <DeploymentsPanel session={sessionState} />
+          ) : activeView === "attendance" ? (
+            <AttendancePanel session={sessionState} isClient />
           ) : activeView === "dashboard" ? (
             <>
               <section className="clKpis" aria-label="Company summary">

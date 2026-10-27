@@ -167,7 +167,7 @@ export default function CandidatePortal() {
     try {
       await logout(session, false);
     } finally {
-      router.replace("/");
+      window.location.replace("/");
     }
   }
 

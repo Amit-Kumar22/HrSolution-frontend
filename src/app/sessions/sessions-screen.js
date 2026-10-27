@@ -95,7 +95,7 @@ export default function SessionsScreen() {
       await revokeSession(sessionId);
       if (isCurrent) {
         clearAuthSession({ signedOut: true });
-        router.replace("/");
+        window.location.replace("/");
         return;
       }
       setSessions((previous) => previous.filter((session) => Number(session.id) !== Number(sessionId)));
@@ -117,7 +117,7 @@ export default function SessionsScreen() {
     } catch {
       // The local session is still cleared below.
     }
-    router.replace("/");
+    window.location.replace("/");
   }
 
   if (sessionState === AUTH_SESSION_LOADING || sessionState === null) {

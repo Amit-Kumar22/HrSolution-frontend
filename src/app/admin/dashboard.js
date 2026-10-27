@@ -42,6 +42,7 @@ import SkillsPanel from "./skills-panel";
 import TestimonialsPanel from "./testimonials-panel";
 import RequisitionsPanel from "./requisitions-panel";
 import WorkerPanel from "./worker-panel";
+import AttendancePanel from "./attendance-panel";
 import DeploymentsPanel from "./deployments-panel";
 
 const navigation = [
@@ -210,7 +211,7 @@ export default function AdminDashboard() {
     setIsLoggingOut(true);
     try {
       await logout(sessionState, allDevices);
-      router.replace("/");
+      window.location.replace("/");
     } catch (error) {
       setLogoutError(error instanceof Error ? error.message : "Logout failed. Please try again.");
     } finally {
@@ -325,6 +326,7 @@ export default function AdminDashboard() {
   else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
   else if (activeView === "deployments") content = <DeploymentsPanel session={session} />;
   else if (activeView === "workers") content = <WorkerPanel session={session} />;
+  else if (activeView === "attendance") content = <AttendancePanel session={session} />;
   else if (activeView === "contact-messages") content = <ContactMessagesPanel onUnreadChange={refreshUnreadCount} />;
   else if (activeView === "enquiries") content = <EnquiriesPanel />;
   else if (activeView === "manpower-categories") content = <ManpowerCategoriesPanel />;

@@ -67,6 +67,7 @@ import JobsPanel from "../admin/jobs-panel";
 import TestimonialsPanel from "../admin/testimonials-panel";
 import RequisitionsPanel from "../admin/requisitions-panel";
 import WorkerPanel from "../admin/worker-panel";
+import AttendancePanel from "../admin/attendance-panel";
 import DeploymentsPanel from "../admin/deployments-panel";
 
 const navigation = [
@@ -75,6 +76,7 @@ const navigation = [
   { label: "Contracts", view: "contracts", icon: FileSignature, section: "main" },
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" },
   { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" },
+  { label: "Attendance", view: "attendance", icon: CalendarClock, section: "main" },
   { label: "Contact messages", view: "contact-messages", icon: Mail, section: "LEADS" },
   { label: "Enquiries", view: "enquiries", icon: Inbox, section: "LEADS" },
   { label: "Candidates", view: "candidates", icon: UserSearch, section: "WORKFORCE" },
@@ -206,7 +208,7 @@ export default function SuperAdminDashboard() {
     setIsLoggingOut(true);
     try {
       await logout(sessionState, allDevices);
-      router.replace("/");
+      window.location.replace("/");
     } catch (error) {
       setLogoutError(error instanceof Error ? error.message : "Logout failed. Please try again.");
     } finally {
@@ -334,6 +336,7 @@ export default function SuperAdminDashboard() {
   else if (activeView === "contracts") content = <ContractsPanel />;
   else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
   else if (activeView === "deployments") content = <DeploymentsPanel session={session} />;
+  else if (activeView === "attendance") content = <AttendancePanel session={session} />;
   else if (activeView === "workers") content = <WorkerPanel session={session} />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
   else if (activeView === "applications") content = <ApplicationsPanel session={session} />;

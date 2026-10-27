@@ -1,251 +1,211 @@
 "use client";
 
-import { ArrowUpRight, KeyRound, Layers, ShieldCheck, Users } from "lucide-react";
-import { humanize, moduleIcon, moduleLabel, moduleTone } from "@/lib/permission-modules";
-import { Chip, EmptyState } from "@/app/admin/admin-ui";
+import { useEffect, useMemo, useState } from "react";
+import {
+  ArrowUpRight,
+  CalendarDays,
+  CheckCircle2,
+  Clock3,
+  FilePlus2,
+  KeyRound,
+  RefreshCw,
+  ShieldCheck,
+} from "lucide-react";
+import { attendanceStatusLabel, rawAttendanceStatus, listAttendanceSheets } from "@/lib/attendanceApi";
+import { humanize } from "@/lib/permission-modules";
+import { Chip, EmptyState, ErrorState, LoadingState } from "@/app/admin/admin-ui";
 
-const STATUS_TONES = {
-  ACTIVE: { label: "Active", tone: "success", pill: "active" },
-  PENDING_APPROVAL: { label: "Pending approval", tone: "warn", pill: "pending" },
-  PENDING: { label: "Pending approval", tone: "warn", pill: "pending" },
-  DISABLED: { label: "Disabled", tone: "danger", pill: "blocked" },
-  REJECTED: { label: "Rejected", tone: "danger", pill: "blocked" },
-  BLOCKED: { label: "Blocked", tone: "danger", pill: "blocked" },
-};
+const EMPTY_PAGE = { content: [], totalElements: 0 };
 
 function accountStatus(status) {
   const key = String(status || "").toUpperCase();
-  return STATUS_TONES[key] || { label: humanize(key) || "Unknown", tone: "neutral", pill: "" };
+  const tones = {
+    ACTIVE: { label: "Active", tone: "success" },
+    PENDING_APPROVAL: { label: "Pending approval", tone: "warn" },
+    PENDING: { label: "Pending approval", tone: "warn" },
+    DISABLED: { label: "Disabled", tone: "danger" },
+    REJECTED: { label: "Rejected", tone: "danger" },
+    BLOCKED: { label: "Blocked", tone: "danger" },
+  };
+  return tones[key] || { label: humanize(key) || "Unknown", tone: "neutral" };
 }
 
-function Kpi({ icon: Icon, tone, label, value, note }) {
-  return (
-    <article className="opKpi">
-      <div className="opKpiTop">
-        <span>{label}</span>
-        <i className={`opIconTile opTone-${tone}`}>
-          <Icon size={15} />
-        </i>
-      </div>
-      <strong className="opKpiValue">{value}</strong>
-      <p>{note}</p>
-    </article>
-  );
+function formatPeriod(item) {
+  if (!item || !item.month) return String(item && item.year || "Period unavailable");
+  const monthNumber = Number(item.month);
+  const monthLabel = monthNumber >= 1 && monthNumber <= 12
+    ? new Date(2024, monthNumber - 1, 1).toLocaleString(undefined, { month: "short" })
+    : String(item.month);
+  return `${monthLabel} ${item.year || ""}`.trim();
+}
+
+function statusClass(status) {
+  return rawAttendanceStatus(status).toLowerCase().replace(/_/g, "-") || "unknown";
 }
 
 export default function SupervisorOverview({ user, roles, permissions, modules, onNavigate }) {
+  const [attendance, setAttendance] = useState(EMPTY_PAGE);
+  const [attendanceState, setAttendanceState] = useState("loading");
+  const [attendanceError, setAttendanceError] = useState("");
+  const [refreshToken, setRefreshToken] = useState(0);
+  const [today] = useState(() =>
+    new Date().toLocaleDateString(undefined, { weekday: "long", day: "2-digit", month: "long", year: "numeric" }),
+  );
+
   const fullName = user.fullName || [user.firstName, user.lastName].filter(Boolean).join(" ") || "Supervisor";
   const firstName = user.firstName || fullName.split(/\s+/)[0] || "there";
   const status = accountStatus(user.status);
-  const today = new Date().toLocaleDateString(undefined, {
-    weekday: "short",
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-  const roleLabels = roles.map((role) => humanize(role)).filter(Boolean);
+  const draftCount = useMemo(
+    () => attendance.content.filter((sheet) => rawAttendanceStatus(sheet.status) === "DRAFT").length,
+    [attendance.content],
+  );
+  const submittedCount = useMemo(
+    () => attendance.content.filter((sheet) => rawAttendanceStatus(sheet.status) === "SUBMITTED").length,
+    [attendance.content],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAttendance() {
+      setAttendanceState("loading");
+      setAttendanceError("");
+      try {
+        const page = await listAttendanceSheets({ page: 0, size: 5, sort: ["year,DESC", "month,DESC"] });
+        if (cancelled) return;
+        setAttendance(page);
+        setAttendanceState("ready");
+      } catch (error) {
+        if (cancelled) return;
+        setAttendanceError(error instanceof Error ? error.message : "Attendance sheets could not be loaded.");
+        setAttendanceState("error");
+      }
+    }
+
+    void loadAttendance();
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshToken]);
 
   return (
-    <div className="opOverview">
-      <section className="opHero">
-        <div className="opHeroText">
-          <p className="opEyebrow">Supervision workspace</p>
+    <div className="ssOverview">
+      <section className="ssHero">
+        <div className="ssHeroCopy">
+          <span className="ssEyebrow">Supervisor workspace</span>
           <h1>Welcome back, {firstName}</h1>
-          <p className="opHeroLead">
-            Your supervision workspace. You only see the modules and actions granted to your role.
-          </p>
+          <p>Review site attendance, prepare monthly sheets and send completed records for client approval.</p>
         </div>
-        <div className="opHeroAside">
-          <span className={`opStatusPill opStatusPill--${status.pill}`}>
-            <i />
-            {status.label}
-          </span>
-          <span className="opHeroDate" suppressHydrationWarning>
-            {today}
-          </span>
-          <span className="opHeroEmail">{user.email || "—"}</span>
+        <div className="ssHeroMeta">
+          <Chip tone={status.tone}>{status.label}</Chip>
+          <span>{today}</span>
+          <small>{user.email || "Supervisor account"}</small>
         </div>
       </section>
 
-      <section className="opKpis" aria-label="Account summary">
-        <Kpi
-          icon={ShieldCheck}
-          tone="blue"
-          label="Account"
-          value={status.label}
-          note={user.email || "—"}
-        />
-        <Kpi
-          icon={Users}
-          tone="indigo"
-          label="Roles"
-          value={roles.length}
-          note={roleLabels.join(", ") || "None"}
-        />
-        <Kpi
-          icon={KeyRound}
-          tone="green"
-          label="Permissions"
-          value={permissions.length}
-          note="Granted by the server"
-        />
-        <Kpi
-          icon={Layers}
-          tone="amber"
-          label="Modules"
-          value={modules.length}
-          note="Authorised for your role"
-        />
+      <section className="ssMetrics" aria-label="Supervisor attendance summary">
+        <article className="ssMetric ssMetricBlue">
+          <span className="ssMetricIcon"><CalendarDays size={18} /></span>
+          <div><small>Attendance sheets</small><strong>{attendanceState === "ready" ? attendance.totalElements : "—"}</strong><span>Across your permitted scope</span></div>
+        </article>
+        <article className="ssMetric ssMetricAmber">
+          <span className="ssMetricIcon"><FilePlus2 size={18} /></span>
+          <div><small>Draft sheets</small><strong>{attendanceState === "ready" ? draftCount : "—"}</strong><span>In the latest five records</span></div>
+        </article>
+        <article className="ssMetric ssMetricGreen">
+          <span className="ssMetricIcon"><Clock3 size={18} /></span>
+          <div><small>Awaiting client review</small><strong>{attendanceState === "ready" ? submittedCount : "—"}</strong><span>In the latest five records</span></div>
+        </article>
+        <article className="ssMetric ssMetricViolet">
+          <span className="ssMetricIcon"><KeyRound size={18} /></span>
+          <div><small>Authorised modules</small><strong>{modules.length}</strong><span>{permissions.length} server-granted permissions</span></div>
+        </article>
       </section>
 
-      <div className="opLayout">
-        <section className="opPanel" aria-label="Your account">
-          <div className="opPanelHead">
+      <div className="ssContentGrid">
+        <section className="ssPanel ssAttendancePanel">
+          <div className="ssPanelHead">
             <div>
-              <h2>Your account</h2>
-              <p>Profile, roles and permissions for this session.</p>
+              <span className="ssSectionKicker">Attendance</span>
+              <h2>Recent attendance sheets</h2>
+              <p>Latest monthly records available to your supervisor role.</p>
             </div>
-            <Chip tone={status.tone}>{status.label}</Chip>
-          </div>
-          <ul className="opAccessList">
-            <li>
-              <span>
-                <ShieldCheck size={13} /> Name
-              </span>
-              <strong>{fullName}</strong>
-            </li>
-            <li>
-              <span>
-                <Users size={13} /> Email
-              </span>
-              <strong>{user.email || "—"}</strong>
-            </li>
-            <li>
-              <span>
-                <Layers size={13} /> Roles
-              </span>
-              <strong>{roleLabels.join(", ") || "None"}</strong>
-            </li>
-            <li>
-              <span>
-                <KeyRound size={13} /> Permissions
-              </span>
-              <strong>{permissions.length}</strong>
-            </li>
-            <li>
-              <span>
-                <Layers size={13} /> Modules
-              </span>
-              <strong>{modules.length}</strong>
-            </li>
-          </ul>
-        </section>
-
-        <aside className="opAside">
-          <section className="opPanel" aria-label="Quick actions">
-            <div className="opPanelHead">
-              <div>
-                <h2>Quick actions</h2>
-                <p>Jump straight into your day-to-day work.</p>
-              </div>
-            </div>
-            <div className="opActionGrid">
-              <button type="button" className="opAction" onClick={() => onNavigate("access")}>
-                <i className="opIconTile opTone-indigo">
-                  <ShieldCheck size={15} />
-                </i>
-                <span>
-                  <strong>My access</strong>
-                  <small>What your role can do</small>
-                </span>
-                <ArrowUpRight size={13} />
+            <div className="ssPanelActions">
+              <button
+                type="button"
+                className="ssIconButton"
+                aria-label="Refresh attendance sheets"
+                title="Refresh attendance sheets"
+                onClick={() => setRefreshToken((value) => value + 1)}
+              >
+                <RefreshCw size={15} />
+              </button>
+              <button type="button" className="ssTextAction" onClick={() => onNavigate("attendance")}>
+                View all <ArrowUpRight size={14} />
               </button>
             </div>
+          </div>
+
+          {attendanceState === "loading" ? (
+            <LoadingState label="Loading attendance sheets..." />
+          ) : attendanceState === "error" ? (
+            <ErrorState message={attendanceError} onRetry={() => setRefreshToken((value) => value + 1)} />
+          ) : attendance.content.length === 0 ? (
+            <EmptyState
+              icon={CalendarDays}
+              title="No attendance sheets yet"
+              message="Generate a monthly sheet from active deployments when a site is ready for attendance tracking."
+            />
+          ) : (
+            <div className="ssSheetList">
+              {attendance.content.map((sheet) => {
+                const id = sheet.id || sheet.sheetId;
+                const statusValue = rawAttendanceStatus(sheet.status);
+                return (
+                  <article className="ssSheetRow" key={id || `${sheet.siteName}-${sheet.month}-${sheet.year}`}>
+                    <span className="ssSheetIcon"><CalendarDays size={16} /></span>
+                    <div className="ssSheetInfo">
+                      <strong>{sheet.siteName || sheet.site?.siteName || sheet.site?.name || "Attendance sheet"}</strong>
+                      <span>{formatPeriod(sheet)}{sheet.clientName ? ` · ${sheet.clientName}` : ""}</span>
+                    </div>
+                    <span className={`ssStatus ssStatus-${statusClass(statusValue)}`}>{attendanceStatusLabel(statusValue)}</span>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
+        <aside className="ssSideStack">
+          <section className="ssPanel">
+            <div className="ssPanelHead">
+              <div>
+                <span className="ssSectionKicker">Your permissions</span>
+                <h2>Supervisor attendance access</h2>
+              </div>
+              <ShieldCheck className="ssPanelAccent" size={20} />
+            </div>
+            <ul className="ssPermissionList">
+              <li><CheckCircle2 size={15} /><span><strong>View and filter</strong><small>Attendance sheets in your permitted scope</small></span></li>
+              <li><CheckCircle2 size={15} /><span><strong>Generate sheets</strong><small>Create monthly sheets from active deployments</small></span></li>
+              <li><CheckCircle2 size={15} /><span><strong>Submit sheets</strong><small>Send completed drafts for client approval</small></span></li>
+            </ul>
+            <p className="ssAccessNote">Client approval and payroll locking are not supervisor actions.</p>
+            <button type="button" className="ssWideAction" onClick={() => onNavigate("attendance")}>
+              Go to attendance <ArrowUpRight size={15} />
+            </button>
           </section>
 
-          <section className="opPanel" aria-label="Access summary">
-            <div className="opPanelHead">
-              <div>
-                <h2>Access summary</h2>
-                <p>Granted by the server for your role.</p>
-              </div>
-            </div>
-            <ul className="opAccessList">
-              <li>
-                <span>
-                  <KeyRound size={13} /> Roles
-                </span>
-                <strong>{roles.length}</strong>
-              </li>
-              <li>
-                <span>
-                  <ShieldCheck size={13} /> Permissions
-                </span>
-                <strong>{permissions.length}</strong>
-              </li>
-              <li>
-                <span>
-                  <Users size={13} /> Modules
-                </span>
-                <strong>{modules.length}</strong>
-              </li>
-            </ul>
-            <button type="button" className="opLinkButton opLinkButton--block" onClick={() => onNavigate("access")}>
-              Review my access <ArrowUpRight size={13} />
+          <section className="ssPanel ssAccountPanel">
+            <span className="ssSectionKicker">Account</span>
+            <h2>{fullName}</h2>
+            <p>{roles.map((role) => humanize(role)).join(" · ") || "Supervisor"}</p>
+            <button type="button" className="ssTextAction" onClick={() => onNavigate("access")}>
+              Review all access <ArrowUpRight size={14} />
             </button>
           </section>
         </aside>
       </div>
-
-      <section className="opPanel" aria-label="Authorised modules">
-        <div className="opPanelHead">
-          <div>
-            <h2>Authorised modules</h2>
-            <p>Each card lists what your role can do inside that module.</p>
-          </div>
-          <span className="opCount">
-            {modules.length} module{modules.length === 1 ? "" : "s"}
-          </span>
-        </div>
-        {!modules.length ? (
-          <EmptyState
-            title="No modules assigned yet"
-            message="Your role does not grant any module permissions. Ask the Super Admin to review your role."
-          />
-        ) : (
-          <div className="opModuleGrid">
-            {modules.map((module) => {
-              const Icon = moduleIcon(module.module);
-              const tone = moduleTone(module.module);
-              const visible = module.items.slice(0, 3);
-              const hidden = module.items.length - visible.length;
-              return (
-                <article className="opModule" key={module.module}>
-                  <div className="opModuleHead">
-                    <i className={`opIconTile opTone-${tone}`}>
-                      <Icon size={15} />
-                    </i>
-                    <div>
-                      <strong>{module.label || moduleLabel(module.module)}</strong>
-                      <small>
-                        {module.items.length} permission{module.items.length === 1 ? "" : "s"}
-                      </small>
-                    </div>
-                  </div>
-                  <div className="opModuleChips">
-                    {visible.map((item) => (
-                      <span className="opChip" key={item}>
-                        {humanize(item)}
-                      </span>
-                    ))}
-                    {hidden > 0 && <span className="opChip opChip--more">+{hidden}</span>}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        )}
-      </section>
     </div>
   );
 }
