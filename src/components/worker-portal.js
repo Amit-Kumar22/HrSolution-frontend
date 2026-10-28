@@ -22,8 +22,7 @@ import {
   subscribeToAuthSession,
 } from "@/lib/auth";
 import CandidateAccount from "@/components/candidate/candidate-account";
-import CandidateWorkerProfile from "@/components/candidate/candidate-worker-profile";
-import HolidayManagementPanel from "@/app/admin/holiday-panel";
+import WorkerMyProfilePanel from "@/components/candidate/candidate-worker-profile";
 
 const TABS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -136,7 +135,7 @@ export default function WorkerPortal() {
           </section>
         )}
 
-        {activeTab === "profile" && <CandidateWorkerProfile session={sessionState} />}
+        {activeTab === "profile" && <WorkerMyProfilePanel session={sessionState} />}
         {activeTab === "account" && <CandidateAccount session={sessionState} />}
       </div>
     </main>

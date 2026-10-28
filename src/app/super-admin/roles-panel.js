@@ -15,6 +15,24 @@ import {
 } from "../admin/admin-ui";
 import { roleDescription, roleLabel } from "./account-meta";
 
+const WORKER_DOCUMENT_PERMISSIONS = [
+  {
+    name: "WORKER_DOCUMENT_UPLOAD",
+    module: "WORKER",
+    description: "Upload documents for workers.",
+  },
+  {
+    name: "WORKER_DOCUMENT_EDIT",
+    module: "WORKER",
+    description: "Edit worker document details.",
+  },
+  {
+    name: "WORKER_DOCUMENT_DELETE",
+    module: "WORKER",
+    description: "Delete worker documents.",
+  },
+];
+
 function groupPermissions(permissions) {
   const groups = new Map();
   for (const permission of permissions) {
@@ -50,7 +68,11 @@ export default function RolesPanel() {
         const [roleList, permissionList] = await Promise.all([listRoles(), listPermissions()]);
         if (cancelled) return;
         setRoles(roleList);
-        setPermissions(permissionList);
+        const permissionNames = new Set(permissionList.map((permission) => permission.name));
+        setPermissions([
+          ...permissionList,
+          ...WORKER_DOCUMENT_PERMISSIONS.filter((permission) => !permissionNames.has(permission.name)),
+        ]);
         setLoadError("");
         setActiveRoleName((current) => current || (roleList[0] ? roleList[0].name : ""));
       } catch (error) {
@@ -106,8 +128,24 @@ export default function RolesPanel() {
     setSaving(true);
     try {
       await updateRolePermissions(activeRole.id, draft);
+      const updatedRoles = await listRoles();
+      const updatedRole = updatedRoles.find((role) => String(role.id) === String(activeRole.id));
+      const savedPermissions = Array.isArray(updatedRole?.permissions) ? updatedRole.permissions : null;
+      const expected = [...new Set(draft)].sort();
+      const saved = savedPermissions ? [...new Set(savedPermissions)].sort() : [];
+      const persisted = savedPermissions && expected.length === saved.length &&
+        expected.every((permission, index) => permission === saved[index]);
+
+      if (!persisted) {
+        setSaveError(
+          "The server did not retain these permissions. The worker document permissions must be available in the server's permission catalog to persist.",
+        );
+        return;
+      }
+
+      setRoles(updatedRoles);
+      setDraftState({ role: activeRole.name, values: savedPermissions });
       showFlash("success", `${roleLabel(activeRole.name)} permissions updated.`);
-      setReloadToken((token) => token + 1);
     } catch (error) {
       setSaveError(error instanceof Error ? error.message : "The permissions could not be saved.");
     } finally {

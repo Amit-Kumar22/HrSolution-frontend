@@ -349,3 +349,65 @@
 }
 .cpProfileTab:hover { color: #fff; }
 .cpProfileTabActive { border-bottom-color: #f9a006; color: #fff; }
+
+.cpProfileHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  border-radius: 11px;
+  background: linear-gradient(120deg, #0c2748, #173b64);
+  color: #fff;
+  margin: 0 clamp(12px, 4vw, 40px) 14px;
+  flex-wrap: wrap;
+}
+.cpProfileAvatar {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 26px;
+}
+.cpProfileInfo h2 { margin: 0 0 4px; color: #fff; font-size: 18px; letter-spacing: -0.02em; }
+.cpProfileInfo p { margin: 0; color: #c8d8e9; font-size: 13px; }
+.cpProfileMetaRow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.cpProfileMetaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  font-size: 11.5px;
+}
+.cpProfileMetaChip svg { color: #ffc04d; }
+
+.cpProfileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 0 clamp(12px, 4vw, 40px) 14px;
+}
+.cpProfileCard {
+  padding: 14px 16px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 11px;
+  background: #fff;
+}
+.cpProfileCard h3 { margin: 0 0 12px; color: #0c2748; font-size: 14px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+.cpProfileDetailRow { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid #eef2f7; }
+.cpProfileDetailRow:last-child { border-bottom: 0; }
+.cpProfileLabel { color: #7a8ba1; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; min-width: 90px; }
+.cpProfileValue { color: #24384f; font-size: 13.5px; font-weight: 600; min-width: 0; }
+.cpProfileChip { display: inline-flex; gap: 6px; align-items: center; gap: 4px; font-size: 12px; }
+
+@media (max-width: 640px) {
+  .cpProfileHeader { margin: 0 12px 14px; padding: 12px; }
+  .cpProfileGrid { margin: 0 12px 14px; grid-template-columns: 1fr; }
+}
