@@ -18,7 +18,7 @@ import {
   subscribeToAuthSession,
 } from "../../lib/auth";
 import {
-  Activity, ArrowRightLeft, Bell, BriefcaseBusiness, Building2, CalendarClock, CalendarDays,
+  Activity, ArrowRightLeft, Bell, BriefcaseBusiness, Building2, CalendarCheck, CalendarClock, CalendarDays,
   ChevronDown, ClipboardList, Factory, FileSignature, FileText, Inbox, Kanban,
   Layers, LayoutDashboard, LockKeyhole, Mail, Menu, Quote, Search, ShieldCheck,
   Tags, UserSearch, UsersRound, Wallet, Wrench, X,
@@ -43,7 +43,12 @@ import TestimonialsPanel from "./testimonials-panel";
 import RequisitionsPanel from "./requisitions-panel";
 import WorkerPanel from "./worker-panel";
 import AttendancePanel from "./attendance-panel";
+import LeaveManagementPanel from "./leave-panel";
+import HolidayManagementPanel from "./holiday-panel";
 import DeploymentsPanel from "./deployments-panel";
+import ExpiringDocumentsPanel from "./expiring-documents-panel";
+import PayrollPanel from "./payroll-panel";
+import InvoicePanel from "./invoice-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
@@ -59,6 +64,8 @@ const navigation = [
   { label: "Interviews", view: "interviews", icon: CalendarClock, section: "WORKFORCE" },
   { label: "Workers", view: "workers", icon: UsersRound, section: "WORKFORCE" },
   { label: "Attendance", view: "attendance", icon: CalendarDays, section: "WORKFORCE" },
+  { label: "Leave Management", view: "leave", icon: CalendarCheck, section: "WORKFORCE" },
+  { label: "Holiday Calendar", view: "holiday", icon: CalendarDays, section: "WORKFORCE" },
   { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
   { label: "Skills", view: "skills", icon: Wrench, section: "WORKFORCE" },
   { label: "Payroll", view: "payroll", icon: Wallet, section: "FINANCE" },
@@ -326,7 +333,12 @@ export default function AdminDashboard() {
   else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
   else if (activeView === "deployments") content = <DeploymentsPanel session={session} />;
   else if (activeView === "workers") content = <WorkerPanel session={session} />;
+  else if (activeView === "compliance") content = <ExpiringDocumentsPanel session={session} />;
+  else if (activeView === "payroll") content = <PayrollPanel session={session} />;
+  else if (activeView === "invoices") content = <InvoicePanel session={session} />;
   else if (activeView === "attendance") content = <AttendancePanel session={session} />;
+  else if (activeView === "leave") content = <LeaveManagementPanel session={session} />;
+  else if (activeView === "holiday") content = <HolidayManagementPanel session={session} allowManagement={Boolean(sessionUser && sessionUser.permissions && sessionUser.permissions.includes("SETTINGS_MANAGE")) && (Array.isArray(sessionUser.roles) ? sessionUser.roles.includes("SUPER_ADMIN") || sessionUser.roles.includes("ADMIN") : false)} />;
   else if (activeView === "contact-messages") content = <ContactMessagesPanel onUnreadChange={refreshUnreadCount} />;
   else if (activeView === "enquiries") content = <EnquiriesPanel />;
   else if (activeView === "manpower-categories") content = <ManpowerCategoriesPanel />;

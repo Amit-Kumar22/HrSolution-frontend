@@ -17,6 +17,9 @@ export default function OperatorPage() {
       requisitionsView
       deploymentsView
       workersView
+      leaveView
+      holidayView
+      payrollView
       variant="Operator"
       overview={OperatorOverview}
     />

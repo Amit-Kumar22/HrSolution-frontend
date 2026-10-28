@@ -14,6 +14,9 @@ export default function AccountsPage() {
       description="Your finance workspace. You only see the modules and actions granted to your role."
       clientView
       workersView
+      holidayView
+      payrollView
+      invoiceView
       variant="Accounts"
       overview={AccountsOverview}
     />

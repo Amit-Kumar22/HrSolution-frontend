@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Eye, Loader2, ShieldAlert, Upload, UserPlus } from "lucide-react";
-import { Field, Modal, Notice } from "./admin-ui";
+import { Chip, ConfirmDialog, EmptyState, Field, LoadingState, Modal, Notice } from "./admin-ui";
 import {
   POLICE_VERIFICATION_STATUSES,
   WORKER_DOCUMENT_TYPES,
@@ -11,6 +11,7 @@ import {
   convertApplicationToWorker,
   createSalaryStructure,
   createWorker,
+  getWorkerDocument,
   getWorkerSensitive,
   isAadhaar,
   isPan,
@@ -748,20 +749,25 @@ export function WorkerDocumentVerifyModal({ document, onClose, onSaved }) {
   const [reason, setReason] = useState("");
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const documentLabel = document.documentTypeLabel || document.documentType || "Document";
 
-  async function submit(event) {
-    event.preventDefault();
+  async function submitDecision() {
     if (saving) return;
     if (decision === "REJECTED" && !reason.trim()) {
       setError("A rejection reason is required.");
       return;
     }
-    setSaving(true);
     setError("");
+    if (decision === "VERIFIED") {
+      setConfirmOpen(true);
+      return;
+    }
+    setSaving(true);
     try {
       const saved = await verifyWorkerDocument(document.id, {
-        status: decision,
-        reason: decision === "REJECTED" ? reason.trim() : undefined,
+        status: "REJECTED",
+        reason: reason.trim(),
       });
       onSaved(saved);
     } catch (err) {
@@ -770,36 +776,66 @@ export function WorkerDocumentVerifyModal({ document, onClose, onSaved }) {
     }
   }
 
+  async function confirmVerified() {
+    setSaving(true);
+    try {
+      const saved = await verifyWorkerDocument(document.id, {
+        status: "VERIFIED",
+        reason: null,
+      });
+      setConfirmOpen(false);
+      onSaved(saved);
+    } catch (err) {
+      setConfirmOpen(false);
+      setError(messageOf(err, "The document decision could not be saved."));
+      setSaving(false);
+    }
+  }
+
   return (
-    <Modal
-      title="Verify document"
-      description={`${document.documentTypeLabel || document.documentType || "Document"} - a decision cannot be changed later.`}
-      onClose={() => { if (!saving) onClose(); }}
-      footer={(
-        <>
-          <button type="button" className="secondaryButton cmBtn" onClick={onClose} disabled={saving}>Cancel</button>
-          <button type="submit" form="verify-doc-form" className={decision === "REJECTED" ? "cmDangerButton cmBtn" : "primaryButton cmBtn"} disabled={saving}>
-            {saving ? <><Loader2 size={15} className="spin" /> Saving...</> : decision === "REJECTED" ? "Reject document" : "Accept document"}
-          </button>
-        </>
-      )}
-    >
-      <form id="verify-doc-form" className="cmForm" onSubmit={submit} noValidate>
-        {error && <p className="actionError" role="alert">{error}</p>}
-        <Notice tone="warn">A decided document cannot be re-decided. Upload a replacement if it needs another look.</Notice>
-        <Field label="Decision" htmlFor="verify-decision" required>
-          <select id="verify-decision" value={decision} onChange={(event) => setDecision(event.target.value)}>
-            <option value="VERIFIED">Accept as verified</option>
-            <option value="REJECTED">Reject</option>
-          </select>
-        </Field>
-        {decision === "REJECTED" && (
-          <Field label="Rejection reason" htmlFor="verify-reason" required>
-            <textarea id="verify-reason" rows={3} maxLength={1000} value={reason} onChange={(event) => setReason(event.target.value)} />
-          </Field>
+    <>
+      <Modal
+        title="Verify document"
+        description={`${documentLabel} - a decision cannot be changed later.`}
+        onClose={() => { if (!saving && !confirmOpen) onClose(); }}
+        footer={(
+          <>
+            <button type="button" className="secondaryButton cmBtn" onClick={onClose} disabled={saving || confirmOpen}>Cancel</button>
+            <button type="submit" form="verify-doc-form" className={decision === "REJECTED" ? "cmDangerButton cmBtn" : "primaryButton cmBtn"} disabled={saving || confirmOpen}>
+              {saving ? <><Loader2 size={15} className="spin" /> Saving...</> : decision === "REJECTED" ? "Reject document" : "Accept document"}
+            </button>
+          </>
         )}
-      </form>
-    </Modal>
+      >
+        <form id="verify-doc-form" className="cmForm" onSubmit={(event) => { event.preventDefault(); submitDecision(); }} noValidate>
+          {error && <p className="actionError" role="alert">{error}</p>}
+          <Notice tone="warn">A decided document cannot be re-decided. Upload a replacement if it needs another look.</Notice>
+          <Field label="Decision" htmlFor="verify-decision" required>
+            <select id="verify-decision" value={decision} onChange={(event) => setDecision(event.target.value)}>
+              <option value="VERIFIED">Accept as verified</option>
+              <option value="REJECTED">Reject</option>
+            </select>
+          </Field>
+          {decision === "REJECTED" && (
+            <Field label="Rejection reason" htmlFor="verify-reason" required error={decision === "REJECTED" && !reason.trim() && "A rejection reason is required."}>
+              <textarea id="verify-reason" rows={3} maxLength={1000} value={reason} onChange={(event) => setReason(event.target.value)} />
+            </Field>
+          )}
+        </form>
+      </Modal>
+
+      {confirmOpen && (
+        <ConfirmDialog
+          title="Confirm verification"
+          message={`Verify “${documentLabel}”? This decision cannot be changed later. The worker will need to upload a replacement if the document needs another review.`}
+          confirmLabel="Verify document"
+          confirmVariant="primary"
+          busy={saving}
+          onConfirm={confirmVerified}
+          onCancel={() => setConfirmOpen(false)}
+        />
+      )}
+    </>
   );
 }
 
@@ -1212,4 +1248,109 @@ export function ConvertToWorkerModal({ application, onClose, onConverted }) {
       </form>
     </Modal>
   );
+}
+
+export function WorkerDocumentDetailsModal({ document, onClose }) {
+  const [state, setState] = useState({ detail: null, error: "" });
+  const [refreshKey, setRefreshKey] = useState(0);
+  const requestKey = document?.id ? `${document.id}:${refreshKey}` : null;
+
+  useEffect(() => {
+    if (!document?.id) return undefined;
+    getWorkerDocument(document.id)
+      .then((payload) => {
+        setState({ detail: payload || null, error: "", loadedKey: requestKey });
+      })
+      .catch((err) => {
+        setState({ detail: null, error: messageOf(err, "The document details could not be loaded."), loadedKey: requestKey });
+      });
+  }, [document?.id, requestKey]);
+
+  const detail = state.detail;
+  const loading = Boolean(document?.id) && state.loadedKey !== requestKey;
+
+  return (
+    <Modal
+      title="Document details"
+      description={document.documentTypeLabel || document.documentType || "Document"}
+      onClose={onClose}
+      footer={<button type="button" className="secondaryButton cmBtn" onClick={onClose}>Close</button>}
+    >
+      {state.error && !loading && <p className="actionError" role="alert">{state.error}</p>}
+      {loading ? (
+        <LoadingState label="Loading document details…" />
+      ) : !detail ? (
+        <EmptyState title="No document details" message="The backend returned no record for this document." />
+      ) : (
+        <div className="cmDetailGrid">
+          <div className="cmDetailRow">
+            <span className="cmDetailLabel">Document type</span>
+            <span className="cmDetailValue">{detail.documentTypeLabel || workerDocumentTypeLabel(detail.documentType)}</span>
+          </div>
+          <div className="cmDetailRow">
+            <span className="cmDetailLabel">File</span>
+            <span className="cmDetailValue">{detail.fileName || "—"}{detail.sizeBytes ? ` (${bytesOf(detail.sizeBytes)})` : ""}</span>
+          </div>
+          <div className="cmDetailRow">
+            <span className="cmDetailLabel">Reference number</span>
+            <span className="cmDetailValue">{detail.referenceNumber || "—"}</span>
+          </div>
+          <div className="cmDetailRow">
+            <span className="cmDetailLabel">Issued on</span>
+            <span className="cmDetailValue">{formatDate(detail.issuedOn)}</span>
+          </div>
+          <div className="cmDetailRow">
+            <span className="cmDetailLabel">Expires on</span>
+            <span className="cmDetailValue">{detail.expiresOn ? formatDate(detail.expiresOn) : "—"}</span>
+          </div>
+          <div className="cmDetailRow">
+            <span className="cmDetailLabel">Uploaded on</span>
+            <span className="cmDetailValue">{formatDate(detail.uploadedOn || detail.createdAt || detail.issuedOn)}</span>
+          </div>
+          <div className="cmDetailRow">
+            <span className="cmDetailLabel">Verification status</span>
+            <span className="cmDetailValue"><Chip tone={DOCUMENT_VERIFICATION_TONES[detail.verificationStatus] || "neutral"}>{detail.verificationStatus || "PENDING"}</Chip></span>
+          </div>
+          {detail.verifiedByName && (
+            <div className="cmDetailRow">
+              <span className="cmDetailLabel">Verified by</span>
+              <span className="cmDetailValue">{detail.verifiedByName}{detail.verifiedAt ? ` on ${formatDateTime(detail.verifiedAt)}` : ""}</span>
+            </div>
+          )}
+          {detail.rejectionReason && (
+            <div className="cmDetailRow cmDetailFull">
+              <span className="cmDetailLabel">Rejection reason</span>
+              <span className="cmDetailValue cmDetailMessage">{detail.rejectionReason}</span>
+            </div>
+          )}
+          {detail.expired && (
+            <div className="cmDetailRow">
+              <span className="cmDetailLabel">Compliance</span>
+              <span className="cmDetailValue"><Chip tone="danger">Expired</Chip></span>
+            </div>
+          )}
+          {detail.validEvidence && (
+            <div className="cmDetailRow">
+              <span className="cmDetailLabel">Compliance</span>
+              <span className="cmDetailValue"><Chip tone="success">Valid compliance evidence</Chip></span>
+            </div>
+          )}
+          {!detail.expiresOn && DOCUMENT_TYPES_WITH_EXPIRY.includes(detail.documentType) && !detail.expired && (
+            <div className="cmDetailRow">
+              <span className="cmDetailLabel">Compliance</span>
+              <span className="cmDetailValue"><Chip tone="warn">No expiry recorded</Chip></span>
+            </div>
+          )}
+        </div>
+      )}
+    </Modal>
+  );
+}
+
+function bytesOf(value) {
+  const bytes = Number(value);
+  if (!Number.isFinite(bytes) || bytes <= 0) return "";
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes >= 1024) return `${Math.round(bytes / 1024)} KB`;
+  return `${bytes} B`;
 }

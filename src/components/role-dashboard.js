@@ -7,6 +7,7 @@ import {
   ArrowRightLeft,
   BriefcaseBusiness,
   Building2,
+  CalendarCheck,
   CalendarClock,
   CalendarDays,
   ChevronDown,
@@ -19,6 +20,8 @@ import {
   ShieldCheck,
   UserSearch,
   UsersRound,
+  Wallet,
+  FileText,
   X,
 } from "lucide-react";
 import {
@@ -46,10 +49,14 @@ import JobsPanel from "../app/admin/jobs-panel";
 import RequisitionsPanel from "../app/admin/requisitions-panel";
 import WorkerPanel from "../app/admin/worker-panel";
 import AttendancePanel from "../app/admin/attendance-panel";
+import LeaveManagementPanel from "../app/admin/leave-panel";
+import HolidayManagementPanel from "../app/admin/holiday-panel";
 import OperatorDeploymentsPanel from "./operator-deployments-panel";
 import DeploymentsPanel from "../app/admin/deployments-panel";
+import PayrollPanel from "../app/admin/payroll-panel";
+import InvoicePanel from "../app/admin/invoice-panel";
 
-export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, requisitionsView = false, workersView = false, deploymentsView = false, variant = "", overview: OverviewComponent = null }) {
+export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, requisitionsView = false, workersView = false, deploymentsView = false, leaveView = false, holidayView = false, payrollView = false, invoiceView = false, variant = "", overview: OverviewComponent = null }) {
   const router = useRouter();
   const sessionState = useSyncExternalStore(
     subscribeToAuthSession,
@@ -226,13 +233,75 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
     ].includes(String(role)),
   );
 
+  const canUseLeave = leaveView && roles.some((role) =>
+    [
+      "SUPER_ADMIN",
+      "ADMIN",
+      "MANAGER",
+      "RECRUITER",
+      "HR",
+      "HR_RECRUITER",
+      "HR_MANAGER",
+      "OPERATOR",
+      "OPERATIONS",
+      "OPERATIONS_MANAGER",
+      "SECURITY_GUARD",
+    ].includes(String(role)),
+  );
+
+  const canUseHoliday = holidayView && roles.some((role) =>
+    [
+      "SUPER_ADMIN",
+      "ADMIN",
+      "MANAGER",
+      "HR",
+      "HR_RECRUITER",
+      "HR_MANAGER",
+      "OPERATOR",
+      "OPERATIONS",
+      "OPERATIONS_MANAGER",
+      "SECURITY_GUARD",
+      "ACCOUNTS",
+      "ACCOUNTANT",
+      "SUPERVISOR",
+      "SITE_SUPERVISOR",
+      "WORKER",
+      "CLIENT",
+    ].includes(String(role)),
+  );
+
+  const canUsePayroll = payrollView && roles.some((role) =>
+    [
+      "SUPER_ADMIN",
+      "ADMIN",
+      "MANAGER",
+      "RECRUITER",
+      "HR",
+      "HR_RECRUITER",
+      "HR_MANAGER",
+      "OPERATOR",
+      "OPERATIONS",
+      "OPERATIONS_MANAGER",
+      "ACCOUNTS",
+      "ACCOUNTANT",
+    ].includes(String(role)),
+  );
+
+  const canUseInvoice = invoiceView && roles.some((role) =>
+    ["SUPER_ADMIN", "ADMIN", "ACCOUNTS", "ACCOUNTANT"].includes(String(role)),
+  );
+
   const nav = [
     { label: "Dashboard", view: "overview", icon: LayoutDashboard, section: "main" },
     ...(clientManagement || clientView ? [{ label: "Clients", view: "clients", icon: Building2, section: "main" }] : []),
     ...(canUseRequisitions ? [{ label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "main" }] : []),
     ...(canUseWorkers ? [{ label: "Workers", view: "workers", icon: UsersRound, section: "main" }] : []),
     ...(canUseAttendance ? [{ label: "Attendance", view: "attendance", icon: CalendarDays, section: "main" }] : []),
+    ...(canUseLeave ? [{ label: "Leave Management", view: "leave", icon: CalendarCheck, section: "main" }] : []),
+    ...(canUseHoliday ? [{ label: "Holiday Calendar", view: "holiday", icon: CalendarDays, section: "main" }] : []),
     ...(canUseDeployments ? [{ label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" }] : []),
+    ...(canUsePayroll ? [{ label: "Payroll", view: "payroll", icon: Wallet, section: "main" }] : []),
+    ...(canUseInvoice ? [{ label: "Invoices", view: "invoices", icon: FileText, section: "main" }] : []),
     ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch, section: "main" }] : []),
     ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "main" }] : []),
     ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock, section: "main" }] : []),
@@ -368,6 +437,17 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
             <WorkerPanel session={sessionState} />
           ) : activeView === "attendance" ? (
             <AttendancePanel session={sessionState} isClient={roles.includes("CLIENT")} />
+          ) : activeView === "leave" ? (
+            <LeaveManagementPanel session={sessionState} />
+          ) : activeView === "holiday" ? (
+            <HolidayManagementPanel
+              session={sessionState}
+              allowManagement={hasPermission(sessionState, "SETTINGS_MANAGE") && hasRole(sessionState, ["SUPER_ADMIN", "ADMIN"])}
+            />
+          ) : activeView === "payroll" ? (
+            <PayrollPanel session={sessionState} />
+          ) : activeView === "invoices" ? (
+            <InvoicePanel session={sessionState} />
           ) : activeView === "interviews" ? (
             <InterviewManagementPanel session={sessionState} />
           ) : activeView === "overview" && OverviewComponent ? (

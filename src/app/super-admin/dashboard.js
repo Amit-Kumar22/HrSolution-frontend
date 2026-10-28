@@ -8,11 +8,14 @@ import {
   Bell,
   BriefcaseBusiness,
   Building2,
+  CalendarCheck,
   CalendarClock,
+  CalendarDays,
   ChevronDown,
   ClipboardList,
   Factory,
   FileSignature,
+  FileText,
   Inbox,
   Kanban,
   KeyRound,
@@ -27,6 +30,7 @@ import {
   Tags,
   UserSearch,
   UsersRound,
+  Wallet,
   Wrench,
   X,
 } from "lucide-react";
@@ -68,7 +72,12 @@ import TestimonialsPanel from "../admin/testimonials-panel";
 import RequisitionsPanel from "../admin/requisitions-panel";
 import WorkerPanel from "../admin/worker-panel";
 import AttendancePanel from "../admin/attendance-panel";
+import LeaveManagementPanel from "../admin/leave-panel";
+import HolidayManagementPanel from "../admin/holiday-panel";
 import DeploymentsPanel from "../admin/deployments-panel";
+import ExpiringDocumentsPanel from "../admin/expiring-documents-panel";
+import PayrollPanel from "../admin/payroll-panel";
+import InvoicePanel from "../admin/invoice-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
@@ -84,6 +93,11 @@ const navigation = [
   { label: "Applications", view: "applications", icon: Kanban, section: "WORKFORCE" },
   { label: "Interviews", view: "interviews", icon: CalendarClock, section: "WORKFORCE" },
   { label: "Workers", view: "workers", icon: UsersRound, section: "WORKFORCE" },
+  { label: "Compliance", view: "compliance", icon: ShieldCheck, section: "WORKFORCE" },
+  { label: "Payroll", view: "payroll", icon: Wallet, section: "WORKFORCE" },
+  { label: "Invoices", view: "invoices", icon: FileText, section: "WORKFORCE" },
+  { label: "Leave Management", view: "leave", icon: CalendarCheck, section: "WORKFORCE" },
+  { label: "Holiday Calendar", view: "holiday", icon: CalendarDays, section: "WORKFORCE" },
   { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
   { label: "Skills", view: "skills", icon: Wrench, section: "WORKFORCE" },
   { label: "Industries", view: "industries", icon: Factory, section: "WEBSITE" },
@@ -337,7 +351,12 @@ export default function SuperAdminDashboard() {
   else if (activeView === "requisitions") content = <RequisitionsPanel session={session} />;
   else if (activeView === "deployments") content = <DeploymentsPanel session={session} />;
   else if (activeView === "attendance") content = <AttendancePanel session={session} />;
+  else if (activeView === "leave") content = <LeaveManagementPanel session={session} />;
+  else if (activeView === "holiday") content = <HolidayManagementPanel session={session} allowManagement={Boolean(user.permissions && user.permissions.includes("SETTINGS_MANAGE")) && (Array.isArray(user.roles) ? user.roles.includes("SUPER_ADMIN") || user.roles.includes("ADMIN") : false)} />;
   else if (activeView === "workers") content = <WorkerPanel session={session} />;
+  else if (activeView === "compliance") content = <ExpiringDocumentsPanel session={session} />;
+  else if (activeView === "payroll") content = <PayrollPanel session={session} />;
+  else if (activeView === "invoices") content = <InvoicePanel session={session} />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
   else if (activeView === "applications") content = <ApplicationsPanel session={session} />;
   else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;

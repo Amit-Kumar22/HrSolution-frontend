@@ -13,6 +13,7 @@ export default function SupervisorPage() {
       allowedRoles={["SUPERVISOR", "SITE_SUPERVISOR"]}
       dashboardName="Supervisor Dashboard"
       description="Your supervision workspace. You only see the modules and actions granted to your role."
+      holidayView
       variant="Supervisor"
       overview={SupervisorOverview}
     />

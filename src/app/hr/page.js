@@ -19,6 +19,9 @@ export default function HrPage() {
       interviewsView
       requisitionsView
       workersView
+      leaveView
+      holidayView
+      payrollView
       variant="Hr"
       overview={HrOverview}
     />

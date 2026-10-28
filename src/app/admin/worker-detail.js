@@ -5,6 +5,7 @@ import {
   BadgeCheck,
   Building2,
   Download,
+  Eye,
   FileText,
   Landmark,
   Loader2,
@@ -55,6 +56,7 @@ import {
   PoliceVerificationModal,
   SalaryStructureModal,
   SensitiveWorkerModal,
+  WorkerDocumentDetailsModal,
   WorkerDocumentUploadModal,
   WorkerDocumentVerifyModal,
   WorkerExitModal,
@@ -135,6 +137,7 @@ export default function WorkerDetailDrawer({ workerId, capabilities, selfWorkerI
   const [salaryOpen, setSalaryOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [verifyTarget, setVerifyTarget] = useState(null);
+  const [documentDetail, setDocumentDetail] = useState(null);
   const [bankOpen, setBankOpen] = useState(false);
   const [sensitiveOpen, setSensitiveOpen] = useState(false);
   const [deleteWorkerOpen, setDeleteWorkerOpen] = useState(false);
@@ -589,6 +592,15 @@ export default function WorkerDetailDrawer({ workerId, capabilities, selfWorkerI
                           >
                             {documentBusy === document.id ? <Loader2 size={14} className="spin" /> : <Download size={14} />}
                           </button>
+                          <button
+                            type="button"
+                            className="cmIconButton"
+                            title="View document details"
+                            aria-label="View document details"
+                            onClick={() => setDocumentDetail(document)}
+                          >
+                            <Eye size={14} />
+                          </button>
                           {capabilities.canManage && document.verificationStatus === "PENDING" && (
                             <button
                               type="button"
@@ -600,7 +612,7 @@ export default function WorkerDetailDrawer({ workerId, capabilities, selfWorkerI
                               <ShieldCheck size={14} />
                             </button>
                           )}
-                          {capabilities.canManage && document.verificationStatus !== "VERIFIED" && (
+                          {capabilities.canDelete && document.verificationStatus !== "VERIFIED" && (
                               <button
                                 type="button"
                                 className="cmIconButton cmIconDanger"
@@ -810,6 +822,9 @@ export default function WorkerDetailDrawer({ workerId, capabilities, selfWorkerI
             showFlash("success", "Document decision saved.");
           }}
         />
+      )}
+      {documentDetail && (
+        <WorkerDocumentDetailsModal document={documentDetail} onClose={() => setDocumentDetail(null)} />
       )}
       {bankOpen && worker && (
         <BankAccountModal

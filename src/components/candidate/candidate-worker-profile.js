@@ -1,33 +1,25 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
-import { IdCard, RefreshCw, Search, ShieldCheck } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import {
+  CalendarDays,
+  CreditCard,
+  FileText,
+  IdCard,
+  RefreshCw,
+  Search,
+  ShieldCheck,
+} from "lucide-react";
 import WorkerDetailDrawer from "@/app/admin/worker-detail";
 import { workerCapabilities } from "@/lib/workerApi";
+import MyLeavesPanel from "@/app/worker/my-leaves-panel";
+import HolidayManagementPanel from "@/app/admin/holiday-panel";
+import WorkerDocumentsPanel from "@/app/worker/worker-documents-panel";
+import WorkerBankAccountsPanel from "@/app/worker/worker-bank-accounts-panel";
+import WorkerPayslipsPanel from "@/app/worker/worker-payslips-panel";
 
 const STORAGE_KEY = "shakti.workerProfileId";
 const CHANGE_EVENT = "shakti:worker-profile-change";
-
-function readStoredWorkerId() {
-  try {
-    return window.sessionStorage.getItem(STORAGE_KEY) || "";
-  } catch {
-    return "";
-  }
-}
-
-function subscribeToWorkerId(callback) {
-  window.addEventListener("storage", callback);
-  window.addEventListener(CHANGE_EVENT, callback);
-  return () => {
-    window.removeEventListener("storage", callback);
-    window.removeEventListener(CHANGE_EVENT, callback);
-  };
-}
-
-function getServerWorkerId() {
-  return "";
-}
 
 function persistWorkerId(workerId) {
   try {
@@ -40,11 +32,33 @@ function persistWorkerId(workerId) {
   return true;
 }
 
+const PROFILE_TABS = [
+  { id: "overview", label: "Overview", icon: IdCard },
+  { id: "documents", label: "My Documents", icon: FileText },
+  { id: "bank-accounts", label: "My Bank Accounts", icon: CreditCard },
+  { id: "payslips", label: "My Payslips", icon: FileText },
+  { id: "leaves", label: "My Leaves", icon: CalendarDays },
+  { id: "holiday", label: "Holiday Calendar", icon: CalendarDays },
+];
+
 export default function CandidateWorkerProfile({ session }) {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
-  const workerId = useSyncExternalStore(subscribeToWorkerId, readStoredWorkerId, getServerWorkerId);
+  const [activeTab, setActiveTab] = useState("overview");
+  const user = (session && session.user) || {};
+  const sessionWorkerId = user && user.id != null ? String(user.id) : "";
+  const roles = Array.isArray(user.roles) ? user.roles : [];
+  const isWorkerRoleUser = roles.includes("WORKER");
+  const [workerId, setWorkerId] = useState(() => (isWorkerRoleUser ? sessionWorkerId : ""));
   const capabilities = useMemo(() => workerCapabilities(session), [session]);
+
+  useEffect(() => {
+    if (isWorkerRoleUser && sessionWorkerId && !workerId) {
+      try {
+        window.sessionStorage.setItem(STORAGE_KEY, sessionWorkerId);
+      } catch {}
+    }
+  }, [isWorkerRoleUser, sessionWorkerId, workerId]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -57,14 +71,20 @@ export default function CandidateWorkerProfile({ session }) {
       setError("This browser could not remember the Worker ID. Allow site storage and try again.");
       return;
     }
+    setWorkerId(trimmed);
     setError("");
+    setActiveTab("overview");
   }
 
   function handleForget() {
     persistWorkerId("");
+    setWorkerId("");
     setInput("");
     setError("");
+    setActiveTab("overview");
   }
+
+  const displayWorkerId = workerId || "";
 
   return (
     <div className="cp-stack">
@@ -76,7 +96,7 @@ export default function CandidateWorkerProfile({ session }) {
           </p>
         </div>
 
-        {!workerId ? (
+        {!displayWorkerId ? (
           <form className="cp-form" onSubmit={handleSubmit} noValidate>
             <div className="authField authField--full">
               <label className="authLabel" htmlFor="candidateWorkerId">Worker ID</label>
@@ -108,22 +128,45 @@ export default function CandidateWorkerProfile({ session }) {
           <>
             <div className="cp-workerToolbar">
               <span>
-                <ShieldCheck size={15} /> Viewing Worker #{workerId} - read only
+                <ShieldCheck size={15} /> Viewing Worker #{displayWorkerId} - read only
               </span>
               <button type="button" className="authButtonSecondary" onClick={handleForget}>
                 <RefreshCw size={14} /> Use a different ID
               </button>
             </div>
-            <p className="cp-inlineNote">
-              <IdCard size={14} /> Documents and bank accounts are visible but cannot be changed here. Ask HR for corrections.
-            </p>
-            <WorkerDetailDrawer
-              key={workerId}
-              workerId={workerId}
-              capabilities={capabilities}
-              selfWorkerId={workerId}
-              inline
-            />
+
+            <nav className="cpProfileTabs" aria-label="Worker profile sections">
+              {PROFILE_TABS.map((tab) => {
+                const Icon = tab.icon;
+                const active = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    className={`cpProfileTab${active ? " cpProfileTabActive" : ""}`}
+                    aria-current={active ? "page" : undefined}
+                    onClick={() => setActiveTab(tab.id)}
+                  >
+                    <Icon size={15} /> {tab.label}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {activeTab === "overview" && (
+              <WorkerDetailDrawer
+                key={displayWorkerId}
+                workerId={displayWorkerId}
+                capabilities={capabilities}
+                selfWorkerId={displayWorkerId}
+                inline
+              />
+            )}
+            {activeTab === "documents" && <WorkerDocumentsPanel session={session} />}
+            {activeTab === "bank-accounts" && <WorkerBankAccountsPanel session={session} />}
+            {activeTab === "payslips" && <WorkerPayslipsPanel session={session} />}
+            {activeTab === "leaves" && <MyLeavesPanel session={session} />}
+            {activeTab === "holiday" && <HolidayManagementPanel session={session} allowManagement={false} />}
           </>
         )}
       </section>

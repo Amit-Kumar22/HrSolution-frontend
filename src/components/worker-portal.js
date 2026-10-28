@@ -4,6 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  CalendarDays,
   IdCard,
   LayoutDashboard,
   LogOut,
@@ -22,6 +23,7 @@ import {
 } from "@/lib/auth";
 import CandidateAccount from "@/components/candidate/candidate-account";
 import CandidateWorkerProfile from "@/components/candidate/candidate-worker-profile";
+import HolidayManagementPanel from "@/app/admin/holiday-panel";
 
 const TABS = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },

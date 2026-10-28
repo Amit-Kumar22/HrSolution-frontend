@@ -1610,3 +1610,171 @@ button.adKpi { cursor: pointer; }
 .cmDrawer.cmDrawerInline { width: 100%; max-width: none; height: auto; max-height: none; overflow: hidden; border: 1px solid var(--line, #e2e8f0); border-radius: 14px; box-shadow: none; animation: none; }
 .cmDrawerInline .cmDrawerBody { max-height: none; overflow: visible; }
 .cmDrawerInline .cmDrawerFooter { background: #fbfcfe; }
+
+.edExpiryPanel { display: flex; flex-direction: column; gap: 14px; }
+.edSummaryRow { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; }
+.edSummaryItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 10px;
+  background: #fbfcfe;
+}
+.edSummaryItem strong { color: #0c2748; font-size: 15px; }
+.edSummaryItem span { color: #6b7d95; font-size: 12px; }
+.edSummaryItem--expired { border-color: #f6d2d2; background: #fdf3f3; }
+.edSummaryItem--expired strong { color: #b3402e; }
+.edSummaryItem--approaching { border-color: #f3d9b3; background: #fdf8ef; }
+.edSummaryItem--approaching strong { color: #9a6410; }
+.edWorkerCell { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.edWorkerAvatar {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #eef2f7;
+  color: #435973;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pyPayrollPanel { display: flex; flex-direction: column; gap: 14px; }
+.pyToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+.pyFilterForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pyFilterField {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.pyFilterField label {
+  margin: 0;
+  color: #6b7d95;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pyFilterField select, .pyFilterField input {
+  min-width: 110px;
+  padding: 6px 8px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 7px;
+  background: #fff;
+  font-size: 12px;
+}
+.pyToolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #6b7d95;
+}
+.pyCount { color: #0c2748; font-weight: 700; }
+.pyClientCell { display: flex; gap: 10px; align-items: center; min-width: 0; }
+.pyClientAvatar {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #eef2f7;
+  color: #435973;
+  font-size: 12px;
+  font-weight: 700;
+}
+.cmIconAction, .cmIconLock, .cmIconPay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  background: #fff;
+  color: #0c2748;
+  cursor: pointer;
+  font-size: 13px;
+}
+.cmIconAction:hover { border-color: #9fb0c3; background: #f4f7fa; }
+.cmIconAction:disabled { opacity: 0.55; cursor: wait; }
+.cmIconLock { color: #7a5c00; }
+.cmIconLock:hover { border-color: #e2d1a3; background: #fdf8ef; }
+.cmIconPay { color: #1f7a4c; }
+.cmIconPay:hover { border-color: #b9e2cf; background: #f0faf4; }
+
+@media (max-width: 640px) {
+  .pyToolbar { flex-direction: column; align-items: stretch; }
+  .pyFilterForm { flex-direction: column; align-items: stretch; }
+  .pyFilterField select, .pyFilterField input { min-width: auto; flex: 1; }
+  .pyToolbarRight { justify-content: space-between; width: 100%; }
+}
+
+.invInvoicePanel { display: flex; flex-direction: column; gap: 14px; }
+.invToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+.invFilterForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.invFilterField {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+.invFilterField label {
+  margin: 0;
+  color: #6b7d95;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.invFilterField select {
+  min-width: 110px;
+  padding: 6px 8px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 7px;
+  background: #fff;
+  font-size: 12px;
+}
+.invToolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #6b7d95;
+}
+.invCount { color: #0c2748; font-weight: 700; }
+.invCell { min-width: 0; }
+.cmIconCancel { color: #b3402e; }
+.cmIconCancel:hover { border-color: #e2b9b9; background: #fdf3f3; }
+
+@media (max-width: 640px) {
+  .invToolbar { flex-direction: column; align-items: stretch; }
+  .invFilterForm { flex-direction: column; align-items: stretch; }
+  .invFilterField select { min-width: auto; flex: 1; }
+  .invToolbarRight { justify-content: space-between; width: 100%; }
+}

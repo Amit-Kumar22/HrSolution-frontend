@@ -167,3 +167,185 @@
   .workerPortalUserName { display: none; }
   .workerPortalWelcome { align-items: flex-start; flex-direction: column; padding: 20px; }
 }
+
+.wdWorkerDocumentsPanel { display: flex; flex-direction: column; gap: 14px; }
+.wdDocList { display: flex; flex-direction: column; gap: 10px; }
+.wdDocCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 13px 15px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 11px;
+  background: #fff;
+}
+.wdDocMain {
+  display: flex;
+  flex: 1 1 260px;
+  gap: 10px;
+  align-items: flex-start;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.wdDocIcon {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #eef2f7;
+  color: #435973;
+}
+.wdDocMain > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.wdDocMain strong { color: #0c2748; font-size: 13px; overflow-wrap: anywhere; }
+.wdDocMain small { color: #708299; font-size: 11px; overflow-wrap: anywhere; }
+.wdDocMetaLine { color: #708299; font-size: 11px; }
+.wdDocMeta {
+  display: flex;
+  flex: 1 1 180px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+}
+.wdDocMeta .wdDocMuted { font-size: 11px; color: #6b7d95; }
+.wdDocMuted--reject { color: #b3402e; }
+.wdRowActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.wdIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  background: #fff;
+  color: #0c2748;
+  cursor: pointer;
+  font-size: 13px;
+}
+.wdIconButton:hover { border-color: #9fb0c3; background: #f4f7fa; }
+.wdIconButton:disabled { opacity: 0.55; cursor: wait; }
+
+@media (max-width: 640px) {
+  .wdDocCard { padding: 12px; }
+  .wdDocMain { flex-direction: column; align-items: flex-start; }
+  .wdDocMeta { align-items: flex-start; }
+}
+
+.wbWorkerBankAccountsPanel { display: flex; flex-direction: column; gap: 14px; }
+.wbAccountList { display: flex; flex-direction: column; gap: 10px; }
+.wbAccountCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 13px 15px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 11px;
+  background: #fff;
+}
+.wbAccountMain {
+  display: flex;
+  flex: 1 1 260px;
+  gap: 10px;
+  align-items: flex-start;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.wbAccountIcon {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #eef2f7;
+  color: #435973;
+}
+.wbAccountMain > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.wbAccountMain strong { color: #0c2748; font-size: 13px; overflow-wrap: anywhere; }
+.wbAccountMain small { color: #708299; font-size: 11px; overflow-wrap: anywhere; }
+.wbAccountMetaLine { color: #708299; font-size: 11px; }
+.wbAccountMeta {
+  display: flex;
+  flex: 1 1 180px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+}
+.wbRowActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.wbIconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  background: #fff;
+  color: #0c2748;
+  cursor: pointer;
+  font-size: 13px;
+}
+.wbIconButton:hover { border-color: #9fb0c3; background: #f4f7fa; }
+.wbIconButton:disabled { opacity: 0.55; cursor: wait; }
+.wbIconDanger { color: #b3402e; }
+.wbIconDanger:hover { border-color: #e2b9b9; background: #fdf3f3; }
+
+@media (max-width: 640px) {
+  .wbAccountCard { padding: 12px; }
+  .wbAccountMain { flex-direction: column; align-items: flex-start; }
+  .wbAccountMeta { align-items: flex-start; }
+}
+
+.wpPayslipsPanel { display: flex; flex-direction: column; gap: 14px; }
+
+.cp-panelHead {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cp-panelHead h2 { margin: 0; color: #0c2748; font-size: 16px; letter-spacing: -0.02em; }
+.cp-panelHead p { margin: 0; color: #63748b; font-size: 12px; line-height: 1.45; }
+
+.cpProfileTabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0 clamp(12px, 4vw, 40px);
+  border-top: 1px solid #1d3c66;
+  background: #0c2748;
+  scrollbar-width: thin;
+  margin-bottom: 14px;
+}
+.cpProfileTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: #a9bcd4;
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cpProfileTab:hover { color: #fff; }
+.cpProfileTabActive { border-bottom-color: #f9a006; color: #fff; }

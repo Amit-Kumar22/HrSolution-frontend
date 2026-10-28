@@ -20,6 +20,8 @@ import {
   Settings,
   ShieldCheck,
   Users,
+  Wallet,
+  FileText,
   X,
 } from "lucide-react";
 import {
@@ -44,6 +46,9 @@ import ClientUsers from "@/components/client-users";
 import RequisitionsPanel from "@/app/admin/requisitions-panel";
 import DeploymentsPanel from "@/app/admin/deployments-panel";
 import AttendancePanel from "@/app/admin/attendance-panel";
+import HolidayManagementPanel from "@/app/admin/holiday-panel";
+import PayrollPanel from "@/app/admin/payroll-panel";
+import InvoicePanel from "@/app/admin/invoice-panel";
 import { Chip, ErrorState, LoadingState } from "@/app/admin/admin-ui";
 import {
   companyBillingAddress,
@@ -62,6 +67,9 @@ const navigation = [
   { label: "Requisitions", view: "requisitions", icon: ClipboardList, section: "WORKSPACE" },
   { label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "WORKSPACE" },
   { label: "Attendance", view: "attendance", icon: CalendarCheck, section: "WORKSPACE" },
+  { label: "Holiday Calendar", view: "holiday", icon: CalendarCheck, section: "WORKSPACE" },
+  { label: "Payroll", view: "payroll", icon: Wallet, section: "WORKSPACE" },
+  { label: "Invoices", view: "invoices", icon: FileText, section: "WORKSPACE" },
   { label: "Account settings", href: "/client/account", view: "account-settings", icon: Settings, section: "ACCOUNT" },
 ];
 
@@ -476,6 +484,12 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
             <DeploymentsPanel session={sessionState} />
           ) : activeView === "attendance" ? (
             <AttendancePanel session={sessionState} isClient />
+          ) : activeView === "holiday" ? (
+            <HolidayManagementPanel session={sessionState} allowManagement={false} />
+          ) : activeView === "payroll" ? (
+            <PayrollPanel session={sessionState} />
+          ) : activeView === "invoices" ? (
+            <InvoicePanel session={sessionState} />
           ) : activeView === "dashboard" ? (
             <>
               <section className="clKpis" aria-label="Company summary">
