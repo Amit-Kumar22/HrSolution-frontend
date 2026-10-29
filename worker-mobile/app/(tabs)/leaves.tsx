@@ -1,0 +1,8 @@
+/* Async API hydration intentionally updates state from an effect. */
+/* eslint-disable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+import { Screen, Card, State, styles } from "../../components/ui";
+import { useAuth } from "../../hooks/useAuth"; import { apiMessage } from "../../services/api"; import { listLeaves, workerId } from "../../services/worker";
+export default function Leaves() { const { session } = useAuth(); const [items, setItems] = useState<any[]>([]); const [state, setState] = useState({ loading: true, error: "" }); const load = () => { setState({ loading: true, error: "" }); listLeaves(workerId(session?.user)).then(x => setItems(x?.content || x || [])).catch(e => setState({ loading: false, error: apiMessage(e, "Leave records could not be loaded.") })).finally(() => setState(s => ({ ...s, loading: false }))); }; useEffect(load, [session?.user?.id]); return <ScrollView><Screen title="My leaves" subtitle="Track your leave requests and their status.">{state.loading || state.error || !items.length ? <State loading={state.loading} error={state.error} empty="No leave records found." onRetry={load} /> : items.map((item, i) => <Card key={item.id || i}><View style={styles.row}><Text style={{ fontWeight: "800", color: "#132238" }}>{item.leaveType || item.type || "Leave"}</Text><Text style={styles.badge}>{item.status || item.state || "Pending"}</Text></View><Text style={styles.muted}>{item.fromDate || "—"} to {item.toDate || "—"}</Text><Text style={{ color: colorsMuted }}>{item.reason || "No reason provided"}</Text></Card>)}</Screen></ScrollView>; }
+const colorsMuted = "#65758b";

@@ -419,6 +419,25 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
         </header>
 
         <div className={styles.dashboardContent}>
+          {variant === "Accounts" && ["clients", "workers", "attendance", "holiday", "payroll", "invoices"].includes(activeView) && (
+            <section className="accountsModuleHero">
+              <div className="accountsModuleHeroText">
+                <p className="accountsModuleEyebrow">Accounts workspace</p>
+                <h1>{activeNavItem ? activeNavItem.label : dashboardName}</h1>
+                <p className="accountsModuleLead">
+                  {activeView === "invoices"
+                    ? "Review, filter and manage client invoices and payment records."
+                    : activeView === "payroll"
+                      ? "Review payroll runs, employee payments and related records."
+                      : `Review and manage ${activeNavItem ? activeNavItem.label.toLowerCase() : "account records"} in one place.`}
+                </p>
+              </div>
+              <div className="accountsModuleHeroAside">
+                <span className="accountsModuleStatus">{user.status || "Active account"}</span>
+                <span className="accountsModuleEmail">{user.email || ""}</span>
+              </div>
+            </section>
+          )}
           {activeView === "clients" ? (
             <ClientsPanel readOnly={!clientManagement} />
           ) : activeView === "deployments" ? (

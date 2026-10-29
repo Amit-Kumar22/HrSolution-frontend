@@ -1740,6 +1740,96 @@
   padding: 9px 12px;
 }
 
+/* Accounts module pages use the compact client portal header and data styling. */
+.roleDashAccounts .accountsModuleHero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
+  box-shadow: 0 8px 18px #0c274826;
+}
+.roleDashAccounts .accountsModuleHero::before {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -90px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 160, 6, .3), rgba(249, 160, 6, 0) 68%);
+  pointer-events: none;
+}
+.roleDashAccounts .accountsModuleHero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+}
+.roleDashAccounts .accountsModuleHeroText,
+.roleDashAccounts .accountsModuleHeroAside { position: relative; z-index: 1; }
+.roleDashAccounts .accountsModuleEyebrow {
+  margin: 0 0 2px;
+  color: #f9a006;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.roleDashAccounts .accountsModuleHero h1 {
+  margin: 0 0 2px;
+  color: #fff;
+  font-size: clamp(16px, 1.7vw, 19px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
+.roleDashAccounts .accountsModuleLead { margin: 0; color: #c3d3e4; font-size: 11px; line-height: 1.4; }
+.roleDashAccounts .accountsModuleHeroAside { display: grid; justify-items: end; gap: 4px; flex: 0 0 auto; }
+.roleDashAccounts .accountsModuleStatus {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: #e7eef8;
+  font-size: 10.5px;
+  font-weight: 650;
+}
+.roleDashAccounts .accountsModuleEmail { color: #9db3cc; font-size: 10.5px; }
+.roleDashAccounts .cmTableWrap { border-radius: 10px; box-shadow: 0 2px 7px #1230520d; }
+.roleDashAccounts .cmTable { font-size: 11.5px; }
+.roleDashAccounts .cmTable thead th { padding: 8px 11px; font-size: 10px; }
+.roleDashAccounts .cmTable tbody td { padding: 8px 11px; }
+
+@media (max-width: 650px) {
+  .roleDashAccounts .accountsModuleHero { align-items: flex-start; flex-direction: column; }
+  .roleDashAccounts .accountsModuleHeroAside { justify-items: start; }
+}
+
+/* Keep the module action buttons, but remove the repeated in-panel titles. */
+.roleDashAccounts .cmHead {
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+.roleDashAccounts .cmHead > div:first-child { display: none; }
+.roleDashAccounts .cmHead:not(:has(.cmHeadAction)) { display: none; }
+.roleDashAccounts .holidayPanelHeader { display: none !important; }
+.roleDashAccounts .cmPagination { gap: 8px; margin-top: 10px; }
+.roleDashAccounts .cmPagination .cmBtn,
+.roleDashAccounts .cmPagination .cmPageBtn {
+  min-height: 28px;
+  padding: 0 9px;
+  gap: 4px;
+  border-radius: 7px;
+  font-size: 11.5px;
+}
+
 .roleDashAccounts .acTable .cmEntity strong {
   font-size: 12px;
 }
@@ -1800,3 +1890,26 @@
     justify-content: space-between;
   }
 }
+
+/* Tighter spacing throughout the Accounts workspace. */
+.roleDashAccounts {
+  --accounts-section-gap: 8px;
+  --accounts-panel-padding: 11px 12px;
+}
+.roleDashAccounts .dashboardContent { padding: 14px 16px 18px; }
+.roleDashAccounts .accountsModuleHero { margin-bottom: var(--accounts-section-gap); padding: 7px 12px; }
+.roleDashAccounts .acKpis { gap: 9px; margin-bottom: 10px; }
+.roleDashAccounts .acLayout { gap: 9px; margin-bottom: 10px; }
+.roleDashAccounts .acAside { gap: 9px; }
+.roleDashAccounts .acPanel { padding: var(--accounts-panel-padding); }
+.roleDashAccounts .acPanelHead { margin-bottom: 8px; }
+.roleDashAccounts .pyPayrollPanel,
+.roleDashAccounts .invInvoicePanel { gap: var(--accounts-section-gap); }
+.roleDashAccounts .holidayPanel { gap: var(--accounts-section-gap) !important; }
+.roleDashAccounts .dashboardContent :is(.cmToolbar, .pyToolbar, .invToolbar, .depToolbar) {
+  gap: 6px;
+  margin-bottom: var(--accounts-section-gap);
+  padding: 6px 8px;
+}
+.roleDashAccounts .cmTable tbody td { padding-top: 7px; padding-bottom: 7px; }
+.roleDashAccounts .cmPagination { margin-top: var(--accounts-section-gap); }

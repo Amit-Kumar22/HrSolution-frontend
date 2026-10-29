@@ -1,5 +1,12 @@
 import { INTERNAL_ROLES, authenticatedFetch, getAuthSession, isClientRole } from "./auth";
 import { API_BASE } from "./api-base";
+import {
+  canGenerateComplianceReminders,
+  canManageCompliance,
+  canViewComplianceReminders,
+  canViewNotifications,
+  canViewReports,
+} from "./feature-access";
 
 const REQUEST_TIMEOUT_MS = 30000;
 
@@ -15,6 +22,20 @@ export class AdminApiError extends Error {
     this.fields = fields;
     this.payload = payload;
   }
+}
+
+function requireFeatureAccess(canAccess, message = "You do not have permission to access this feature.") {
+  const session = getAuthSession();
+  if (!session || !session.accessToken) {
+    throw new AdminApiError("Your session has expired. Please sign in again.", {
+      status: 401,
+      code: "NO_SESSION",
+    });
+  }
+  if (!canAccess(session)) {
+    throw new AdminApiError(message, { status: 403, code: "FORBIDDEN" });
+  }
+  return session;
 }
 
 export function validateImageFile(file) {
@@ -329,6 +350,120 @@ function normalizePage(payload, { page = 0, size = 20 } = {}) {
     last: Boolean(payload && payload.last),
     empty: payload && typeof payload.empty === "boolean" ? payload.empty : content.length === 0,
   };
+}
+
+/* ------------------------------------------------------------------ */
+/* Compliance, reports and notifications                              */
+/* ------------------------------------------------------------------ */
+
+export async function listChallans({ page = 0, size = 20, sort = ["year,DESC"] } = {}) {
+  requireFeatureAccess(canManageCompliance);
+  const payload = await adminRequest("/challans", {
+    query: { page, size, sort: asArray(sort) },
+  });
+  return normalizePage(payload, { page, size });
+}
+
+export function createChallan(body) {
+  requireFeatureAccess(canManageCompliance);
+  return adminRequest("/challans", { method: "POST", body });
+}
+
+export async function listLicences({
+  clientId,
+  page = 0,
+  size = 20,
+  sort = ["expiryDate,ASC"],
+} = {}) {
+  requireFeatureAccess(canManageCompliance);
+  const payload = await adminRequest("/licences", {
+    query: { clientId, page, size, sort: asArray(sort) },
+  });
+  return normalizePage(payload, { page, size });
+}
+
+export function createLicence(body) {
+  requireFeatureAccess(canManageCompliance);
+  return adminRequest("/licences", { method: "POST", body });
+}
+
+export function updateLicence(id, body) {
+  requireFeatureAccess(canManageCompliance);
+  return adminRequest(`/licences/${encodeURIComponent(id)}`, { method: "PUT", body });
+}
+
+export async function listComplianceReminders(withinDays = 60) {
+  requireFeatureAccess(canViewComplianceReminders);
+  const payload = await adminRequest("/compliance/reminders", { query: { withinDays } });
+  if (!Array.isArray(payload)) {
+    throw new AdminApiError("The service returned an unexpected reminders response.", {
+      status: 502,
+      code: "INVALID_RESPONSE",
+      payload,
+    });
+  }
+  return payload;
+}
+
+export function generateComplianceReminders() {
+  requireFeatureAccess(canGenerateComplianceReminders);
+  return adminRequest("/compliance/reminders/generate", { method: "POST" });
+}
+
+const REPORT_PATHS = Object.freeze({
+  payroll: "/reports/payroll",
+  compliance: "/reports/compliance",
+  billingAgeing: "/reports/billing/ageing",
+  attendance: "/reports/attendance",
+});
+
+export function getReport(reportName, { month, year } = {}) {
+  requireFeatureAccess(canViewReports, "You do not have permission to access reports.");
+  const path = REPORT_PATHS[reportName];
+  if (!path) {
+    throw new AdminApiError("That report is not supported by the service.", {
+      status: 400,
+      code: "UNSUPPORTED_REPORT",
+    });
+  }
+  const query = reportName === "payroll" || reportName === "attendance" ? { month, year } : undefined;
+  return adminRequest(path, { query });
+}
+
+export async function listNotifications() {
+  requireFeatureAccess(canViewNotifications, "Notifications are not available for this account.");
+  const payload = await adminRequest("/notifications");
+  if (!Array.isArray(payload)) {
+    throw new AdminApiError("The service returned an unexpected notifications response.", {
+      status: 502,
+      code: "INVALID_RESPONSE",
+      payload,
+    });
+  }
+  return payload;
+}
+
+export async function getUnreadNotificationCount() {
+  requireFeatureAccess(canViewNotifications, "Notifications are not available for this account.");
+  const payload = await adminRequest("/notifications/unread-count");
+  if (!payload || !Number.isFinite(payload.count)) {
+    throw new AdminApiError("The service returned an unexpected unread count response.", {
+      status: 502,
+      code: "INVALID_RESPONSE",
+      payload,
+    });
+  }
+  return payload.count;
+}
+
+export function markNotificationRead(id) {
+  requireFeatureAccess(canViewNotifications, "Notifications are not available for this account.");
+  return adminRequest(`/notifications/${encodeURIComponent(id)}/read`, { method: "PATCH" });
+}
+
+export function markAllNotificationsRead() {
+  requireFeatureAccess(canViewNotifications, "Notifications are not available for this account.");
+  return adminRequest("/notifications/read-all", { method: "POST" });
 }
 
 /* ------------------------------------------------------------------ */

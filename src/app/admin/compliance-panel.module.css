@@ -1,0 +1,162 @@
+.panel {
+  display: grid;
+  gap: 14px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar {
+  justify-content: flex-start;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px 15px;
+}
+
+.form :global(.cmField) {
+  margin: 0;
+  min-width: 0;
+}
+
+.form :global(.cmField input),
+.form :global(.cmField select),
+.form :global(.cmField textarea) {
+  width: 100%;
+}
+
+.formActions {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+}
+
+.checkboxField {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: end;
+  min-height: 38px;
+  color: #465a74;
+  font-size: 12px;
+}
+
+.secondaryText {
+  display: block;
+  margin-top: 3px;
+  color: #6b7d95;
+}
+
+.searchBox {
+  max-width: 340px;
+}
+
+.searchHint {
+  margin: -5px 0 0;
+  color: #718198;
+  font-size: 11px;
+}
+
+.pagination {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.denied {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid #f1c8b8;
+  border-radius: 10px;
+  background: #fff8f4;
+  color: #85492e;
+}
+
+.denied strong {
+  display: block;
+}
+
+.denied p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.reportList {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 22px;
+  color: #24384f;
+  font-size: 13px;
+}
+
+.reportSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.reportSummary > div {
+  min-width: 0;
+  padding: 13px;
+  border: 1px solid #e4eaf2;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.reportSummary dt {
+  color: #718198;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.reportSummary dd {
+  margin: 5px 0 0;
+  color: #24384f;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.reportPayload {
+  display: grid;
+  gap: 16px;
+}
+
+.reportPayload h2 {
+  margin: 0 0 9px;
+  color: #0c2748;
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .formActions {
+    grid-column: auto;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

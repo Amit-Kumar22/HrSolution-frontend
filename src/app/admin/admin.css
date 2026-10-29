@@ -1,5 +1,5 @@
 body:has(.adminShell) { overflow: hidden; }
-.adminShell { --navy: #0c2748; --navy-deep: #091f3c; --ink: #102b4e; --muted: #8b9db5; --line: #dce4ee; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 236px minmax(0, 1fr); background: #f7f9fc; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+.adminShell { --navy: #0c2748; --navy-deep: #091f3c; --ink: #102b4e; --muted: #8b9db5; --line: #dce4ee; --filter-gap: 8px; --filter-padding: 6px 8px; --filter-border: var(--line); --filter-radius: 10px; --filter-control-height: 24px; --filter-control-radius: 7px; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 236px minmax(0, 1fr); background: #f7f9fc; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
 .sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 24px 16px 18px; overflow-y: auto; background: var(--navy); color: #d1dbea; z-index: 30; }
 .consoleBrand { display: flex; align-items: center; gap: 10px; margin: 0 8px 28px; color: #fff; text-decoration: none; }
 .consoleBrandMark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 9px; background: #f9a006; color: #0c2748; font-size: 18px; font-weight: 800; }
@@ -1562,6 +1562,10 @@ button.adKpi { cursor: pointer; }
 .cmUrgentHead h2 { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 15px; }
 .cmUrgentHead p { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
 .cmRequisitionsPanel .cmTableWrap { max-height: 620px; overflow: auto; }
+.cmRequisitionsPanel .cmTable { width: max-content; min-width: 100%; font-size: 10.5px; }
+.cmRequisitionsPanel .cmTable thead th { padding: 7px 9px; font-size: 9px; }
+.cmRequisitionsPanel .cmTable tbody td { padding: 6px 9px; white-space: nowrap; }
+.cmRequisitionsPanel .cmTable .cmChip { padding: 2px 6px; font-size: 9.5px; }
 @media (max-width: 700px) {
   .cmUrgentHead { flex-direction: column; align-items: stretch; }
 }
@@ -1778,3 +1782,124 @@ button.adKpi { cursor: pointer; }
   .invFilterField select { min-width: auto; flex: 1; }
   .invToolbarRight { justify-content: space-between; width: 100%; }
 }
+
+/* Shared filter bar design: update these tokens/rules once for every admin panel. */
+.adminShell .dashboardContent :is(.cmToolbar, .pyToolbar, .invToolbar, .depToolbar) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: var(--filter-gap);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-bottom: 10px;
+  padding: var(--filter-padding);
+  border: 1px solid var(--filter-border);
+  border-radius: var(--filter-radius);
+  background: #fff;
+  box-shadow: 0 2px 6px #102b4e08;
+}
+.adminShell .dashboardContent :is(.cmToolbarControls, .pyFilterForm, .invFilterForm, .depToolbar .cmToolbarControls) {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: var(--filter-gap);
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+}
+.adminShell .dashboardContent :is(.cmToolbar .cmSearchBox, .cmToolbar .cmSelect select, .cmToolbar .cmSelect input,
+  .pyFilterField select, .pyFilterField input, .invFilterField select, .invFilterField input,
+  .depToolbar .cmSelect select, .depToolbar .cmSelect input) {
+  min-height: var(--filter-control-height);
+  height: var(--filter-control-height);
+  padding: 0 9px;
+  border: 1px solid var(--filter-border);
+  border-radius: var(--filter-control-radius);
+  background: #fff;
+  color: #233c5a;
+  font-size: 11.5px;
+}
+.adminShell .dashboardContent .cmToolbar .cmSearchBox {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 10px;
+  color: #8b9db5;
+}
+.adminShell .dashboardContent .cmToolbar .cmSearchBox input {
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+  color: #283e5c;
+  font-size: 12px;
+}
+.adminShell .dashboardContent :is(.cmToolbar .cmSelect, .depToolbar .cmSelect, .pyFilterField, .invFilterField) {
+  gap: 5px;
+  font-size: 11px;
+}
+.adminShell .dashboardContent :is(.pyFilterField label, .invFilterField label) {
+  margin: 0;
+  color: #6b7d95;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.adminShell .dashboardContent :is(.cmToolbar .cmBtn, .pyToolbar .cmBtn, .invToolbar .cmBtn, .depToolbar .cmBtn) {
+  min-height: var(--filter-control-height);
+  padding: 0 10px;
+  gap: 6px;
+  border-radius: var(--filter-control-radius);
+  font-size: 11.5px;
+}
+.adminShell .dashboardContent .cmWorkersPanel > .cmToolbar {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+.adminShell .dashboardContent .cmWorkersPanel .cmToolbarControls {
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+}
+.adminShell .dashboardContent .pyToolbar {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+.adminShell .dashboardContent .pyFilterForm {
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+}
+.adminShell .dashboardContent .pyToolbarRight,
+.adminShell .dashboardContent .pyCount {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.adminShell .dashboardContent .pyCount { font-size: 10.5px; }
+.adminShell .dashboardContent .pyPayrollPanel .cmTable {
+  width: max-content;
+  min-width: 100%;
+  font-size: 10.5px;
+}
+.adminShell .dashboardContent .pyPayrollPanel .cmTable thead th {
+  padding: 7px 9px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+.adminShell .dashboardContent .pyPayrollPanel .cmTable tbody td {
+  padding: 6px 9px;
+  white-space: nowrap;
+}
+.adminShell .dashboardContent .pyPayrollPanel .pyClientCell { gap: 7px; }
+.adminShell .dashboardContent .pyPayrollPanel .pyClientAvatar { width: 24px; height: 24px; }
+.adminShell .dashboardContent .pyPayrollPanel .pyClientCell > span:last-child {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.adminShell .dashboardContent .pyPayrollPanel .pyClientCell strong { font-size: 10.5px; }
+.adminShell .dashboardContent .pyPayrollPanel .pyClientCell small { font-size: 9.5px; }
+.adminShell .dashboardContent .pyPayrollPanel .cmTable .cmChip { padding: 2px 6px; font-size: 9.5px; }
+.adminShell .dashboardContent .pyPayrollPanel .cmIconButton { width: 25px; height: 25px; }

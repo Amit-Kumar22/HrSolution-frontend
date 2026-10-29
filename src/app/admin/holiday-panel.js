@@ -294,8 +294,8 @@ export default function HolidayManagementPanel({ session: passedSession, allowMa
   }
 
   return (
-    <div style={{ display: "grid", gap: 16 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+    <div className="holidayPanel" style={{ display: "grid", gap: 16 }}>
+      <div className="holidayPanelHeader" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <div>
           <h1 style={{ margin: 0, fontSize: 24, lineHeight: 1.2 }}>Holiday Calendar</h1>
           <p style={{ margin: "4px 0 0", color: "#586d84", fontSize: 12 }}>

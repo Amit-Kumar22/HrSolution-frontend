@@ -40,6 +40,7 @@ const DEMO_ACCOUNTS = [
   { role: "Operator", email: "ops@hrsolution.local", password: "Demo@12345" },
   { role: "Supervisor", email: "supervisor@hrsolution.local", password: "Demo@12345" },
   { role: "Client", email: "client@gmail.com", password: "Demo@12345" },
+  { role: "Worker", email: "worker@gmail.com", password: "Demo@12345" },
   { role: "Job Seeker", email: "sumit@gmail.com", password: "Sumit@123" },
 ];
 
@@ -92,7 +93,7 @@ export default function LoginScreen() {
     setErrorStatus(0);
     setIsSubmitting(true);
     try {
-      const session = await login(email.trim(), password, rememberMe);
+      const session = await login(email.trim().toLowerCase(), password, rememberMe);
       router.replace(getDashboardPath(session));
     } catch (loginError) {
       setError(loginError instanceof Error ? loginError.message : "Sign in failed. Please try again.");

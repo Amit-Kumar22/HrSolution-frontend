@@ -393,6 +393,9 @@ export function refreshAuthSession() {
       response = await fetch(`${API_BASE}/auth/refresh`, {
         method: "POST",
         credentials: "include",
+        // The API reads the refresh token from its HttpOnly cookie.
+        // Do not add Authorization here; that would trigger a CORS
+        // preflight and is not part of the refresh endpoint contract.
         headers: { Accept: "application/json" },
       });
     } catch {

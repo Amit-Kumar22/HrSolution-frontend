@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Shakti Worker",
+    "slug": "shakti-worker",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "shakti-worker",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "android": {
+      "package": "com.shakti.worker"
+    },
+    "ios": {
+      "bundleIdentifier": "com.shakti.worker"
+    }
+  }
+}

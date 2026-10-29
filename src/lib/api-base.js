@@ -6,10 +6,4 @@ const RAW_BASE =
 const TRIMMED = String(RAW_BASE).replace(/\/+$/, "");
 
 export const API_ORIGIN = TRIMMED.replace(/\/api\/v1$/i, "");
-
-export const SERVER_API_BASE = `${API_ORIGIN}/api/v1`;
-
-/* The browser talks to the Next server on the same origin (/api/v1), whose
-   route handler in src/app/api/v1/[...path]/route.js forwards to the backend
-   without the Origin header. Server-side rendering calls the backend directly. */
-export const API_BASE = typeof window === "undefined" ? SERVER_API_BASE : "/api/v1";
+export const API_BASE = /\/api\/v1$/i.test(TRIMMED) ? TRIMMED : `${TRIMMED}/api/v1`;

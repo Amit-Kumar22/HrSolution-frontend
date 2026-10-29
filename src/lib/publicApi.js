@@ -205,8 +205,7 @@ export function getPublicJobBySlug(slug, init = {}) {
  * named "application" (content type application/json) and the CV, when there
  * is one, in a part named "resume". The browser must set the multipart
  * boundary itself, so no Content-Type is passed here - request() only adds one
- * for string bodies. The proxy forwards the body as an ArrayBuffer with the
- * original Content-Type, boundary and all, so this survives the hop.
+ * for string bodies.
  */
 export function applyForPublicJob(slug, application, resumeFile, init = {}) {
   const form = new FormData();
@@ -234,12 +233,12 @@ export function resolvePublicFileUrl(storageKey) {
   if (!key) return null;
   if (/^https?:\/\//i.test(key) || key.startsWith("/")) return key;
   if (key.startsWith("api/")) return `/${key}`;
-  if (key.startsWith("public/files/")) return `/api/v1/${key}`;
+  if (key.startsWith("public/files/")) return `${apiBase()}/${key}`;
   const encoded = key
     .split("/")
     .map((segment) => encodeURIComponent(segment))
     .join("/");
-  return `/api/v1/public/files/${encoded}`;
+  return `${apiBase()}/public/files/${encoded}`;
 }
 
 export function toTelHref(phone) {
