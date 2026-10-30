@@ -1,8 +1,8 @@
 body:has(.adminShell) { overflow: hidden; }
-.adminShell { --navy: #0c2748; --navy-deep: #091f3c; --ink: #102b4e; --muted: #8b9db5; --line: #dce4ee; --filter-gap: 8px; --filter-padding: 6px 8px; --filter-border: var(--line); --filter-radius: 10px; --filter-control-height: 24px; --filter-control-radius: 7px; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 236px minmax(0, 1fr); background: #f7f9fc; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+.adminShell { --navy: #3c5a1e; --navy-deep: #091f3c; --ink: #1a2a3a; --muted: #8b9db5; --line: #dce4ee; --filter-gap: 8px; --filter-padding: 6px 8px; --filter-border: var(--line); --filter-radius: 10px; --filter-control-height: 24px; --filter-control-radius: 7px; height: 100vh; overflow: hidden; display: grid; grid-template-columns: 236px minmax(0, 1fr); background: #f7f9fc; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
 .sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 24px 16px 18px; overflow-y: auto; background: var(--navy); color: #d1dbea; z-index: 30; }
 .consoleBrand { display: flex; align-items: center; gap: 10px; margin: 0 8px 28px; color: #fff; text-decoration: none; }
-.consoleBrandMark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 9px; background: #f9a006; color: #0c2748; font-size: 18px; font-weight: 800; }
+.consoleBrandMark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 9px; background: #ffffff; border: 1px solid #dce4ee; color: #3c5a1e; font-size: 18px; font-weight: 800; }
 .consoleBrand strong, .consoleBrand small { display: block; }
 .consoleBrand strong { font-size: 14px; }
 .consoleBrand small { margin-top: 2px; color: #99abc0; font-size: 11px; }
@@ -10,14 +10,14 @@ body:has(.adminShell) { overflow: hidden; }
 .navGroup { display: grid; gap: 4px; }
 .navSection { margin: 5px 0 2px; color: #7388a2; font-size: 10px; letter-spacing: .09em; }
 .navItem { min-height: 38px; width: 100%; display: flex; align-items: center; gap: 12px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: #c4d0df; font: inherit; font-size: 14px; text-align: left; text-decoration: none; cursor: pointer; transition: background .15s, color .15s; }
-.navItem:hover, .navActive { background: #17375f; color: #fff; }
+.navItem:hover, .navActive { background: #4a2f1b; color: #fff; }
 .navActive { font-weight: 700; }
 .navItem > svg { flex: 0 0 auto; color: #91a5bf; }
-.navActive > svg { color: #f9a006; }
+.navActive > svg { color: #dca03c; }
 .navItem > span { flex: 1; }
-.navItem > b { min-width: 21px; height: 18px; display: grid; place-items: center; padding: 0 5px; border-radius: 10px; background: #f9a006; color: #0c2748; font-size: 10px; }
-.payrollNotice { display: grid; gap: 5px; margin-top: 27px; padding: 15px 16px; border-radius: 12px; background: #17375f; }
-.payrollNotice strong { color: #f9a006; font-size: 11px; }
+.navItem > b { min-width: 21px; height: 18px; display: grid; place-items: center; padding: 0 5px; border-radius: 10px; background: #ffffff; border: 1px solid #dce4ee; color: #3c5a1e; font-size: 10px; }
+.payrollNotice { display: grid; gap: 5px; margin-top: 27px; padding: 15px 16px; border-radius: 12px; background: #4a2f1b; }
+.payrollNotice strong { color: #dca03c; font-size: 11px; }
 .payrollNotice span { color: #fff; font-size: 12px; }
 .payrollNotice small { color: #9eafc4; font-size: 11px; line-height: 1.5; }
 .signOut { display: flex; align-items: center; gap: 9px; margin: auto 10px 0; padding: 20px 0 0; border: 0; background: transparent; color: #93a5bb; font-size: 12px; text-align: left; cursor: pointer; }
@@ -41,7 +41,7 @@ body:has(.adminShell) { overflow: hidden; }
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #fff;
-  box-shadow: 0 14px 30px #102b4e1f;
+  box-shadow: 0 14px 30px #1a2a3a1f;
 }
 
 .searchResultItem {
@@ -65,16 +65,16 @@ body:has(.adminShell) { overflow: hidden; }
 .searchResultItem small { display: block; color: #8b9db5; font-size: 10px; }
 .userActions { position: relative; display: flex; align-items: center; gap: 16px; }
 .notification { position: relative; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid #dce4ee; border-radius: 8px; background: white; color: #435973; }
-.notification i { position: absolute; top: 8px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: #f9a006; border: 1px solid #fff; }
-.notifBadge { position: absolute; top: -5px; right: -5px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px; background: #f9a006; color: #3a2600; font-size: 10px; font-weight: 800; line-height: 17px; text-align: center; border: 1px solid #fff; }
+.notification i { position: absolute; top: 8px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: #ffffff; border: 1px solid #dce4ee; border: 1px solid #fff; }
+.notifBadge { position: absolute; top: -5px; right: -5px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px; background: #ffffff; border: 1px solid #dce4ee; color: #3a2600; font-size: 10px; font-weight: 800; line-height: 17px; text-align: center; border: 1px solid #fff; }
 .userProfile { display: flex; align-items: center; gap: 10px; padding: 0; border: 0; background: transparent; color: #172b48; text-align: left; }
-.avatar { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--navy); color: #f9a006; font-size: 13px; font-weight: 700; }
+.avatar { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--navy); color: #dca03c; font-size: 13px; font-weight: 700; }
 .userProfile strong, .userProfile small { display: block; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .userProfile > span:not(.avatar) { min-width: 0; }
 .userProfile strong { font-size: 13px; }
 .userProfile small { margin-top: 2px; color: #8b9db5; font-size: 11px; }
 .userProfile > svg { color: #91a2b9; }
-.profileMenu { position: absolute; z-index: 40; top: calc(100% + 8px); right: 0; width: min(220px, calc(100vw - 32px)); padding: 5px; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 12px 28px #102b4e1c; }
+.profileMenu { position: absolute; z-index: 40; top: calc(100% + 8px); right: 0; width: min(220px, calc(100vw - 32px)); padding: 5px; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 12px 28px #1a2a3a1c; }
 .profileMenuItem { display: flex; align-items: center; width: 100%; min-height: 38px; padding: 9px 10px; border: 0; border-radius: 6px; background: transparent; color: #344a66; font-size: 12px; line-height: 1.4; text-align: left; text-decoration: none; white-space: nowrap; cursor: pointer; }
 .profileMenuItem:hover { background: #f2f5f9; color: var(--navy); }
 .profileMenuItem:disabled { color: #8b9db5; cursor: wait; }
@@ -98,42 +98,42 @@ body:has(.adminShell) { overflow: hidden; }
 .passwordForm > label { margin: 0 0 5px; color: #243b59; font-size: 12px; font-weight: 650; }
 .passwordForm > label:not(:first-child) { margin-top: 14px; }
 .passwordForm > input { width: 100%; height: 42px; padding: 0 12px; border: 1px solid #dce4ee; border-radius: 7px; outline: none; background: #fff; color: #192d49; font-size: 13px; }
-.passwordForm > input:focus { border-color: var(--navy); box-shadow: 0 0 0 2px #0c274820; }
+.passwordForm > input:focus { border-color: var(--navy); box-shadow: 0 0 0 2px #3c5a1e20; }
 .passwordForm > input::placeholder { color: #9aa9bb; }
 .passwordForm > input:disabled { background: #f4f7fa; color: #8b9db5; cursor: not-allowed; }
 .modalActions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
 .modalActions button { min-height: 40px; padding: 0 16px; border-radius: 8px; font-size: 13px; font-weight: 650; cursor: pointer; }
 .modalActions button:disabled { opacity: .65; cursor: wait; }
 .loadingScreen { min-height: 100vh; display: grid; place-items: center; padding: 25px; background: #f7f9fc; color: #536780; font: 14px Arial, Helvetica, sans-serif; text-align: center; }
-.adminShell:not(.adminShellSuper).clientShell .consoleBrandMark { background: #f9a006; color: #0c2748; }
+.adminShell:not(.adminShellSuper).clientShell .consoleBrandMark { background: #ffffff; border: 1px solid #dce4ee; color: #3c5a1e; }
 .clientTopbarTitle { display: grid; gap: 3px; margin-right: auto; }
 .clientTopbarTitle strong { color: #172b48; font-size: 13px; }
 .clientTopbarTitle span { color: #8b9db5; font-size: 11px; }
 .clientHelpLink { display: flex; align-items: center; gap: 7px; color: #536780; font-size: 12px; text-decoration: none; }
-.clientHelpLink:hover { color: #0c2748; }
+.clientHelpLink:hover { color: #3c5a1e; }
 .clientPageHeading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; }
-.clientPageHeading h1 { margin: 1px 0 2px; color: #0c2748; font-size: 17px; letter-spacing: -.03em; line-height: 1.15; }
+.clientPageHeading h1 { margin: 1px 0 2px; color: #3c5a1e; font-size: 17px; letter-spacing: -.03em; line-height: 1.15; }
 .clientPageHeading p:last-child { margin: 0; color: #71839a; font-size: 11px; }
 .clientEyebrow { margin: 0; color: #a56b00; font-size: 9px; font-weight: 750; letter-spacing: .12em; }
 .clientAccountBadge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; border: 1px solid #dfe8e2; border-radius: 999px; background: #f5fbf6; color: #337247; font-size: 10px; font-weight: 650; white-space: nowrap; }
 .clientAccountBadge > span { width: 7px; height: 7px; border-radius: 50%; background: #35a260; }
 .clientMetricGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
-.clientMetricCard { min-width: 0; display: grid; gap: 9px; padding: 18px; border: 1px solid #e2e8f0; border-radius: 11px; background: #fff; box-shadow: 0 3px 12px #102b4e08; }
+.clientMetricCard { min-width: 0; display: grid; gap: 9px; padding: 18px; border: 1px solid #e2e8f0; border-radius: 11px; background: #fff; box-shadow: 0 3px 12px #1a2a3a08; }
 .clientMetricCard > span { color: #71839a; font-size: 12px; font-weight: 600; }
-.clientMetricCard > strong { color: #102b4e; font-size: 28px; line-height: 1; }
+.clientMetricCard > strong { color: #1a2a3a; font-size: 28px; line-height: 1; }
 .clientMetricCard > small { color: #94a1b1; font-size: 11px; }
 .clientMetricCard > .clientMetricStatus { font-size: 17px; }
-.clientCompanyCard { padding: 21px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; box-shadow: 0 3px 12px #102b4e08; }
+.clientCompanyCard { padding: 21px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; box-shadow: 0 3px 12px #1a2a3a08; }
 .clientCompanyHeading { display: flex; align-items: center; gap: 12px; padding-bottom: 17px; border-bottom: 1px solid #edf1f5; }
 .clientCompanyIcon { width: 40px; height: 40px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 10px; background: #fff5e2; color: #a56b00; }
-.clientCompanyHeading h2 { margin: 0; color: #102b4e; font-size: 15px; }
+.clientCompanyHeading h2 { margin: 0; color: #1a2a3a; font-size: 15px; }
 .clientCompanyHeading p { margin: 4px 0 0; color: #8796a9; font-size: 11px; }
 .clientCompanyStatus { margin-left: auto; padding: 6px 9px; border-radius: 999px; background: #f3f6fa; color: #526780; font-size: 10px; font-weight: 700; }
 .clientCompanyDetails { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin: 8px 0 0; }
 .clientCompanyDetails > div { display: flex; justify-content: space-between; gap: 14px; padding: 13px 0; border-bottom: 1px solid #f0f3f7; font-size: 12px; }
 .clientCompanyDetails dt { color: #8796a9; }
 .clientCompanyDetails dd { margin: 0; color: #243b59; font-weight: 650; text-align: right; overflow-wrap: anywhere; }
-.clientModuleCard > strong { display: block; margin-top: 22px; color: #102b4e; font-size: 32px; }
+.clientModuleCard > strong { display: block; margin-top: 22px; color: #1a2a3a; font-size: 32px; }
 .clientModuleCard > p { margin: 7px 0 0; color: #71839a; font-size: 12px; line-height: 1.55; }
 .clientModuleCard > .clientModuleMessage { max-width: 620px; margin-top: 20px; }
 .clientStatusNotice, .clientErrorNotice { margin: 0 0 16px; padding: 12px 14px; border: 1px solid #f0d7a5; border-radius: 9px; background: #fff9eb; color: #78520d; font-size: 12px; line-height: 1.5; }
@@ -166,33 +166,33 @@ body:has(.adminShell) { overflow: hidden; }
 .secondaryButton { border: 1px solid var(--navy); background: #fff; color: var(--navy); }
 .primaryButton { border: 1px solid var(--navy); background: var(--navy); color: #fff; }
 .metricGrid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 15px; }
-.metricCard { min-width: 0; min-height: 151px; padding: 19px 17px 14px; border: 1px solid var(--line); border-radius: 13px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.metricCard { min-width: 0; min-height: 151px; padding: 19px 17px 14px; border: 1px solid var(--line); border-radius: 13px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .metricTop { display: flex; justify-content: space-between; align-items: center; gap: 6px; color: #465a74; font-size: 12px; white-space: nowrap; }
 .metricTop > i { width: 36px; height: 36px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 9px; font-style: normal; }
 .metricValue { display: block; margin-top: 13px; color: var(--navy); font-size: clamp(21px, 2vw, 27px); line-height: 1.1; letter-spacing: -.025em; white-space: nowrap; }
 .metricCard > p { margin: 12px 0 0; font-size: 11px; font-weight: 650; line-height: 1.45; }
 .metricCard > p span { margin-left: 3px; color: #91a2b9; font-weight: 400; }
-.blue { color: #0c2748; }.metricTop .blue { background: #e8eef7; }
-.green { color: #00a84f; }.metricTop .green { background: #dcfbe9; }
+.blue { color: #3c5a1e; }.metricTop .blue { background: #e8eef7; }
+.green { color: #6e963c; }.metricTop .green { background: #dcfbe9; }
 .amber { color: #e58a00; }.metricTop .amber { background: #fff2c5; }
 .indigo { color: #2874ed; }.metricTop .indigo { background: #e2eeff; }
 .red { color: #ec3030; }.metricTop .red { background: #fee5e5; }
 .chartGrid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 16px; margin-top: 24px; align-items: start; }
-.panel { min-width: 0; min-height: 267px; padding: 23px 24px 20px; border: 1px solid var(--line); border-radius: 13px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.panel { min-width: 0; min-height: 267px; padding: 23px 24px 20px; border: 1px solid var(--line); border-radius: 13px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .panelHeading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .panelHeading h2 { margin: 0 0 4px; color: #172b48; font-size: 16px; }
 .panelHeading p { margin: 0; color: #91a2b9; font-size: 11px; }
 .chartLegend { display: flex; gap: 15px; padding-top: 3px; color: #465a74; font-size: 11px; }
 .chartLegend span, .donutLegend li > span { display: inline-flex; align-items: center; gap: 7px; }
 .chartLegend i, .donutLegend i { width: 10px; height: 10px; display: inline-block; border-radius: 3px; }
-.legendNavy { background: #0c2748; }.legendAmber { background: #f9a006; }.legendBlue { background: #2864f0; }.legendGreen { background: #16a34a; }.legendGray { background: #94a3b8; }
+.legendNavy { background: #3c5a1e; }.legendAmber { background: #ffffff; border: 1px solid #dce4ee; }.legendBlue { background: #2864f0; }.legendGreen { background: #16a34a; }.legendGray { background: #94a3b8; }
 .barChart { height: 190px; display: grid; grid-template-columns: repeat(6, 1fr); align-items: end; gap: 15px; margin: 20px 8px 0; }
 .barGroup { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; color: #8b9db5; font-size: 11px; }
 .bars { width: 100%; height: 166px; display: flex; align-items: flex-end; justify-content: center; gap: 6px; }
 .bars i { width: min(24px, 40%); display: block; border-radius: 5px 5px 0 0; }
-.billedBar { background: #0c2748; }.collectedBar { background: #f9a006; }
+.billedBar { background: #3c5a1e; }.collectedBar { background: #ffffff; border: 1px solid #dce4ee; }
 .donutLayout { min-height: 208px; display: flex; align-items: center; justify-content: space-around; gap: 18px; padding: 12px 0 0; }
-.donut { width: clamp(130px, 14vw, 170px); aspect-ratio: 1; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; background: conic-gradient(#0c2748 0 38%, #f9a006 38% 65%, #2864f0 65% 80%, #16a34a 80% 92%, #94a3b8 92% 100%); transform: rotate(0deg); }
+.donut { width: clamp(130px, 14vw, 170px); aspect-ratio: 1; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; background: conic-gradient(#3c5a1e 0 38%, #dca03c 38% 65%, #2864f0 65% 80%, #16a34a 80% 92%, #94a3b8 92% 100%); transform: rotate(0deg); }
 .donut::before { content: ""; width: 62%; height: 62%; grid-area: 1 / 1; border-radius: 50%; background: white; }
 .donut > div { z-index: 1; grid-area: 1 / 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .donut strong { color: var(--navy); font-size: 23px; }
@@ -306,13 +306,13 @@ body:has(.adminShell) { overflow: hidden; }
 .cmSelect input { height: 38px; padding: 0 10px; border: 1px solid #dce4ee; border-radius: 7px; background: #fff; color: #233c5a; font-size: 12px; }
 
 /* Compact toolbar for the client management page */
-.cmClientsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmClientsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmClientsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmClientsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmClientsPanel .cmHead h1 { margin: 0 0 2px; font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
-.cmClientsPanel .cmHead h1::after { content: ""; display: block; width: 30px; height: 2px; margin-top: 6px; border-radius: 3px; background: #f9a006; }
+.cmClientsPanel .cmHead h1::after { content: ""; display: block; width: 30px; height: 2px; margin-top: 6px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmClientsPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 12px; }
 .cmClientsPanel .cmToolbar { gap: 5px 8px; margin-bottom: 10px; }
-.cmClientsPanel > .cmToolbar { padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmClientsPanel > .cmToolbar { padding: 8px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
 .cmClientsPanel > .cmToolbar::-webkit-scrollbar { height: 3px; }
 .cmClientsPanel > .cmToolbar::-webkit-scrollbar-track { background: transparent; }
 .cmClientsPanel > .cmToolbar::-webkit-scrollbar-thumb { border-radius: 999px; background: #c4d0e0; }
@@ -353,14 +353,14 @@ body:has(.adminShell) { overflow: hidden; }
 .cmClientsPanel .cmPendingRegistrations h3 { margin-bottom: 9px; }
 
 /* Contracts & commercial terms page */
-.cmContractsPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmContractsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmContractsPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmContractsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmContractsPanel .cmHead h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmContractsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmContractsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmContractsPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 11.5px; }
 
 .cmContractsPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; }
-.cmContractsPanel > .cmToolbar { padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmContractsPanel > .cmToolbar { padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmContractsPanel .cmClientSelect { min-width: 180px; max-width: 260px; }
 .cmContractsPanel .cmSearchBox { flex: 1 1 auto; min-width: 0; max-width: none; height: 32px; padding: 0 11px; gap: 7px; }
 .cmContractsPanel .cmSearchBox input { font-size: 12px; }
@@ -375,14 +375,14 @@ body:has(.adminShell) { overflow: hidden; }
 .cmContractsPanel .cmTableWrap::-webkit-scrollbar-thumb:hover { background: #a9b9cf; }
 
 /* Contact messages page */
-.cmContactPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmContactPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmContactPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmContactPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmContactPanel .cmHead h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmContactPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmContactPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmContactPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 11.5px; }
 
 .cmContactPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; }
-.cmContactPanel > .cmToolbar { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmContactPanel > .cmToolbar { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmContactPanel .cmSearchBox { flex: 1 1 auto; min-width: 0; max-width: none; height: 32px; padding: 0 11px; gap: 7px; }
 .cmContactPanel .cmSearchBox input { font-size: 12px; }
 .cmContactPanel .cmCount { font-size: 11px; }
@@ -411,13 +411,13 @@ body:has(.adminShell) { overflow: hidden; }
 .cmContactPanel .cmPageInfo { font-size: 11.5px; }
 
 /* Enquiries page */
-.cmEnquiriesPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmEnquiriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmEnquiriesPanel .cmHead { position: relative; padding: 11px 18px 11px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmEnquiriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmEnquiriesPanel .cmHead h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmEnquiriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmEnquiriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmEnquiriesPanel .cmHead p { max-width: 760px; color: #5b6f88; font-size: 11.5px; }
 
-.cmEnquiriesPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmEnquiriesPanel .cmToolbar { flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
 .cmEnquiriesPanel .cmToolbar::-webkit-scrollbar { height: 3px; }
 .cmEnquiriesPanel .cmToolbar::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 .cmEnquiriesPanel .cmSearchBox { flex: 0 0 170px; max-width: 170px; height: 30px; padding: 0 10px; gap: 7px; }
@@ -452,10 +452,10 @@ body:has(.adminShell) { overflow: hidden; }
 
 /* Candidates page */
 .cmToolbarNowrap { flex-wrap: nowrap; }
-.cmCandidatesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmCandidatesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmCandidatesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmCandidatesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmCandidatesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmCandidatesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmCandidatesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmCandidatesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
 .cmCandidatesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
 .cmCandidatesPanel .cmSearchBox { flex: 0 0 auto; width: clamp(300px, 30vw, 460px); min-width: 300px; max-width: 460px; height: 36px; padding: 0 12px; gap: 8px; }
@@ -488,13 +488,13 @@ body:has(.adminShell) { overflow: hidden; }
 .cmCandidatesPanel .cmPageInfo { font-size: 11.5px; }
 
 /* Jobs page */
-.cmJobsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmJobsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmJobsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmJobsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmJobsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmJobsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmJobsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmJobsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
 
-.cmJobsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmJobsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmJobsPanel .cmSearchBox { flex: 0 0 300px; width: 300px; min-width: 300px; max-width: 300px; height: 34px; padding: 0 11px; gap: 7px; }
 .cmJobsPanel .cmSearchBox input { font-size: 12.5px; }
 .cmJobsPanel .cmCount { font-size: 11.5px; }
@@ -508,12 +508,12 @@ body:has(.adminShell) { overflow: hidden; }
 .cmJobsPanel .cmPageInfo { font-size: 11.5px; }
 
 /* Manpower categories page */
-.cmCategoriesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmCategoriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmCategoriesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmCategoriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmCategoriesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmCategoriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmCategoriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmCategoriesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.cmCategoriesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmCategoriesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmCategoriesPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
 .cmCategoriesPanel .cmSearchBox input { font-size: 12.5px; }
 .cmCategoriesPanel .cmCount { font-size: 11.5px; }
@@ -534,12 +534,12 @@ body:has(.adminShell) { overflow: hidden; }
 .cmCategoriesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 
 /* Skills page */
-.cmSkillsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmSkillsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmSkillsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmSkillsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmSkillsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmSkillsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmSkillsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmSkillsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.cmSkillsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmSkillsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmSkillsPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
 .cmSkillsPanel .cmSearchBox input { font-size: 12.5px; }
 .cmSkillsPanel .cmCount { font-size: 11.5px; }
@@ -558,12 +558,12 @@ body:has(.adminShell) { overflow: hidden; }
 .cmSkillsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 
 /* Industries page */
-.cmIndustriesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmIndustriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmIndustriesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmIndustriesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmIndustriesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmIndustriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmIndustriesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmIndustriesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.cmIndustriesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmIndustriesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmIndustriesPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
 .cmIndustriesPanel .cmSearchBox input { font-size: 12.5px; }
 .cmIndustriesPanel .cmCount { font-size: 11.5px; }
@@ -586,12 +586,12 @@ body:has(.adminShell) { overflow: hidden; }
 .cmIndustriesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 
 /* Services page */
-.cmServicesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmServicesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmServicesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmServicesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmServicesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmServicesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmServicesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmServicesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.cmServicesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmServicesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmServicesPanel .cmSearchBox { flex: 0 1 240px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
 .cmServicesPanel .cmSearchBox input { font-size: 12.5px; }
 .cmServicesPanel .cmCount { font-size: 11.5px; }
@@ -615,12 +615,12 @@ body:has(.adminShell) { overflow: hidden; }
 .cmServicesPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 
 /* Testimonials page */
-.cmTestimonialsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmTestimonialsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmTestimonialsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmTestimonialsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmTestimonialsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmTestimonialsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmTestimonialsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmTestimonialsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.cmTestimonialsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmTestimonialsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmTestimonialsPanel .cmCount { font-size: 11.5px; }
 .cmTestimonialsPanel .cmToolbarControls { gap: 8px; }
 .cmTestimonialsPanel .cmSelect { gap: 5px; font-size: 11.5px; }
@@ -648,12 +648,12 @@ body:has(.adminShell) { overflow: hidden; }
 .cmTestimonialsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 
 /* Super-admin accounts page */
-.saAccountsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.saAccountsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saAccountsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.saAccountsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .saAccountsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.saAccountsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saAccountsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .saAccountsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.saAccountsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.saAccountsPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .saAccountsPanel .cmSearchBox { flex: 0 1 230px; max-width: 230px; height: 34px; padding: 0 11px; gap: 7px; }
 .saAccountsPanel .cmSearchBox input { font-size: 12.5px; }
 .saAccountsPanel .cmCount { font-size: 11.5px; }
@@ -685,7 +685,7 @@ body:has(.adminShell) { overflow: hidden; }
 .saAccountsPanel .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
 .saAccountsPanel .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
 
-.cmTableWrap { width: 100%; min-width: 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 2px 6px #102b4e08; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
+.cmTableWrap { width: 100%; min-width: 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; scrollbar-width: thin; scrollbar-color: #c4d0e0 transparent; }
 .cmTableWrap::-webkit-scrollbar { height: 3px; width: 3px; }
 .cmTableWrap::-webkit-scrollbar-track { background: transparent; }
 .cmTableWrap::-webkit-scrollbar-thumb { background: #c4d0e0; border-radius: 999px; }
@@ -707,7 +707,7 @@ body:has(.adminShell) { overflow: hidden; }
 .cmIconTile { width: 34px; height: 34px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 9px; background: #e8eef7; color: var(--navy); }
 .cmThumb { width: 44px; height: 34px; flex: 0 0 auto; border-radius: 7px; object-fit: cover; background: #eef2f7; border: 1px solid #e2e9f1; }
 .cmAvatar { width: 36px; height: 36px; flex: 0 0 auto; border-radius: 50%; object-fit: cover; background: #eef2f7; border: 1px solid #e2e9f1; }
-.cmAvatarFallback { display: grid; place-items: center; background: var(--navy); color: #f9a006; font-size: 12px; font-weight: 700; border: 0; }
+.cmAvatarFallback { display: grid; place-items: center; background: var(--navy); color: #dca03c; font-size: 12px; font-weight: 700; border: 0; }
 .cmImageChips { display: inline-flex; gap: 5px; }
 .cmChip { padding: 2px 7px; border-radius: 10px; background: #f0f4f8; color: #9aa8b9; font-size: 10px; font-weight: 650; }
 .cmChipOn { background: #dcfbe9; color: #00743c; }
@@ -715,7 +715,7 @@ body:has(.adminShell) { overflow: hidden; }
 .cmStatus { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 14px; font-size: 11px; font-weight: 650; }
 .cmStatus i { width: 6px; height: 6px; border-radius: 50%; }
 .cmStatusPublished { background: #dcfbe9; color: #00743c; }
-.cmStatusPublished i { background: #00a84f; }
+.cmStatusPublished i { background: #6e963c; }
 .cmStatusDraft { background: #eef2f7; color: #6b7d95; }
 .cmStatusDraft i { background: #94a3b8; }
 
@@ -756,10 +756,10 @@ body:has(.adminShell) { overflow: hidden; }
 .cmCheckItem input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .cmCheckBox { width: 18px; height: 18px; flex: 0 0 auto; display: grid; place-items: center; border: 1.5px solid #c2cede; border-radius: 5px; background: #fff; transition: background .15s, border-color .15s; }
 .cmCheckBox::after { content: ""; width: 10px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); margin-top: -2px; opacity: 0; }
-.cmCheckItem input:checked + .cmCheckBox { background: #0c2748; border-color: #0c2748; }
+.cmCheckItem input:checked + .cmCheckBox { background: #3c5a1e; border-color: #3c5a1e; }
 .cmCheckItem input:checked + .cmCheckBox::after { opacity: 1; }
-.cmCheckItem input:focus-visible + .cmCheckBox { box-shadow: 0 0 0 3px #0c274833; }
-.cmCheckChecked { border-color: #0c274820; background: #f6f9fd; }
+.cmCheckItem input:focus-visible + .cmCheckBox { box-shadow: 0 0 0 3px #3c5a1e33; }
+.cmCheckChecked { border-color: #3c5a1e20; background: #f6f9fd; }
 .cmCheckText { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .cmCheckText strong { color: #24384f; font-size: 13px; }
 .cmCheckText small { color: #8b9db5; font-size: 11px; line-height: 1.45; }
@@ -767,10 +767,10 @@ body:has(.adminShell) { overflow: hidden; }
 .cmSwitch { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; user-select: none; }
 .cmSwitch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .cmSwitchTrack { position: relative; width: 38px; height: 22px; flex: 0 0 auto; border-radius: 12px; background: #cbd5e1; transition: background .18s; }
-.cmSwitchTrack i { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #102b4e33; transition: transform .18s; }
-.cmSwitch input:checked + .cmSwitchTrack { background: #00a84f; }
+.cmSwitchTrack i { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #1a2a3a33; transition: transform .18s; }
+.cmSwitch input:checked + .cmSwitchTrack { background: #6e963c; }
 .cmSwitch input:checked + .cmSwitchTrack i { transform: translateX(16px); }
-.cmSwitch input:focus-visible + .cmSwitchTrack { box-shadow: 0 0 0 3px #0c274833; }
+.cmSwitch input:focus-visible + .cmSwitchTrack { box-shadow: 0 0 0 3px #3c5a1e33; }
 .cmSwitchLabel { color: #465a74; font-size: 12px; }
 .cmSwitchDisabled { cursor: wait; opacity: .7; }
 .cmSwitchRow { padding: 4px 0; }
@@ -783,7 +783,7 @@ body:has(.adminShell) { overflow: hidden; }
 .cmFieldLabel b { color: #d64545; }
 .cmForm input, .cmForm select, .cmForm textarea { width: 100%; min-height: 42px; padding: 9px 12px; border: 1px solid #dce4ee; border-radius: 7px; outline: none; background: #fff; color: #192d49; font-size: 13px; font-family: inherit; }
 .cmForm textarea { resize: vertical; line-height: 1.55; }
-.cmForm input:focus, .cmForm select:focus, .cmForm textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 2px #0c274820; }
+.cmForm input:focus, .cmForm select:focus, .cmForm textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 2px #3c5a1e20; }
 .cmForm input:disabled { background: #f4f7fa; color: #8b9db5; cursor: not-allowed; }
 .cmHint { color: #8b9db5; font-size: 11px; font-weight: 400; }
 .cmFieldError { color: #c0392b; font-size: 11px; font-weight: 650; }
@@ -836,13 +836,13 @@ body:has(.adminShell) { overflow: hidden; }
 /* Interview management                                                 */
 /* ==================================================================== */
 
-.cmInterviewPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmInterviewPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmInterviewPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmInterviewPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmInterviewPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmInterviewPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmInterviewPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #ffffff; border: 1px solid #dce4ee; }
 .cmInterviewPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
 
-.cmInterviewPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmInterviewPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmInterviewPanel .cmCount { font-size: 11.5px; }
 .cmInterviewPanel .cmToolbarControls { gap: 8px; }
 .cmInterviewPanel .cmSelect { gap: 5px; font-size: 11.5px; }
@@ -899,7 +899,7 @@ body:has(.adminShell) { overflow: hidden; }
 
 .jobCandidateList { display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; padding: 6px; border: 1px solid var(--line); border-radius: 10px; background: #f8fafc; }
 .jobCandidateItem { display: flex; flex-direction: column; gap: 3px; padding: 9px 11px; border: 1px solid transparent; border-radius: 8px; background: #fff; text-align: left; font: inherit; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
-.jobCandidateItem:hover { border-color: #c9d5e4; box-shadow: 0 2px 6px #102b4e0f; }
+.jobCandidateItem:hover { border-color: #c9d5e4; box-shadow: 0 2px 6px #1a2a3a0f; }
 .jobCandidateItem strong { color: #24384f; font-size: 13px; }
 .jobCandidateItem small { color: #6b7d95; font-size: 11.5px; }
 .jobSelectedCandidate { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 12px; border: 1px solid #b7e0c4; border-radius: 10px; background: #f1fbf4; }
@@ -907,12 +907,12 @@ body:has(.adminShell) { overflow: hidden; }
 .jobSelectedCandidate small { color: #3f7a52; font-size: 11.5px; }
 
 .jobPipelineGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 16px; }
-.jobPipelineCard { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.jobPipelineCard { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .jobPipelineCount { color: var(--navy); font-size: 22px; font-weight: 700; letter-spacing: -.02em; }
 .jobPipelineLabel { font-size: 11px; font-weight: 650; }
 .jobPipelineLabel-info { color: #1d5fbf; }
 .jobPipelineLabel-accent { color: #7c3aed; }
-.jobPipelineLabel-success { color: #00a84f; }
+.jobPipelineLabel-success { color: #6e963c; }
 .jobPipelineLabel-danger { color: #ec3030; }
 .jobPipelineLabel-warn { color: #d97706; }
 .jobPipelineLabel-neutral { color: #6b7d95; }
@@ -1003,24 +1003,24 @@ body:has(.adminShell) { overflow: hidden; }
 }
 
 .adminShell:not(.adminShellSuper) .navItem:hover {
-  background: #16365f;
+  background: #4a2f1b;
   color: #fff;
 }
 
 .adminShell:not(.adminShellSuper) .navItem:hover > svg {
-  color: #d5dfeb;
+  color: #e8d9c8;
 }
 
 .adminShell:not(.adminShellSuper) .navActive,
 .adminShell:not(.adminShellSuper) .navActive:hover {
-  background: linear-gradient(90deg, #1d4372 0%, #17375f 100%);
+  background: linear-gradient(90deg, #6b4a2f 0%, #4a2f1b 100%);
   color: #fff;
   font-weight: 600;
-  box-shadow: inset 3px 0 0 #f9a006;
+  box-shadow: inset 3px 0 0 #dca03c;
 }
 
 .adminShell:not(.adminShellSuper) .navActive > svg {
-  color: #f9a006;
+  color: #dca03c;
 }
 
 .adminShell:not(.adminShellSuper) .navItem > b {
@@ -1199,8 +1199,8 @@ body:has(.adminShell) { overflow: hidden; }
   padding: 9px 14px;
   border-radius: 10px;
   overflow: hidden;
-  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
-  box-shadow: 0 8px 18px #0c274826;
+  background: linear-gradient(118deg, #2a4014 0%, #3c5a1e 52%, #587a2c 100%);
+  box-shadow: 0 8px 18px #3c5a1e26;
 }
 
 .adminShell .adHero::before {
@@ -1222,14 +1222,14 @@ body:has(.adminShell) { overflow: hidden; }
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+  background: linear-gradient(90deg, #dca03c, rgba(249, 160, 6, 0) 62%);
 }
 
 .adminShell .adHeroText { position: relative; z-index: 1; min-width: 0; }
 
 .adminShell .adEyebrow {
   margin: 0 0 2px;
-  color: #f9a006;
+  color: #dca03c;
   font-size: 9px;
   font-weight: 750;
   letter-spacing: .14em;
@@ -1274,7 +1274,7 @@ body:has(.adminShell) { overflow: hidden; }
 
 .adminShell .adStatusPill i { width: 7px; height: 7px; border-radius: 50%; background: #9fb4cc; }
 .adminShell .adStatusPill--success i { background: #38d18a; box-shadow: 0 0 0 3px rgba(56, 209, 138, .2); }
-.adminShell .adStatusPill--warn i { background: #f9a006; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
+.adminShell .adStatusPill--warn i { background: #ffffff; border: 1px solid #dce4ee; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
 .adminShell .adStatusPill--danger i { background: #ff6b6b; box-shadow: 0 0 0 3px rgba(255, 107, 107, .2); }
 
 .adminShell .adHeroDate { color: #dbe6f2; font-size: 11px; font-weight: 600; }
@@ -1352,9 +1352,9 @@ button.adKpi { cursor: pointer; }
   border-radius: 8px;
 }
 
-.adminShell .adTone-blue { background: #e8eef7; color: #0c2748; }
-.adminShell .adTone-indigo { background: #e2eeff; color: #2874ed; }
-.adminShell .adTone-green { background: #dcfbe9; color: #00a84f; }
+.adminShell .adTone-blue { background: #e7f1dc; color: #3c5a1e; }
+.adminShell .adTone-indigo { background: #e7f1dc; color: #3c5a1e; }
+.adminShell .adTone-green { background: #dcfbe9; color: #6e963c; }
 .adminShell .adTone-amber { background: #fff2c5; color: #c07c00; }
 .adminShell .adTone-slate { background: #eef2f7; color: #536780; }
 .adminShell .adTone-red { background: #ffe6e6; color: #b42323; }
@@ -1577,13 +1577,13 @@ button.adKpi { cursor: pointer; }
 .cmWorkersPanel .cmTableWrap { max-height: 660px; overflow: auto; }
 .cmWorkerCell { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .cmWorkerCell > span:last-child { display: flex; flex-direction: column; min-width: 0; }
-.cmWorkerCell strong { max-width: 220px; overflow: hidden; color: var(--navy, #0c2748); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.cmWorkerCell strong { max-width: 220px; overflow: hidden; color: var(--navy, #3c5a1e); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
 .cmWorkerCell small { color: #708299; font-size: 11px; }
 .cmWorkerAvatar { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 10px; background: #e8f0fe; color: #2b558f; font-size: 12px; font-weight: 700; }
 .cmSectionHeadInline { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 13px; }
 .cmSectionHeadInline h3 { margin: 0; }
 .cmCheck { display: flex; gap: 9px; align-items: flex-start; padding: 10px 12px; border: 1px solid #e6ecf4; border-radius: 9px; background: #f9fbfd; color: #334b66; font-size: 12px; line-height: 1.55; cursor: pointer; }
-.cmCheck input { margin-top: 2px; accent-color: #0c2748; }
+.cmCheck input { margin-top: 2px; accent-color: #3c5a1e; }
 .cmSensitiveGate { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 12px; padding: 22px 16px; border: 1px dashed #d7e0eb; border-radius: 12px; background: #f9fbfd; color: #5b6f88; text-align: center; }
 .cmSensitiveGate p { margin: 0; font-size: 12.5px; }
 .cmSensitiveBox { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 12px; }
@@ -1592,7 +1592,7 @@ button.adKpi { cursor: pointer; }
 .cmSalaryCard, .cmDocCard, .cmBankCard { display: flex; flex-direction: column; gap: 10px; padding: 13px 15px; border: 1px solid var(--line, #e2e8f0); border-radius: 11px; background: #fff; }
 .cmSalaryHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .cmSalaryHead > div:first-child { display: flex; flex-direction: column; gap: 2px; }
-.cmSalaryHead strong { color: var(--navy, #0c2748); font-size: 13.5px; }
+.cmSalaryHead strong { color: var(--navy, #3c5a1e); font-size: 13.5px; }
 .cmSalaryGross { font-size: 15px; }
 .cmSalaryGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 9px 14px; }
 .cmSalaryItem { display: flex; flex-direction: column; gap: 2px; }
@@ -1602,14 +1602,14 @@ button.adKpi { cursor: pointer; }
 .cmDocMain, .cmBankMain { display: flex; flex: 1 1 260px; gap: 10px; align-items: flex-start; min-width: 0; }
 .cmDocIcon { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 9px; background: #eef2f7; color: #435973; }
 .cmDocMain > div, .cmBankMain > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.cmDocMain strong, .cmBankMain strong { color: #0c2748; font-size: 13px; }
+.cmDocMain strong, .cmBankMain strong { color: #3c5a1e; font-size: 13px; }
 .cmDocMain small, .cmBankMain small { color: #708299; font-size: 11px; overflow-wrap: anywhere; }
 .cmDocMeta { display: flex; flex: 1 1 180px; flex-direction: column; align-items: flex-start; gap: 5px; }
 .cmDocMeta .cmMuted { font-size: 11px; }
 .cmLookupAction { display: flex; align-items: flex-end; }
 .cmLookupResult { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding: 13px 15px; border: 1px solid #d7e5f7; border-radius: 11px; background: #f7fbff; }
 .cmLookupResult > div { display: flex; flex-direction: column; gap: 3px; }
-.cmLookupResult strong { color: #0c2748; font-size: 14px; }
+.cmLookupResult strong { color: #3c5a1e; font-size: 14px; }
 .cmLookupResult .cmMuted { font-size: 12px; }
 .cmDrawer.cmDrawerInline { width: 100%; max-width: none; height: auto; max-height: none; overflow: hidden; border: 1px solid var(--line, #e2e8f0); border-radius: 14px; box-shadow: none; animation: none; }
 .cmDrawerInline .cmDrawerBody { max-height: none; overflow: visible; }
@@ -1626,7 +1626,7 @@ button.adKpi { cursor: pointer; }
   border-radius: 10px;
   background: #fbfcfe;
 }
-.edSummaryItem strong { color: #0c2748; font-size: 15px; }
+.edSummaryItem strong { color: #3c5a1e; font-size: 15px; }
 .edSummaryItem span { color: #6b7d95; font-size: 12px; }
 .edSummaryItem--expired { border-color: #f6d2d2; background: #fdf3f3; }
 .edSummaryItem--expired strong { color: #b3402e; }
@@ -1688,7 +1688,7 @@ button.adKpi { cursor: pointer; }
   font-size: 12px;
   color: #6b7d95;
 }
-.pyCount { color: #0c2748; font-weight: 700; }
+.pyCount { color: #3c5a1e; font-weight: 700; }
 .pyClientCell { display: flex; gap: 10px; align-items: center; min-width: 0; }
 .pyClientAvatar {
   width: 28px;
@@ -1711,7 +1711,7 @@ button.adKpi { cursor: pointer; }
   border: 1px solid var(--line, #e2e8f0);
   border-radius: 8px;
   background: #fff;
-  color: #0c2748;
+  color: #3c5a1e;
   cursor: pointer;
   font-size: 13px;
 }
@@ -1771,7 +1771,7 @@ button.adKpi { cursor: pointer; }
   font-size: 12px;
   color: #6b7d95;
 }
-.invCount { color: #0c2748; font-weight: 700; }
+.invCount { color: #3c5a1e; font-weight: 700; }
 .invCell { min-width: 0; }
 .cmIconCancel { color: #b3402e; }
 .cmIconCancel:hover { border-color: #e2b9b9; background: #fdf3f3; }
@@ -1797,7 +1797,7 @@ button.adKpi { cursor: pointer; }
   border: 1px solid var(--filter-border);
   border-radius: var(--filter-radius);
   background: #fff;
-  box-shadow: 0 2px 6px #102b4e08;
+  box-shadow: 0 2px 6px #1a2a3a08;
 }
 .adminShell .dashboardContent :is(.cmToolbarControls, .pyFilterForm, .invFilterForm, .depToolbar .cmToolbarControls) {
   display: flex;
@@ -1903,3 +1903,54 @@ button.adKpi { cursor: pointer; }
 .adminShell .dashboardContent .pyPayrollPanel .pyClientCell small { font-size: 9.5px; }
 .adminShell .dashboardContent .pyPayrollPanel .cmTable .cmChip { padding: 2px 6px; font-size: 9.5px; }
 .adminShell .dashboardContent .pyPayrollPanel .cmIconButton { width: 25px; height: 25px; }
+
+/* Shared page header: keep every leave/admin/worker panel aligned with the Super Admin design. */
+.cmHead {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 16px 11px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f1f7eb 0%, #ffffff 58%);
+  box-shadow: 0 2px 8px #1a2a3a0d;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.cmHead::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--navy), #dca03c);
+}
+
+.cmHead h1 {
+  margin: 0 0 2px;
+  color: var(--navy);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.cmHead h1::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 2px;
+  margin-top: 5px;
+  border-radius: 3px;
+  background: #dca03c;
+  border: 0;
+}
+
+.cmHead p {
+  max-width: 780px;
+  color: #5b6f88;
+  font-size: 11.5px;
+  line-height: 1.45;
+}

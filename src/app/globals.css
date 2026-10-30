@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --navy: #0c2748;
-  --navy-deep: #081b34;
-  --ink: #102b4e;
+  --navy: #3c5a1e;
+  --navy-deep: #2a4014;
+  --ink: #1a2a3a;
   --body: #4e6079;
   --muted: #8a9bb3;
-  --amber: #f9a006;
-  --amber-dark: #c95800;
+  --amber: #dca03c;
+  --amber-dark: #b8822f;
   --line: #dce4ee;
   --soft: #f6f8fb;
-  --green: #00a84f;
+  --green: #6e963c;
 }
 
 @theme inline {
@@ -37,10 +37,10 @@ button, input, select, textarea { font: inherit; }
 .topbar-contact a:hover { color: var(--amber); }
 .topbar-inner p { margin: 0; color: #95a5ba; }
 .topbar-inner p span { padding: 0 8px; color: #657791; }
-.site-header { height: 44px; position: sticky; top: 0; z-index: 20; background: #fff; border-bottom: 1px solid #edf0f4; }
+.site-header { height: 62px; position: sticky; top: 0; z-index: 20; background: #fff; border-bottom: 1px solid #edf0f4; }
 .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: clamp(14px, 1.8vw, 20px); }
 .brand { display: inline-flex; align-items: center; gap: 9px; flex: 0 0 auto; }
-.brand-mark { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 8px; background: var(--navy); color: var(--amber); font-weight: 800; font-size: 15px; }
+.brand-mark { display: grid; width: 54px; height: 54px; place-items: center; border-radius: 10px; background: #ffffff; color: var(--navy); border: 1px solid var(--line); font-weight: 800; font-size: 15px; }
 .brand-copy { display: flex; flex-direction: column; gap: 1px; }
 .brand-copy strong { font-size: 14px; line-height: 1.2; }
 .brand-copy small { color: #8496ad; font-size: 7.5px; letter-spacing: .08em; }
@@ -54,7 +54,7 @@ button, input, select, textarea { font: inherit; }
 .button:focus-visible { outline: 2px solid rgba(12, 39, 72, 0.15); outline-offset: 2px; }
 .button:active { transform: translateY(0); }
 .button-primary { background: var(--amber); color: #101f34; box-shadow: 0 1px 0 rgba(16, 31, 52, 0.08); }
-.button-primary:hover { background: #ffb11b; box-shadow: 0 4px 12px -6px rgba(249, 160, 6, 0.5); }
+.button-primary:hover { background: #e6b84a; box-shadow: 0 4px 12px -6px rgba(249, 160, 6, 0.5); }
 .button-outline { border-color: var(--navy); color: var(--navy); background: transparent; }
 .button-outline:hover { background: #f0f5fb; border-color: var(--navy); }
 .nav-actions { display: flex; align-items: center; gap: 7px; flex-wrap: nowrap; }
@@ -449,7 +449,7 @@ button, input, select, textarea { font: inherit; }
 .carousel-dots i { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; transition: background .2s ease; }
 .carousel-dots i:first-child { width: 24px; border-radius: 7px; background: var(--navy); }
 .testimonial-empty { display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 22px; border: 1px dashed var(--line); border-radius: 15px; background: #f8fafc; text-align: center; }
-.testimonial-empty-image { width: min(100%, 320px); height: auto; border-radius: 12px; box-shadow: 0 10px 26px #0c27481a; }
+.testimonial-empty-image { width: min(100%, 320px); height: auto; border-radius: 12px; box-shadow: 0 10px 26px #3c5a1e1a; }
 .testimonial-empty p { margin: 0; color: var(--body); font-size: 14px; }
 
 .cta-wrap { padding: 0 0 58px; }
@@ -472,41 +472,41 @@ button, input, select, textarea { font: inherit; }
 .contact-detail small, .contact-detail a, .contact-detail div > span { display: block; }
 .contact-detail small { margin-bottom: 3px; color: #8595aa; font-size: 10.5px; }
 .contact-detail a, .contact-detail div > span { color: var(--navy); font-size: 12.5px; font-weight: 600; word-break: break-word; }
-.enquiry-form { padding: 26px; border: 1px solid #e3e9f1; border-radius: 15px; background: #fff; box-shadow: 0 5px 20px #102b4e0a; }
+.enquiry-form { padding: 26px; border: 1px solid #e3e9f1; border-radius: 15px; background: #fff; box-shadow: 0 5px 20px #1a2a3a0a; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 14px; }
 .form-grid label { display: flex; flex-direction: column; gap: 7px; color: #344a66; font-size: 12px; font-weight: 650; }
 .form-grid input, .form-grid select, .form-grid textarea { width: 100%; min-height: 42px; padding: 10px 12px; border: 1px solid #dce4ee; border-radius: 7px; outline: none; background: #fff; color: var(--ink); font-size: 12px; font-weight: 400; transition: border .2s, box-shadow .2s; }
 .form-grid input::placeholder, .form-grid textarea::placeholder { color: #9aa8b9; }
-.form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus { border-color: #7891b1; box-shadow: 0 0 0 3px #0c274812; }
+.form-grid input:focus, .form-grid select:focus, .form-grid textarea:focus { border-color: #7891b1; box-shadow: 0 0 0 3px #3c5a1e12; }
 .form-grid textarea { min-height: 75px; resize: vertical; }
 .form-message { grid-column: 1 / -1; }
 .form-submit { margin-top: 17px; }
 .form-note { display: block; margin-top: 12px; color: #91a0b2; font-size: 10px; }
 .form-success { display: inline-block; margin: 0 0 0 13px; color: #008744; font-size: 12px; }
 
-.site-footer { background: #071a32; color: #c1ccda; padding: 72px 0 0; }
+.site-footer { background: var(--navy-deep); color: #fff; padding: 72px 0 0; }
 .footer-main { display: grid; grid-template-columns: 1.58fr 1fr 1fr .83fr; gap: clamp(28px, 5vw, 72px); padding-bottom: 30px; }
 .brand-footer { color: #fff; }
-.brand-footer .brand-mark { background: var(--amber); color: var(--navy-deep); }
-.brand-footer .brand-mark { width: 36px; height: 36px; border-radius: 9px; }
+.brand-footer .brand-mark { background: #ffffff; color: var(--navy-deep); border: 1px solid var(--line); }
+.brand-footer .brand-mark { width: 54px; height: 54px; border-radius: 10px; }
 .brand-footer .brand-copy strong { font-size: 17px; }
-.footer-company > p { max-width: 340px; margin: 16px 0 15px; color: #95a5ba; font-size: 14px; line-height: 1.6; }
-.footer-contact { display: grid; gap: 8px; list-style: none; padding: 0; margin: 0; font-size: 13px; }
+.footer-company > p { max-width: 340px; margin: 16px 0 15px; color: #fff; font-size: 15px; line-height: 1.65; }
+.footer-contact { display: grid; gap: 8px; list-style: none; padding: 0; margin: 0; color: #fff; font-size: 14px; }
 .footer-contact li { display: flex; align-items: center; gap: 9px; }
 .footer-contact svg { flex: 0 0 auto; color: var(--amber); }
 .footer-contact li > svg { margin-top: 1px; }
 .footer-contact li { line-height: 1.5; }
-.footer-contact a, .footer-column a, .footer-bottom a { transition: color .2s ease; }
+.footer-contact a, .footer-column a, .footer-bottom a { color: #fff; transition: color .2s ease; }
 .footer-contact a:hover, .footer-column a:hover, .footer-bottom a:hover { color: #fff; }
 .footer-column { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .footer-column h3 { margin: 2px 0 3px; color: #fff; font-size: 13px; font-weight: 700; letter-spacing: .035em; }
-.footer-column a { color: #95a5ba; font-size: 13px; line-height: 1.4; }
+.footer-column a { color: #fff; font-size: 14px; line-height: 1.5; }
 .compliance-tags { display: flex; flex-wrap: wrap; gap: 8px 12px; padding: 0 0 27px; }
-.compliance-tags span { padding: 6px 10px; border: 1px solid #203b5b; border-radius: 6px; color: #9eafc3; font-size: 11px; }
-.footer-bottom { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #1c3451; color: #687c97; font-size: 12px; }
+.compliance-tags span { padding: 6px 10px; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; color: #fff; font-size: 12px; }
+.footer-bottom { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid rgba(255,255,255,0.35); color: #fff; font-size: 14px; }
 .footer-bottom p { margin: 0; }
 .footer-bottom > div { display: flex; gap: 25px; }
-.footer-bottom a { color: #95a5ba; }
+.footer-bottom a { color: #fff; }
 
 @media (max-width: 1050px) {
   .container { width: min(100% - 48px, 1280px); }
@@ -532,9 +532,9 @@ button, input, select, textarea { font: inherit; }
 }
 @media (max-width: 940px) {
   html { scroll-padding-top: 48px; }
-  .site-header { height: 44px; }
+  .site-header { height: 56px; }
   .nav-inner { gap: 10px; }
-  .main-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 8px 16px 16px; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 12px 22px #0c274814; align-items: stretch; gap: 2px; }
+  .main-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; padding: 8px 16px 16px; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 12px 22px #3c5a1e14; align-items: stretch; gap: 2px; }
   .main-nav.nav-open { display: flex; flex-direction: column; }
   .main-nav > a { padding: 10px 8px; border-bottom: 1px solid #f1f4f8; font-size: 13px; border-radius: 8px; }
   .nav-actions { flex-direction: column; align-items: stretch; gap: 8px; margin-top: 10px; }
@@ -601,7 +601,8 @@ button, input, select, textarea { font: inherit; }
   .container { width: calc(100% - 36px); }
   .topbar-contact { gap: 16px; font-size: 11px; }
   .topbar-contact a { gap: 5px; }
-  .brand-mark { width: 30px; height: 30px; border-radius: 7px; font-size: 14px; }
+  .brand-mark { width: 44px; height: 44px; border-radius: 8px; font-size: 14px; }
+  .brand-footer .brand-mark { width: 44px; height: 44px; }
   .brand-copy strong { font-size: 13.5px; }
   .nav-actions { gap: 7px; }
   .nav-cta, .nav-login { min-height: 34px; padding: 0 11px; font-size: 12px; }
@@ -773,7 +774,24 @@ button, input, select, textarea { font: inherit; }
   .job-detail-modal .job-detail-facts { grid-template-columns: 1fr; }
 }
 
-.brand-logo { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+.brand-logo { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
+
+/* Keep the dark logo artwork visible on every dark panel and auth screen. */
+.panel-logo {
+  display: block;
+  width: 52px;
+  height: 52px;
+  padding: 5px;
+  box-sizing: border-box;
+  object-fit: contain;
+  border: 1px solid #dce4ee;
+  border-radius: 10px;
+  background: #fff;
+}
+
+@media (max-width: 650px) {
+  .panel-logo { width: 46px; height: 46px; padding: 4px; border-radius: 9px; }
+}
 
 .service-card-image { display: block; width: 100%; height: 112px; object-fit: cover; border-radius: 9px; margin-bottom: 14px; background: var(--soft); }
 

@@ -40,14 +40,14 @@ const DEMO_ACCOUNTS = [
   { role: "Operator", email: "ops@hrsolution.local", password: "Demo@12345" },
   { role: "Supervisor", email: "supervisor@hrsolution.local", password: "Demo@12345" },
   { role: "Client", email: "client@gmail.com", password: "Demo@12345" },
-  { role: "Worker", email: "worker@gmail.com", password: "Demo@12345" },
+  { role: "Worker", email: "worker@gmail.com", password: "Worker@123" },
   { role: "Job Seeker", email: "sumit@gmail.com", password: "Sumit@123" },
 ];
 
 function Brand() {
   return (
     <Link href="/" className={styles.brand} aria-label="Shakti Manpower home">
-      <span className={styles.brandMark}>S</span>
+      <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
       <span className={styles.brandCopy}>
         <strong>Shakti Manpower</strong>
         <small>HR SOLUTIONS PORTAL</small>

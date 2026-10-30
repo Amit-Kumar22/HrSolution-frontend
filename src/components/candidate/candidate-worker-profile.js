@@ -36,7 +36,6 @@ const PROFILE_TABS = [
   { id: "bank-accounts", label: "My Bank Accounts", icon: CreditCard },
   { id: "payslips", label: "My Payslips", icon: FileText },
   { id: "leaves", label: "My Leaves", icon: CalendarDays },
-  { id: "holiday", label: "Holiday Calendar", icon: CalendarDays },
 ];
 
 function statusMeta(status) {
@@ -242,7 +241,6 @@ export default function WorkerMyProfilePanel({ session }) {
         {activeTab === "bank-accounts" && <WorkerBankAccountsPanel session={session} />}
         {activeTab === "payslips" && <WorkerPayslipsPanel session={session} />}
         {activeTab === "leaves" && <MyLeavesPanel session={session} />}
-        {activeTab === "holiday" && <HolidayManagementPanel session={session} allowManagement={false} />}
       </section>
     </div>
   );

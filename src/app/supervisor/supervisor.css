@@ -1,6 +1,6 @@
 .roleDashSupervisor .ssOverview {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .roleDashSupervisor .ssHero {
@@ -10,11 +10,11 @@
   align-items: center;
   gap: 8px 16px;
   overflow: hidden;
-  padding: 10px 16px;
-  border: 1px solid #163b6026;
-  border-radius: 16px;
-  background: linear-gradient(118deg, #0b2545 0%, #123a63 56%, #1b5b9c 100%);
-  box-shadow: 0 10px 24px #0c27481c;
+  padding: 7px 14px;
+  border: 1px solid #3c5a1e26;
+  border-radius: 14px;
+  background: linear-gradient(118deg, #2a4014 0%, #3c5a1e 56%, #587a2c 100%);
+  box-shadow: 0 10px 24px #3c5a1e1c;
 }
 
 .roleDashSupervisor .ssHero::before {
@@ -24,7 +24,7 @@
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background: radial-gradient(circle, #f9a00638, #f9a00600 68%);
+  background: radial-gradient(circle, #dca03c38, #dca03c00 68%);
   content: "";
   pointer-events: none;
 }
@@ -35,7 +35,7 @@
   bottom: 0;
   left: 0;
   height: 3px;
-  background: linear-gradient(90deg, #f9a006, #f9a00600 70%);
+  background: linear-gradient(90deg, #dca03c, #dca03c00 70%);
   content: "";
 }
 
@@ -59,9 +59,9 @@
 
 .roleDashSupervisor .ssEyebrow { color: #ffc04d; }
 .roleDashSupervisor .ssHero h1 {
-  margin: 0 0 7px;
+  margin: 0 0 3px;
   color: #fff;
-  font-size: clamp(22px, 2.4vw, 30px);
+  font-size: clamp(18px, 2vw, 24px);
   letter-spacing: -.04em;
   line-height: 1.1;
 }
@@ -70,8 +70,8 @@
   max-width: 690px;
   margin: 0;
   color: #d1deeb;
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 .roleDashSupervisor .ssHeroMeta {
@@ -130,10 +130,10 @@
 .roleDashSupervisor .ssMetric small { color: #63748a; font-size: 11px; font-weight: 650; }
 .roleDashSupervisor .ssMetric strong { color: #142a42; font-size: 25px; line-height: 1; }
 .roleDashSupervisor .ssMetric > div > span { overflow: hidden; color: #8895a5; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
-.roleDashSupervisor .ssMetricBlue .ssMetricIcon { background: #e9f1fb; color: #1c5d9c; }
+.roleDashSupervisor .ssMetricBlue .ssMetricIcon { background: #e7f1dc; color: #3c5a1e; }
 .roleDashSupervisor .ssMetricAmber .ssMetricIcon { background: #fff4d8; color: #b97800; }
 .roleDashSupervisor .ssMetricGreen .ssMetricIcon { background: #e1f7eb; color: #16834a; }
-.roleDashSupervisor .ssMetricViolet .ssMetricIcon { background: #eeeaff; color: #6650bd; }
+.roleDashSupervisor .ssMetricViolet .ssMetricIcon { background: #e7f1dc; color: #3c5a1e; }
 
 .roleDashSupervisor .ssContentGrid {
   display: grid;
@@ -188,8 +188,8 @@
 }
 
 .roleDashSupervisor .ssIconButton:hover { border-color: #b9c9da; background: #f5f8fb; }
-.roleDashSupervisor .ssTextAction { padding: 0; background: transparent; color: #1e5d9e; font-size: 11px; }
-.roleDashSupervisor .ssTextAction:hover { color: #103f70; }
+.roleDashSupervisor .ssTextAction { padding: 0; background: transparent; color: #3c5a1e; font-size: 11px; }
+.roleDashSupervisor .ssTextAction:hover { color: #2a4014; }
 
 .roleDashSupervisor .ssSheetList { display: grid; }
 .roleDashSupervisor .ssSheetRow {
@@ -202,7 +202,7 @@
 }
 
 .roleDashSupervisor .ssSheetRow:first-child { border-top: 0; padding-top: 3px; }
-.roleDashSupervisor .ssSheetIcon { width: 32px; height: 32px; background: #eef4fa; color: #235d94; }
+.roleDashSupervisor .ssSheetIcon { width: 32px; height: 32px; background: #e7f1dc; color: #3c5a1e; }
 .roleDashSupervisor .ssSheetInfo { display: grid; flex: 1 1 auto; min-width: 0; gap: 4px; }
 .roleDashSupervisor .ssSheetInfo strong { overflow: hidden; color: #263b51; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .roleDashSupervisor .ssSheetInfo span { overflow: hidden; color: #7a899a; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
@@ -219,7 +219,7 @@
 }
 
 .roleDashSupervisor .ssStatus-draft { background: #fff3d6; color: #946000; }
-.roleDashSupervisor .ssStatus-submitted { background: #e6f1ff; color: #265d9c; }
+.roleDashSupervisor .ssStatus-submitted { background: #e7f1dc; color: #3c5a1e; }
 .roleDashSupervisor .ssStatus-client-approved,
 .roleDashSupervisor .ssStatus-approved { background: #e3f7ec; color: #147643; }
 .roleDashSupervisor .ssStatus-locked { background: #edf0f4; color: #536274; }
@@ -251,14 +251,14 @@
   width: 100%;
   min-height: 36px;
   padding: 0 12px;
-  border: 1px solid #d5e1ed;
+  border: 1px solid #dce8d2;
   border-radius: 8px;
-  background: #f7fafd;
-  color: #1e5d9e;
+  background: #f5fbf0;
+  color: #3c5a1e;
   font-size: 11px;
 }
 
-.roleDashSupervisor .ssWideAction:hover { border-color: #b5c9dd; background: #edf4fa; }
+.roleDashSupervisor .ssWideAction:hover { border-color: #b9cc9d; background: #edf6e5; }
 .roleDashSupervisor .ssAccountPanel h2 { margin-top: 2px; }
 .roleDashSupervisor .ssAccountPanel .ssTextAction { margin-top: 12px; }
 
@@ -268,7 +268,7 @@
 }
 
 @media (max-width: 640px) {
-  .roleDashSupervisor .ssHero { grid-template-columns: minmax(0, 1fr); padding: 12px 14px; }
+  .roleDashSupervisor .ssHero { grid-template-columns: minmax(0, 1fr); padding: 10px 12px; }
   .roleDashSupervisor .ssHeroMeta { justify-items: start; text-align: left; }
   .roleDashSupervisor .ssMetrics { grid-template-columns: minmax(0, 1fr); }
   .roleDashSupervisor .ssPanel { padding: 14px; }

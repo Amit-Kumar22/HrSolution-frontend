@@ -134,7 +134,7 @@ export default function SessionsScreen() {
     <main className="sessionsShell">
       <div className="sessionsTopbar">
         <Link href="/" className="sessionsBrand">
-          <span className="sessionsBrandMark">S</span>
+          <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
           <span>Shakti Manpower</span>
         </Link>
         <div className="sessionsTopActions">

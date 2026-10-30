@@ -88,7 +88,7 @@ export default function WorkerPortal() {
     <main className="workerPortal">
       <header className="workerPortalTopbar">
         <Link href="/" className="workerPortalBrand" aria-label="Shakti Manpower home">
-          <span className="workerPortalBrandMark">S</span>
+          <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
           <span>
             <strong>Shakti Manpower</strong>
             <small>Worker Portal</small>

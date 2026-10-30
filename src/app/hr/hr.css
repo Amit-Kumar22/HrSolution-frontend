@@ -10,8 +10,8 @@
   padding: 8px 14px;
   border-radius: 10px;
   overflow: hidden;
-  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
-  box-shadow: 0 8px 18px #0c274826;
+  background: linear-gradient(118deg, #2a4014 0%, #3c5a1e 52%, #587a2c 100%);
+  box-shadow: 0 8px 18px #3c5a1e26;
 }
 
 .roleDashHr .hrHero::before {
@@ -33,14 +33,14 @@
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+  background: linear-gradient(90deg, #dca03c, rgba(249, 160, 6, 0) 62%);
 }
 
 .roleDashHr .hrHeroText { position: relative; z-index: 1; min-width: 0; }
 
 .roleDashHr .hrEyebrow {
   margin: 0 0 2px;
-  color: #f9a006;
+  color: #dca03c;
   font-size: 9px;
   font-weight: 750;
   letter-spacing: .14em;
@@ -87,7 +87,7 @@
 
 .roleDashHr .hrStatusPill i { width: 7px; height: 7px; border-radius: 50%; background: #9fb4cc; }
 .roleDashHr .hrStatusPill--active i { background: #38d18a; box-shadow: 0 0 0 3px rgba(56, 209, 138, .2); }
-.roleDashHr .hrStatusPill--pending i { background: #f9a006; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
+.roleDashHr .hrStatusPill--pending i { background: #dca03c; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
 .roleDashHr .hrStatusPill--blocked i { background: #ff6b6b; box-shadow: 0 0 0 3px rgba(255, 107, 107, .2); }
 
 .roleDashHr .hrHeroDate { color: #dbe6f2; font-size: 11.5px; font-weight: 600; }
@@ -144,9 +144,9 @@
   border-radius: 9px;
 }
 
-.roleDashHr .hrTone-blue { background: #e8eef7; color: #0c2748; }
-.roleDashHr .hrTone-indigo { background: #e2eeff; color: #2874ed; }
-.roleDashHr .hrTone-green { background: #dcfbe9; color: #00a84f; }
+.roleDashHr .hrTone-blue { background: #e7f1dc; color: #3c5a1e; }
+.roleDashHr .hrTone-indigo { background: #e7f1dc; color: #3c5a1e; }
+.roleDashHr .hrTone-green { background: #dcfbe9; color: #6e963c; }
 .roleDashHr .hrTone-amber { background: #fff2c5; color: #c07c00; }
 .roleDashHr .hrTone-slate { background: #eef2f7; color: #536780; }
 
@@ -198,13 +198,13 @@
   padding: 0;
   border: 0;
   background: none;
-  color: #1d5fbf;
+  color: #3c5a1e;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
 }
 
-.roleDashHr .hrLinkButton:hover { color: #12488f; text-decoration: underline; }
+.roleDashHr .hrLinkButton:hover { color: #2a4014; text-decoration: underline; }
 
 /* Compact view tabs (mirrors the admin segmented controls) --------------- */
 
@@ -327,7 +327,7 @@
   background: #eef2f7;
 }
 
-.roleDashHr .hrMeter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f9a006, #ffc44d); }
+.roleDashHr .hrMeter span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #dca03c, #ffc44d); }
 
 /* Modules -------------------------------------------------------------- */
 .roleDashHr .hrModuleGrid {

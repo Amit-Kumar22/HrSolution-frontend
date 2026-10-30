@@ -2,12 +2,12 @@
 /* Applications module (B12)                                           */
 /* ==================================================================== */
 
-.cmApplicationsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.cmApplicationsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.cmApplicationsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.cmApplicationsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .cmApplicationsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.cmApplicationsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.cmApplicationsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #dca03c; }
 .cmApplicationsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.cmApplicationsPanel > .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmApplicationsPanel > .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmApplicationsPanel .cmSearchBox { flex: 0 0 240px; width: 240px; min-width: 200px; max-width: 240px; height: 34px; padding: 0 11px; gap: 7px; }
 .cmApplicationsPanel .cmSearchBox input { font-size: 12px; }
 .cmApplicationsPanel .cmCount { font-size: 11.5px; }
@@ -42,7 +42,7 @@
 
 .cmAppStats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
 .cmAppStats .cmNotice { grid-column: 1 / -1; }
-.cmAppStat { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.cmAppStat { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .cmAppStat span { color: #6b7d95; font-size: 10.5px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; }
 .cmAppStat strong { color: var(--navy); font-size: 21px; font-weight: 700; letter-spacing: -.02em; }
 
@@ -54,14 +54,14 @@
 .cmAppColumnDot { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 50%; background: #94a3b8; }
 .cmAppColumnDot-info { background: #2864f0; }
 .cmAppColumnDot-accent { background: #7c3aed; }
-.cmAppColumnDot-success { background: #00a84f; }
+.cmAppColumnDot-success { background: #6e963c; }
 .cmAppColumnDot-warn { background: #d97706; }
 .cmAppColumnDot-danger { background: #ec3030; }
 .cmAppColumnDot-neutral { background: #94a3b8; }
 .cmAppColumnBody { display: flex; flex-direction: column; gap: 8px; padding: 10px; }
 .cmAppColumnEmpty { margin: 0; padding: 14px 4px; color: #9aa8b9; font-size: 11px; text-align: center; }
-.cmAppCard { display: flex; flex-direction: column; gap: 5px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 10px; background: #fff; text-align: left; font: inherit; cursor: pointer; box-shadow: 0 2px 6px #102b4e08; transition: border-color .15s, box-shadow .15s, transform .15s; }
-.cmAppCard:hover { border-color: #b9c9dc; box-shadow: 0 4px 12px #102b4e12; transform: translateY(-1px); }
+.cmAppCard { display: flex; flex-direction: column; gap: 5px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 10px; background: #fff; text-align: left; font: inherit; cursor: pointer; box-shadow: 0 2px 6px #1a2a3a08; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.cmAppCard:hover { border-color: #b9c9dc; box-shadow: 0 4px 12px #1a2a3a12; transform: translateY(-1px); }
 .cmAppCardTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .cmAppCardTop strong { color: #24384f; font-size: 12.5px; line-height: 1.4; }
 .cmAppCardJob { color: #5b6f88; font-size: 11px; line-height: 1.45; }

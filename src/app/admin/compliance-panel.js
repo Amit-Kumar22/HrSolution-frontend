@@ -714,7 +714,64 @@ function printable(value) {
   return String(value);
 }
 
+function reportValue(key, value) {
+  const label = String(key).toLowerCase();
+  const text = printable(value);
+  if (value == null || value === "") return text;
+  if (label.includes("date") && typeof value === "string") return formatDate(value);
+  if (typeof value === "number" && /(amount|salary|earning|deduction|outstanding|balance|payable|billing|gross|net|total)/.test(label)) {
+    return formatCurrency(value);
+  }
+  if (/(status|state|verification|approval|payment)/.test(label)) {
+    const normalized = String(value).toLowerCase();
+    const tone = /(expired|rejected|failed|overdue|blocked|cancelled)/.test(normalized)
+      ? "danger"
+      : /(pending|under|due|review)/.test(normalized)
+        ? "warn"
+        : /(verified|approved|active|paid|completed|clear)/.test(normalized)
+          ? "success"
+          : "neutral";
+    return <Chip tone={tone}>{text.replaceAll("_", " ")}</Chip>;
+  }
+  return text;
+}
+
+function reportLabel(key) {
+  return String(key)
+    .replaceAll(/([A-Z])/g, " $1")
+    .replaceAll(/[_-]+/g, " ")
+    .replaceAll(/\s+/g, " ")
+    .trim();
+}
+
+function reportSections(data) {
+  if (Array.isArray(data)) return { summary: [], sections: [{ key: "Records", rows: data }] };
+  if (!data || typeof data !== "object") return { summary: [], sections: [] };
+  const summary = [];
+  const sections = [];
+  const visit = (value, prefix = "") => {
+    if (Array.isArray(value)) {
+      sections.push({ key: prefix || "Records", rows: value });
+      return;
+    }
+    if (!value || typeof value !== "object") {
+      summary.push({ key: prefix || "Value", value });
+      return;
+    }
+    Object.entries(value).forEach(([key, entry]) => {
+      const path = prefix ? `${prefix}.${key}` : key;
+      if (Array.isArray(entry)) sections.push({ key, rows: entry });
+      else if (entry && typeof entry === "object") visit(entry, path);
+      else summary.push({ key: path, value: entry });
+    });
+  };
+  visit(data);
+  return { summary, sections };
+}
+
 function ReportTable({ rows }) {
+  const pageSize = 25;
+  const [page, setPage] = useState(0);
   if (!rows.length) return <EmptyState icon={AlertCircle} title="No report data" message="The selected report returned no records." />;
   const objectRows = rows.every((row) => row && typeof row === "object" && !Array.isArray(row));
   if (!objectRows) {
@@ -725,42 +782,49 @@ function ReportTable({ rows }) {
     );
   }
   const columns = [...new Set(rows.flatMap((row) => Object.keys(row)))];
+  const pageCount = Math.ceil(rows.length / pageSize);
+  const safePage = Math.min(page, Math.max(pageCount - 1, 0));
+  const visibleRows = rows.slice(safePage * pageSize, (safePage + 1) * pageSize);
   return (
-    <div className="cmTableWrap">
-      <table className="cmTable">
-        <thead><tr>{columns.map((key) => <th key={key}>{key.replaceAll(/([A-Z])/g, " $1").replaceAll("_", " ")}</th>)}</tr></thead>
-        <tbody>
-          {rows.map((row, index) => <tr key={row.id ?? index}>{columns.map((key) => <td key={key}>{printable(row[key])}</td>)}</tr>)}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <div className="cmTableWrap">
+        <table className="cmTable">
+          <thead><tr>{columns.map((key) => <th key={key}>{reportLabel(key)}</th>)}</tr></thead>
+          <tbody>
+            {visibleRows.map((row, index) => <tr key={row.id ?? row.workerId ?? row.employeeId ?? index}>{columns.map((key) => <td key={key}>{reportValue(key, row[key])}</td>)}</tr>)}
+          </tbody>
+        </table>
+      </div>
+      {pageCount > 1 && (
+        <div className="cmPagination">
+          <span className="cmPageInfo">{rows.length} records · Page {safePage + 1} of {pageCount}</span>
+          <button type="button" className="cmPageBtn" disabled={safePage === 0} onClick={() => setPage((value) => value - 1)}>
+            <ChevronLeft size={15} /> Previous
+          </button>
+          <button type="button" className="cmPageBtn" disabled={safePage + 1 >= pageCount} onClick={() => setPage((value) => value + 1)}>
+            Next <ChevronRight size={15} />
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 
 function ReportPayload({ data }) {
-  if (Array.isArray(data)) return <ReportTable rows={data} />;
-  if (!data || typeof data !== "object") {
+  const { summary, sections } = reportSections(data);
+  if (!summary.length && !sections.length) {
     return <EmptyState icon={AlertCircle} title="No report data" message="The selected report returned no records." />;
-  }
-  const arrayEntries = Object.entries(data).filter(([, value]) => Array.isArray(value));
-  const scalarEntries = Object.entries(data).filter(([, value]) => !Array.isArray(value));
-  if (!arrayEntries.length) {
-    return (
-      <dl className={styles.reportSummary}>
-        {Object.entries(data).map(([key, value]) => <div key={key}><dt>{key.replaceAll(/([A-Z])/g, " $1").replaceAll("_", " ")}</dt><dd>{printable(value)}</dd></div>)}
-      </dl>
-    );
   }
   return (
     <div className={styles.reportPayload}>
-      {scalarEntries.length > 0 && (
+      {summary.length > 0 && (
         <dl className={styles.reportSummary}>
-          {scalarEntries.map(([key, value]) => <div key={key}><dt>{key.replaceAll(/([A-Z])/g, " $1").replaceAll("_", " ")}</dt><dd>{printable(value)}</dd></div>)}
+          {summary.map(({ key, value }) => <div key={key}><dt>{reportLabel(key)}</dt><dd>{reportValue(key, value)}</dd></div>)}
         </dl>
       )}
-      {arrayEntries.map(([key, rows]) => (
+      {sections.map(({ key, rows }) => (
         <section key={key}>
-          <h2>{key.replaceAll(/([A-Z])/g, " $1").replaceAll("_", " ")}</h2>
+          <h2>{reportLabel(key)}</h2>
           <ReportTable rows={rows} />
         </section>
       ))}
@@ -768,7 +832,7 @@ function ReportPayload({ data }) {
   );
 }
 
-function ReportsView({ session }) {
+export function ReportsView({ session }) {
   const canView = canViewReports(session);
   const [report, setReport] = useState("compliance");
   const [month, setMonth] = useState(String(new Date().getMonth() + 1));
@@ -778,6 +842,7 @@ function ReportsView({ session }) {
   const [error, setError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
   const needsPeriod = report === "payroll" || report === "attendance";
+  const validPeriod = !needsPeriod || (Number(month) >= 1 && Number(month) <= 12 && Number(year) >= 2000);
   const reload = useCallback(() => {
     setLoading(true);
     setError("");
@@ -785,7 +850,7 @@ function ReportsView({ session }) {
   }, []);
 
   useEffect(() => {
-    if (!canView) return undefined;
+    if (!canView || !validPeriod) return undefined;
     let active = true;
     const filters = needsPeriod ? { month: Number(month), year: Number(year) } : {};
     getReport(report, filters)
@@ -805,7 +870,7 @@ function ReportsView({ session }) {
         if (active) setLoading(false);
       });
     return () => { active = false; };
-  }, [canView, month, needsPeriod, report, reloadKey, year]);
+  }, [canView, month, needsPeriod, report, reloadKey, validPeriod, year]);
 
   if (!canView) return <AccessDenied />;
 
@@ -840,6 +905,12 @@ function ReportsView({ session }) {
               <input type="number" min="2000" max="9999" value={year} onChange={(event) => setYear(event.target.value)} />
             </label>
           </>
+        )}
+        {needsPeriod && !validPeriod && <span className="cmFieldError">Enter a valid month and year.</span>}
+        {needsPeriod && (
+          <button type="button" className="primaryButton cmBtn" onClick={reload} disabled={loading || !validPeriod}>
+            Apply
+          </button>
         )}
       </div>
       {loading ? <LoadingState label="Loading report…" /> : error ? <ErrorState message={error} onRetry={reload} /> : <ReportPayload data={data} />}

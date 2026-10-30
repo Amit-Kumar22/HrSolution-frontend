@@ -20,7 +20,11 @@ export async function clearSession() { await SecureStore.deleteItemAsync(TOKEN_K
 api.interceptors.request.use(async (config) => {
   // Login must always be a fresh direct request. Do not send a stale session
   // token from a previous account along with the new worker credentials.
-  if (String(config.url || "").replace(/^\//, "") === "auth/login") return config;
+  const normalizedUrl = String(config.url || "").split("?")[0].replace(/^\/+/, "");
+  if (normalizedUrl === "auth/login" || normalizedUrl.endsWith("/auth/login")) {
+    delete (config.headers || {}).Authorization;
+    return config;
+  }
   const session = await readSession();
   if (session?.accessToken) config.headers.Authorization = `${session.tokenType || "Bearer"} ${session.accessToken}`;
   return config;

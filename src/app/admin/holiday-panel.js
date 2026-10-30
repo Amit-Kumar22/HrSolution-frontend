@@ -18,6 +18,7 @@ import {
   FlashBanner,
   LoadingState,
   Modal,
+  SectionHead,
   useFlash,
 } from "./admin-ui";
 import { getAuthSession, hasPermission, hasRole } from "@/lib/auth";
@@ -295,24 +296,15 @@ export default function HolidayManagementPanel({ session: passedSession, allowMa
 
   return (
     <div className="holidayPanel" style={{ display: "grid", gap: 16 }}>
-      <div className="holidayPanelHeader" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 24, lineHeight: 1.2 }}>Holiday Calendar</h1>
-          <p style={{ margin: "4px 0 0", color: "#586d84", fontSize: 12 }}>
-            {canManage ? "Manage company holidays and review state-specific calendars." : "Review the official holiday calendar and upcoming public holiday dates."}
-          </p>
-        </div>
-        {canManage && (
-          <button
-            type="button"
-            className="primaryButton"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12, padding: "8px 12px" }}
-            onClick={openCreateDialog}
-          >
+      <SectionHead
+        title="Holiday Calendar"
+        description={canManage ? "Manage company holidays and review state-specific calendars." : "Review the official holiday calendar and upcoming public holiday dates."}
+        action={canManage ? (
+          <button type="button" className="primaryButton cmBtn" onClick={openCreateDialog}>
             <Plus size={14} /> Add Holiday
           </button>
-        )}
-      </div>
+        ) : null}
+      />
 
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", alignItems: "end" }}>
         <label style={{ display: "grid", gap: 6, fontWeight: 600, color: "#23415d", fontSize: 12 }}>

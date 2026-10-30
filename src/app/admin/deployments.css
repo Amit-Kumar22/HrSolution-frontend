@@ -14,7 +14,7 @@
   border: 1px solid #dce4ee;
   border-radius: 10px;
   background: #fff;
-  box-shadow: 0 2px 6px #102b4e08;
+  box-shadow: 0 2px 6px #1a2a3a08;
 }
 
 .depToolbar .cmSelect {
@@ -111,7 +111,7 @@
 
 .depFinanceSection h3 {
   margin: 0 0 12px;
-  color: #102b4e;
+  color: #1a2a3a;
   font-size: 13px;
 }
 

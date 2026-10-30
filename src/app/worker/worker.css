@@ -1,7 +1,7 @@
 .workerPortal {
   min-height: 100vh;
   background: #f4f7fa;
-  color: #102b4e;
+  color: #1a2a3a;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -23,7 +23,7 @@
   justify-content: space-between;
   gap: 16px;
   padding: 10px clamp(16px, 4vw, 40px);
-  background: #0c2748;
+  background: #3c5a1e;
   color: #fff;
 }
 
@@ -41,15 +41,15 @@
   height: 36px;
   place-items: center;
   border-radius: 9px;
-  background: #f9a006;
-  color: #0c2748;
+  background: #ffffff; border: 1px solid #dce4ee;
+  color: #3c5a1e;
   font-size: 18px;
   font-weight: 800;
 }
 
 .workerPortalBrand > span:last-child { display: grid; gap: 2px; }
 .workerPortalBrand strong { font-size: 14px; }
-.workerPortalBrand small { color: #9db0c8; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.workerPortalBrand small { color: #c8d8b5; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .workerPortalUser { display: flex; align-items: center; gap: 10px; min-width: 0; }
 
 .workerPortalAvatar {
@@ -59,7 +59,7 @@
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
-  background: #24466b;
+  background: #2a4014;
   color: #fff;
   font-size: 11px;
   font-weight: 750;
@@ -68,7 +68,7 @@
 .workerPortalUserName {
   max-width: 220px;
   overflow: hidden;
-  color: #d3e1f1;
+  color: #e2efd7;
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -79,7 +79,7 @@
   align-items: center;
   gap: 7px;
   padding: 8px 12px;
-  border: 1px solid #35527a;
+  border: 1px solid #6b8d45;
   border-radius: 7px;
   background: transparent;
   color: #fff;
@@ -88,7 +88,7 @@
   cursor: pointer;
 }
 
-.workerPortalSignOut:hover { background: #173b64; }
+.workerPortalSignOut:hover { background: #2a4014; }
 .workerPortalSignOut:disabled { cursor: wait; opacity: .7; }
 
 .workerPortalTabs {
@@ -96,8 +96,8 @@
   gap: 4px;
   overflow-x: auto;
   padding: 0 clamp(12px, 4vw, 40px);
-  border-top: 1px solid #1d3c66;
-  background: #0c2748;
+  border-top: 1px solid #2a4014;
+  background: #3c5a1e;
   scrollbar-width: thin;
 }
 
@@ -109,7 +109,7 @@
   border: 0;
   border-bottom: 3px solid transparent;
   background: transparent;
-  color: #a9bcd4;
+  color: #c7d9b0;
   font-size: 12px;
   font-weight: 650;
   white-space: nowrap;
@@ -117,7 +117,7 @@
 }
 
 .workerPortalTab:hover { color: #fff; }
-.workerPortalTabActive { border-bottom-color: #f9a006; color: #fff; }
+.workerPortalTabActive { border-bottom-color: #dca03c; color: #fff; }
 
 .workerPortalContent {
   max-width: 1180px;
@@ -132,14 +132,14 @@
   gap: 20px;
   padding: 24px;
   border-radius: 14px;
-  background: linear-gradient(120deg, #0c2748, #173b64);
+  background: linear-gradient(120deg, #2a4014, #587a2c);
   color: #fff;
 }
 
 .workerPortalWelcomeCopy { min-width: 0; }
 .workerPortalEyebrow { color: #ffc04d; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .workerPortalWelcome h1 { margin: 7px 0 5px; font-size: clamp(22px, 3vw, 30px); letter-spacing: -.03em; }
-.workerPortalWelcome p { max-width: 650px; margin: 0; color: #c8d8e9; font-size: 13px; line-height: 1.55; }
+.workerPortalWelcome p { max-width: 650px; margin: 0; color: #e0ecd5; font-size: 13px; line-height: 1.55; }
 
 .workerPortalPrimary {
   display: inline-flex;
@@ -151,7 +151,7 @@
   padding: 0 14px;
   border: 0;
   border-radius: 8px;
-  background: #f9a006;
+  background: #ffffff; border: 1px solid #dce4ee;
   color: #1c2a3a;
   font-size: 12px;
   font-weight: 750;
@@ -198,7 +198,7 @@
   color: #435973;
 }
 .wdDocMain > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.wdDocMain strong { color: #0c2748; font-size: 13px; overflow-wrap: anywhere; }
+.wdDocMain strong { color: #3c5a1e; font-size: 13px; overflow-wrap: anywhere; }
 .wdDocMain small { color: #708299; font-size: 11px; overflow-wrap: anywhere; }
 .wdDocMetaLine { color: #708299; font-size: 11px; }
 .wdDocMeta {
@@ -226,7 +226,7 @@
   border: 1px solid var(--line, #e2e8f0);
   border-radius: 8px;
   background: #fff;
-  color: #0c2748;
+  color: #3c5a1e;
   cursor: pointer;
   font-size: 13px;
 }
@@ -269,7 +269,7 @@
   color: #435973;
 }
 .wbAccountMain > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.wbAccountMain strong { color: #0c2748; font-size: 13px; overflow-wrap: anywhere; }
+.wbAccountMain strong { color: #3c5a1e; font-size: 13px; overflow-wrap: anywhere; }
 .wbAccountMain small { color: #708299; font-size: 11px; overflow-wrap: anywhere; }
 .wbAccountMetaLine { color: #708299; font-size: 11px; }
 .wbAccountMeta {
@@ -295,7 +295,7 @@
   border: 1px solid var(--line, #e2e8f0);
   border-radius: 8px;
   background: #fff;
-  color: #0c2748;
+  color: #3c5a1e;
   cursor: pointer;
   font-size: 13px;
 }
@@ -320,7 +320,7 @@
   gap: 10px;
   flex-wrap: wrap;
 }
-.cp-panelHead h2 { margin: 0; color: #0c2748; font-size: 16px; letter-spacing: -0.02em; }
+.cp-panelHead h2 { margin: 0; color: #3c5a1e; font-size: 16px; letter-spacing: -0.02em; }
 .cp-panelHead p { margin: 0; color: #63748b; font-size: 12px; line-height: 1.45; }
 
 .cpProfileTabs {
@@ -328,8 +328,8 @@
   gap: 4px;
   overflow-x: auto;
   padding: 0 clamp(12px, 4vw, 40px);
-  border-top: 1px solid #1d3c66;
-  background: #0c2748;
+  border-top: 1px solid #2a4014;
+  background: #3c5a1e;
   scrollbar-width: thin;
   margin-bottom: 14px;
 }
@@ -341,14 +341,14 @@
   border: 0;
   border-bottom: 3px solid transparent;
   background: transparent;
-  color: #a9bcd4;
+  color: #c7d9b0;
   font-size: 12px;
   font-weight: 650;
   white-space: nowrap;
   cursor: pointer;
 }
 .cpProfileTab:hover { color: #fff; }
-.cpProfileTabActive { border-bottom-color: #f9a006; color: #fff; }
+.cpProfileTabActive { border-bottom-color: #dca03c; color: #fff; }
 
 .cpProfileHeader {
   display: flex;
@@ -356,7 +356,7 @@
   gap: 16px;
   padding: 14px;
   border-radius: 11px;
-  background: linear-gradient(120deg, #0c2748, #173b64);
+  background: linear-gradient(120deg, #2a4014, #587a2c);
   color: #fff;
   margin: 0 clamp(12px, 4vw, 40px) 14px;
   flex-wrap: wrap;
@@ -373,7 +373,7 @@
   font-size: 26px;
 }
 .cpProfileInfo h2 { margin: 0 0 4px; color: #fff; font-size: 18px; letter-spacing: -0.02em; }
-.cpProfileInfo p { margin: 0; color: #c8d8e9; font-size: 13px; }
+.cpProfileInfo p { margin: 0; color: #e0ecd5; font-size: 13px; }
 .cpProfileMetaRow { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
 .cpProfileMetaChip {
   display: inline-flex;
@@ -400,7 +400,7 @@
   border-radius: 11px;
   background: #fff;
 }
-.cpProfileCard h3 { margin: 0 0 12px; color: #0c2748; font-size: 14px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+.cpProfileCard h3 { margin: 0 0 12px; color: #3c5a1e; font-size: 14px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
 .cpProfileDetailRow { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid #eef2f7; }
 .cpProfileDetailRow:last-child { border-bottom: 0; }
 .cpProfileLabel { color: #7a8ba1; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; min-width: 90px; }

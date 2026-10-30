@@ -9,6 +9,7 @@ import {
   Field,
   FlashBanner,
   LoadingState,
+  SectionHead,
   useFlash,
 } from "./admin-ui";
 import { getAuthSession } from "@/lib/auth";
@@ -160,22 +161,21 @@ export default function LeaveManagementPanel({ session: passedSession } = {}) {
 
   return (
     <div style={{ display: "grid", gap: 16 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 24, lineHeight: 1.2 }}>Leave Management</h1>
-          <p style={{ margin: "4px 0 0", color: "#586d84", fontSize: 12 }}>Review and manage leave requests across the workforce.</p>
-        </div>
-        <button
-          type="button"
-          className="secondaryButton"
-          onClick={() => setReloadToken((value) => value + 1)}
-          disabled={loading}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12, padding: "8px 12px" }}
-        >
-          <RefreshCw size={14} style={{ transform: loading ? "rotate(180deg)" : "none" }} />
-          Refresh
-        </button>
-      </div>
+      <SectionHead
+        title="Leave Management"
+        description="Review and manage leave requests across the workforce."
+        action={(
+          <button
+            type="button"
+            className="secondaryButton cmBtn"
+            onClick={() => setReloadToken((value) => value + 1)}
+            disabled={loading}
+          >
+            <RefreshCw size={14} style={{ transform: loading ? "rotate(180deg)" : "none" }} />
+            Refresh
+          </button>
+        )}
+      />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10 }}>
         <div style={{ ...cardStyle, borderLeft: "4px solid #f59e0b" }}>

@@ -8,7 +8,7 @@ export default function AuthShell({ title, subtitle, children, footer, asideTitl
     <main className="authPage">
       <section className="authAside">
         <Link href="/" className="authBrand" aria-label="Shakti Manpower home">
-          <span className="authBrandMark">S</span>
+          <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
           <span className="authBrandCopy">
             <strong>Shakti Manpower</strong>
             <small>HR SOLUTIONS PORTAL</small>
@@ -33,7 +33,7 @@ export default function AuthShell({ title, subtitle, children, footer, asideTitl
       <section className="authMain">
         <div className="authCard">
           <Link href="/" className="authMobileBrand" aria-label="Shakti Manpower home">
-            <span className="authBrandMark">S</span>
+            <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
             <strong>Shakti Manpower</strong>
           </Link>
           <h1>{title}</h1>

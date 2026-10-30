@@ -49,6 +49,8 @@ import AttendancePanel from "@/app/admin/attendance-panel";
 import HolidayManagementPanel from "@/app/admin/holiday-panel";
 import PayrollPanel from "@/app/admin/payroll-panel";
 import InvoicePanel from "@/app/admin/invoice-panel";
+import { ReportsView } from "@/app/admin/compliance-panel";
+import { canViewReports } from "@/lib/feature-access";
 import { Chip, ErrorState, LoadingState } from "@/app/admin/admin-ui";
 import {
   companyBillingAddress,
@@ -70,6 +72,7 @@ const navigation = [
   { label: "Holiday Calendar", view: "holiday", icon: CalendarCheck, section: "WORKSPACE" },
   { label: "Payroll", view: "payroll", icon: Wallet, section: "WORKSPACE" },
   { label: "Invoices", view: "invoices", icon: FileText, section: "WORKSPACE" },
+  { label: "Reports", view: "reports", icon: FileText, section: "WORKSPACE" },
   { label: "Account settings", href: "/client/account", view: "account-settings", icon: Settings, section: "ACCOUNT" },
 ];
 
@@ -89,6 +92,10 @@ const viewCopy = {
   users: {
     title: "Users",
     lead: "People at your company who can access the client portal.",
+  },
+  contracts: {
+    title: "My contracts",
+    lead: "Review your company's active service agreements and contract details.",
   },
   deployments: {
     title: "Deployments",
@@ -130,7 +137,7 @@ function displayName(user) {
 function ClientBrand() {
   return (
     <Link href="/" className={styles.brand}>
-      <span className={styles.brandMark}>S</span>
+      <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
       <span><strong>Shakti Manpower</strong><small>Client Portal</small></span>
     </Link>
   );
@@ -276,7 +283,9 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
           {sections.map((section) => (
             <div className={styles.navGroup} key={section}>
               <div className={styles.navSection}>{section}</div>
-              {navigation.filter((item) => item.section === section && (!item.permission || canViewDeployments)).map((item) => {
+              {navigation.filter((item) => item.section === section
+                && (!item.permission || canViewDeployments)
+                && (item.view !== "reports" || canViewReports(sessionState))).map((item) => {
                 const Icon = item.icon;
                 const isActive =
                   activeView === item.view ||
@@ -372,8 +381,7 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
         <div className={styles.dashboardContent}>
           {logoutError && <p className={styles.actionError} role="alert">{logoutError}</p>}
 
-          {activeView !== "contracts" && (
-            <section className="clHero">
+          <section className="clHero">
               <div className="clHeroText">
                 <p className="clEyebrow">Client portal</p>
                 <h1>
@@ -397,8 +405,7 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
                 </span>
                 <span className="clHeroEmail">{user.email || "—"}</span>
               </div>
-            </section>
-          )}
+          </section>
 
           {guidance && <div className="clientStatusNotice" role="status">{guidance}</div>}
           {companyError && (activeView === "dashboard" || activeView === "account-settings") ? (
@@ -490,6 +497,8 @@ export default function ClientDashboard({ initialView = "dashboard", siteId = nu
             <PayrollPanel session={sessionState} />
           ) : activeView === "invoices" ? (
             <InvoicePanel session={sessionState} />
+          ) : activeView === "reports" ? (
+            <ReportsView session={sessionState} />
           ) : activeView === "dashboard" ? (
             <>
               <section className="clKpis" aria-label="Company summary">

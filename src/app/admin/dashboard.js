@@ -49,6 +49,8 @@ import DeploymentsPanel from "./deployments-panel";
 import ExpiringDocumentsPanel from "./expiring-documents-panel";
 import PayrollPanel from "./payroll-panel";
 import InvoicePanel from "./invoice-panel";
+import { ReportsView } from "./compliance-panel";
+import { canViewReports } from "../../lib/feature-access";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
@@ -74,6 +76,7 @@ const navigation = [
   { label: "Services", view: "services", icon: Layers, section: "WEBSITE" },
   { label: "Testimonials", view: "testimonials", icon: Quote, section: "WEBSITE" },
   { label: "Compliance", view: "compliance", icon: ShieldCheck, section: "ADMIN" },
+  { label: "Reports", view: "reports", icon: FileText, section: "ADMIN" },
   { label: "Audit log", view: "audit", icon: Activity, section: "ADMIN" },
 ];
 
@@ -83,7 +86,7 @@ const sectionLabels = { LEADS: "LEADS", WORKFORCE: "WORKFORCE", FINANCE: "FINANC
 function Brand() {
   return (
     <Link href="/" className={styles.brand}>
-      <span className={styles.brandMark}>S</span>
+      <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
       <span><strong>Shakti Manpower</strong><small>Admin Console</small></span>
     </Link>
   );
@@ -334,6 +337,7 @@ export default function AdminDashboard() {
   else if (activeView === "deployments") content = <DeploymentsPanel session={session} />;
   else if (activeView === "workers") content = <WorkerPanel session={session} />;
   else if (activeView === "compliance") content = <ExpiringDocumentsPanel session={session} />;
+  else if (activeView === "reports") content = <ReportsView session={session} />;
   else if (activeView === "payroll") content = <PayrollPanel session={session} />;
   else if (activeView === "invoices") content = <InvoicePanel session={session} />;
   else if (activeView === "attendance") content = <AttendancePanel session={session} />;
@@ -357,7 +361,9 @@ export default function AdminDashboard() {
         <nav className={styles.sideNav} aria-label="Admin navigation">
           {sectionOrder.map((section) => {
             const items = navigation.filter(
-              (item) => item.section === section && (item.view !== "deployments" || canViewDeployments),
+              (item) => item.section === section
+                && (item.view !== "deployments" || canViewDeployments)
+                && (item.view !== "reports" || canViewReports(sessionState)),
             );
             if (!items.length) return null;
             return (

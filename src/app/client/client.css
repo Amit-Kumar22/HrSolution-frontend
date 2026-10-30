@@ -8,8 +8,8 @@
   padding: 9px 14px;
   border-radius: 10px;
   overflow: hidden;
-  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
-  box-shadow: 0 8px 18px #0c274826;
+  background: linear-gradient(118deg, #2a4014 0%, #3c5a1e 52%, #587a2c 100%);
+  box-shadow: 0 8px 18px #3c5a1e26;
 }
 
 .clientShell .clHero::before {
@@ -31,14 +31,14 @@
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+  background: linear-gradient(90deg, #dca03c, rgba(249, 160, 6, 0) 62%);
 }
 
 .clientShell .clHeroText { position: relative; z-index: 1; min-width: 0; }
 
 .clientShell .clEyebrow {
   margin: 0 0 2px;
-  color: #f9a006;
+  color: #dca03c;
   font-size: 9px;
   font-weight: 750;
   letter-spacing: .14em;
@@ -83,7 +83,7 @@
 
 .clientShell .clStatusPill i { width: 7px; height: 7px; border-radius: 50%; background: #9fb4cc; }
 .clientShell .clStatusPill--active i { background: #38d18a; box-shadow: 0 0 0 3px rgba(56, 209, 138, .2); }
-.clientShell .clStatusPill--pending i { background: #f9a006; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
+.clientShell .clStatusPill--pending i { background: #dca03c; box-shadow: 0 0 0 3px rgba(249, 160, 6, .2); }
 .clientShell .clStatusPill--blocked i { background: #ff6b6b; box-shadow: 0 0 0 3px rgba(255, 107, 107, .2); }
 
 .clientShell .clHeroDate { color: #dbe6f2; font-size: 11px; font-weight: 600; }
@@ -142,9 +142,9 @@
   border-radius: 8px;
 }
 
-.clientShell .clTone-blue { background: #e8eef7; color: #0c2748; }
-.clientShell .clTone-indigo { background: #e2eeff; color: #2874ed; }
-.clientShell .clTone-green { background: #dcfbe9; color: #00a84f; }
+.clientShell .clTone-blue { background: #e7f1dc; color: #3c5a1e; }
+.clientShell .clTone-indigo { background: #e7f1dc; color: #3c5a1e; }
+.clientShell .clTone-green { background: #dcfbe9; color: #6e963c; }
 .clientShell .clTone-amber { background: #fff2c5; color: #c07c00; }
 .clientShell .clTone-slate { background: #eef2f7; color: #536780; }
 
@@ -330,7 +330,7 @@
   font-size: 10.5px;
 }
 
-.clientShell .clCompanyStats svg { flex: 0 0 auto; color: #2874ed; }
+.clientShell .clCompanyStats svg { flex: 0 0 auto; color: #3c5a1e; }
 .clientShell .clCompanyStats span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .clientShell .clCompanyStats strong { margin-left: auto; color: var(--ink); font-size: 12.5px; white-space: nowrap; }
 
@@ -368,7 +368,7 @@
 .clientShell .clientSitesTable tbody td { padding: 8px 10px; }
 .clientShell .clientSitesTable .cmChip { padding: 3px 8px; font-size: 10px; }
 .clientShell .clientSitesTable .cmCode { padding: 2px 6px; font-size: 10.5px; }
-.clientShell .clientSitesTable .cmIconTile { width: 30px; height: 30px; border-radius: 8px; background: #e8eef7; color: #0c2748; }
+.clientShell .clientSitesTable .cmIconTile { width: 30px; height: 30px; border-radius: 8px; background: #e7f1dc; color: #3c5a1e; }
 .clientShell .clientSitesTable .cmEntity { gap: 8px; }
 .clientShell .clientSitesTable .cmEntity strong { display: block; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .clientShell .clientSiteViewButton { min-height: 28px; padding: 0 9px; gap: 5px; font-size: 11px; white-space: nowrap; }
@@ -381,7 +381,7 @@
   align-items: center;
   gap: 5px;
   margin-bottom: 5px;
-  color: #1d5fbf;
+  color: #3c5a1e;
   font-size: 11px;
   font-weight: 650;
   text-decoration: none;
@@ -415,7 +415,7 @@
 .clientShell .clientUsersTable thead th { padding: 8px 10px; font-size: 9.5px; }
 .clientShell .clientUsersTable tbody td { padding: 8px 10px; }
 .clientShell .clientUsersTable .cmChip { padding: 3px 8px; font-size: 10px; }
-.clientShell .clientUsersTable .cmIconTile { width: 30px; height: 30px; border-radius: 8px; background: #e8eef7; color: #0c2748; }
+.clientShell .clientUsersTable .cmIconTile { width: 30px; height: 30px; border-radius: 8px; background: #e7f1dc; color: #3c5a1e; }
 .clientShell .clientUsersTable .cmEntity { gap: 8px; }
 .clientShell .clientUsersTable .cmEntity strong { display: block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .clientShell .clientUsersPanel .cmEmpty,

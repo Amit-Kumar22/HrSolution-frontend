@@ -620,7 +620,7 @@ function Contact() {
   }, []);
 
   const phone = profile?.phone;
-  const email = profile?.supportEmail || profile?.email;
+  const email = "info@pubes.in";
   const address = buildAddress(profile);
 
   function clearFieldError(fieldName) {

@@ -8,6 +8,7 @@ import {
   Field,
   FlashBanner,
   LoadingState,
+  SectionHead,
   useFlash,
 } from "@/app/admin/admin-ui";
 import { getAuthSession } from "@/lib/auth";
@@ -154,15 +155,15 @@ export default function MyLeavesPanel({ session: passedSession } = {}) {
 
   return (
     <div style={{ display: "grid", gap: 18 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 24, lineHeight: 1.2 }}>My Leaves</h1>
-          <p style={{ margin: "4px 0 0", color: "#586d84", fontSize: 12 }}>Track your own leave requests and submit new applications.</p>
-        </div>
-        <button type="button" className="primaryButton" onClick={() => setShowForm((value) => !value)} style={{ display: "inline-flex", gap: 8, alignItems: "center", fontSize: 12, padding: "8px 12px" }}>
-          <Plus size={14} /> {showForm ? "Close form" : "Apply for Leave"}
-        </button>
-      </div>
+      <SectionHead
+        title="My Leaves"
+        description="Track your own leave requests and submit new applications."
+        action={(
+          <button type="button" className="primaryButton cmBtn" onClick={() => setShowForm((value) => !value)}>
+            <Plus size={14} /> {showForm ? "Close form" : "Apply for Leave"}
+          </button>
+        )}
+      />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
         <div style={cardStyle}><div style={miniLabel}>Pending</div><div style={miniValue}>{summary.pending}</div></div>

@@ -198,7 +198,7 @@ export default function CandidatePortal() {
     <main className="cp-shell">
       <header className="cp-topbar">
         <Link href="/" className="cp-brand" aria-label="Shakti Manpower home">
-          <span className="cp-brandMark">S</span>
+          <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
           <span className="cp-brandCopy">
             <strong>Shakti Manpower</strong>
             <small>Candidate Portal</small>

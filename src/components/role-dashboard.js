@@ -55,6 +55,8 @@ import OperatorDeploymentsPanel from "./operator-deployments-panel";
 import DeploymentsPanel from "../app/admin/deployments-panel";
 import PayrollPanel from "../app/admin/payroll-panel";
 import InvoicePanel from "../app/admin/invoice-panel";
+import { ReportsView } from "../app/admin/compliance-panel";
+import { canViewReports } from "../lib/feature-access";
 
 export default function RoleDashboard({ allowedRoles, dashboardName, description, clientManagement = false, clientView = false, candidatesView = false, interviewsView = false, jobsView = false, requisitionsView = false, workersView = false, deploymentsView = false, leaveView = false, holidayView = false, payrollView = false, invoiceView = false, variant = "", overview: OverviewComponent = null }) {
   const router = useRouter();
@@ -302,6 +304,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
     ...(canUseDeployments ? [{ label: "Deployments", view: "deployments", icon: ArrowRightLeft, section: "main" }] : []),
     ...(canUsePayroll ? [{ label: "Payroll", view: "payroll", icon: Wallet, section: "main" }] : []),
     ...(canUseInvoice ? [{ label: "Invoices", view: "invoices", icon: FileText, section: "main" }] : []),
+    ...(canViewReports(sessionState) ? [{ label: "Reports", view: "reports", icon: FileText, section: "main" }] : []),
     ...(candidatesView ? [{ label: "Candidates", view: "candidates", icon: UserSearch, section: "main" }] : []),
     ...(jobsView ? [{ label: "Jobs", view: "jobs", icon: BriefcaseBusiness, section: "main" }] : []),
     ...(interviewsView ? [{ label: "Interviews", view: "interviews", icon: CalendarClock, section: "main" }] : []),
@@ -327,7 +330,7 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
       )}
       <aside className={`${styles.sidebar}${sidebarOpen ? ` ${styles.sidebarOpen}` : ""}`}>
         <Link href="/" className={styles.brand}>
-          <span className={styles.brandMark}>S</span>
+          <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
           <span>
             <strong>Shakti Manpower</strong>
             <small>{dashboardName}</small>
@@ -465,6 +468,8 @@ export default function RoleDashboard({ allowedRoles, dashboardName, description
             />
           ) : activeView === "payroll" ? (
             <PayrollPanel session={sessionState} />
+          ) : activeView === "reports" ? (
+            <ReportsView session={sessionState} />
           ) : activeView === "invoices" ? (
             <InvoicePanel session={sessionState} />
           ) : activeView === "interviews" ? (

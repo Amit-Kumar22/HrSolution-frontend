@@ -78,6 +78,7 @@ import DeploymentsPanel from "../admin/deployments-panel";
 import ExpiringDocumentsPanel from "../admin/expiring-documents-panel";
 import PayrollPanel from "../admin/payroll-panel";
 import InvoicePanel from "../admin/invoice-panel";
+import { ReportsView } from "../admin/compliance-panel";
 
 const navigation = [
   { label: "Dashboard", view: "dashboard", icon: LayoutDashboard, section: "main" },
@@ -96,6 +97,7 @@ const navigation = [
   { label: "Compliance", view: "compliance", icon: ShieldCheck, section: "WORKFORCE" },
   { label: "Payroll", view: "payroll", icon: Wallet, section: "WORKFORCE" },
   { label: "Invoices", view: "invoices", icon: FileText, section: "WORKFORCE" },
+  { label: "Reports", view: "reports", icon: FileText, section: "WORKFORCE" },
   { label: "Leave Management", view: "leave", icon: CalendarCheck, section: "WORKFORCE" },
   { label: "Holiday Calendar", view: "holiday", icon: CalendarDays, section: "WORKFORCE" },
   { label: "Manpower categories", view: "manpower-categories", icon: Tags, section: "WORKFORCE" },
@@ -120,7 +122,7 @@ const sectionLabels = {
 function Brand() {
   return (
     <Link href="/" className={styles.brand}>
-      <span className={styles.brandMark}>S</span>
+      <img className="panel-logo" src="/logo2.png" alt="Shakti Manpower" />
       <span>
         <strong>Shakti Manpower</strong>
         <small>Super Admin Console</small>
@@ -357,6 +359,7 @@ export default function SuperAdminDashboard() {
   else if (activeView === "compliance") content = <ExpiringDocumentsPanel session={session} />;
   else if (activeView === "payroll") content = <PayrollPanel session={session} />;
   else if (activeView === "invoices") content = <InvoicePanel session={session} />;
+  else if (activeView === "reports") content = <ReportsView session={session} />;
   else if (activeView === "candidates") content = <CandidatesPanel session={session} />;
   else if (activeView === "applications") content = <ApplicationsPanel session={session} />;
   else if (activeView === "interviews") content = <InterviewManagementPanel session={session} />;

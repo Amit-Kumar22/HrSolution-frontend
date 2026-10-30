@@ -65,7 +65,7 @@ const SITE_YEAR = new Date().getFullYear();
 export function Brand({ footer = false }) {
   const { profile } = useSite();
   const name = companyNameOf(profile);
-  const logoUrl = resolvePublicFileUrl(profile?.logoUrl);
+  const logoUrl = "/logo2.png";
   const letter = (name.trim()[0] || "M").toUpperCase();
 
   return (
@@ -84,7 +84,7 @@ export function Brand({ footer = false }) {
 function Topbar() {
   const { profile } = useSite();
   const phone = profile?.phone;
-  const email = profile?.supportEmail || profile?.email;
+  const email = "info@pubes.in";
   const location = [profile?.city, profile?.state].filter(Boolean).join(", ");
 
   return (
@@ -185,7 +185,7 @@ export function Footer() {
   const legalName = legalNameOf(profile);
   const address = buildAddress(profile);
   const phone = profile?.phone;
-  const email = profile?.supportEmail || profile?.email;
+  const email = "info@pubes.in";
   const tagline = profile?.tagline?.trim() || DEFAULT_FOOTER_TEXT;
   const year = SITE_YEAR;
 

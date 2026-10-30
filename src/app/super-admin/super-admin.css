@@ -12,7 +12,7 @@
   gap: 0;
   padding: 14px 12px 14px;
   scrollbar-width: thin;
-  scrollbar-color: #2b4d77 transparent;
+  scrollbar-color: #587a2c transparent;
 }
 
 .adminShellSuper .sidebar::-webkit-scrollbar {
@@ -24,7 +24,7 @@
 }
 
 .adminShellSuper .sidebar::-webkit-scrollbar-thumb {
-  background: #2b4d77;
+  background: #587a2c;
   border-radius: 999px;
 }
 
@@ -89,7 +89,7 @@
 }
 
 .adminShellSuper .navItem:hover {
-  background: #16365f;
+  background: #4a2f1b;
   color: #fff;
 }
 
@@ -99,14 +99,14 @@
 
 .adminShellSuper .navActive,
 .adminShellSuper .navActive:hover {
-  background: linear-gradient(90deg, #1d4372 0%, #17375f 100%);
+  background: linear-gradient(90deg, #6b4a2f 0%, #4a2f1b 100%);
   color: #fff;
   font-weight: 600;
-  box-shadow: inset 3px 0 0 #f9a006;
+  box-shadow: inset 3px 0 0 #dca03c;
 }
 
 .adminShellSuper .navActive > svg {
-  color: #f9a006;
+  color: #dca03c;
 }
 
 .adminShellSuper .navItem > b {
@@ -169,7 +169,7 @@
   padding: 0 28px;
   border-bottom-color: #e5eaf2;
   background: linear-gradient(105deg, #fff 0%, #fbfcff 100%);
-  box-shadow: 0 2px 10px #102b4e08;
+  box-shadow: 0 2px 10px #1a2a3a08;
 }
 
 .saDashboardBrand {
@@ -312,10 +312,10 @@
 }
 
 /* Super-admin dashboard overview */
-.saDashboard .pageHeading { position: relative; align-items: center; gap: 14px; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 16px; }
-.saDashboard .pageHeading::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saDashboard .pageHeading { position: relative; align-items: center; gap: 14px; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #f1f7eb 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 16px; }
+.saDashboard .pageHeading::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .saDashboard .pageHeading h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.saDashboard .pageHeading h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saDashboard .pageHeading h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #dca03c; }
 .saDashboard .pageHeading p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
 .saDashboard .headingActions { gap: 8px; }
 .saDashboard .headingActions button { min-height: 32px; padding: 0 12px; border-radius: 7px; font-size: 12px; }
@@ -394,7 +394,7 @@
   border: 1px solid var(--line);
   border-radius: 13px;
   background: #fff;
-  box-shadow: 0 2px 6px #102b4e08;
+  box-shadow: 0 2px 6px #1a2a3a08;
 }
 
 .saModuleCard > i {
@@ -532,7 +532,7 @@
   width: 15px;
   height: 15px;
   flex: 0 0 auto;
-  accent-color: #0c2748;
+  accent-color: #3c5a1e;
 }
 
 .saPermItem span {
@@ -555,12 +555,12 @@
 }
 
 /* Roles & permissions page */
-.saRolesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.saRolesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saRolesPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #f1f7eb 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.saRolesPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .saRolesPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.saRolesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saRolesPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #dca03c; }
 .saRolesPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.saRolesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.saRolesPanel .cmToolbar { gap: 8px 10px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .saRolesPanel .cmSelect { gap: 5px; font-size: 11.5px; }
 .saRolesPanel .cmSelect select { height: 32px; padding: 0 9px; border-radius: 7px; font-size: 12px; }
 .saRolesPanel .cmCount { font-size: 11.5px; }
@@ -577,12 +577,12 @@
 .saRolesPanel .saInlineNote { margin-bottom: 12px; padding: 10px 12px; border-radius: 9px; font-size: 11.5px; }
 
 /* Settings page */
-.saSettingsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%); box-shadow: 0 2px 8px #102b4e0d; overflow: hidden; margin-bottom: 14px; }
-.saSettingsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #f9a006); }
+.saSettingsPanel .cmHead { position: relative; padding: 12px 18px 12px 20px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(135deg, #f1f7eb 0%, #ffffff 58%); box-shadow: 0 2px 8px #1a2a3a0d; overflow: hidden; margin-bottom: 14px; }
+.saSettingsPanel .cmHead::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--navy), #dca03c); }
 .saSettingsPanel .cmHead h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
-.saSettingsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #f9a006; }
+.saSettingsPanel .cmHead h1::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 5px; border-radius: 3px; background: #dca03c; }
 .saSettingsPanel .cmHead p { max-width: 780px; color: #5b6f88; font-size: 11.5px; }
-.saSettingsPanel .cmToolbar { align-items: center; gap: 8px 10px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #102b4e08; }
+.saSettingsPanel .cmToolbar { align-items: center; gap: 8px 10px; margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 2px 6px #1a2a3a08; }
 .saTabBar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
 .saSettingsPanel .cmToolbar .cmBtn { min-height: 32px; padding: 0 12px; gap: 6px; font-size: 12px; }
 .saSettingsPanel .cmToolbar .cmChip { margin-left: auto; font-size: 10.5px; }
@@ -673,7 +673,7 @@
   border: 1px solid var(--line);
   border-radius: 13px;
   background: #fff;
-  box-shadow: 0 2px 6px #102b4e08;
+  box-shadow: 0 2px 6px #1a2a3a08;
 }
 
 .saDashboardCard header {
@@ -799,7 +799,7 @@
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #fff;
-  box-shadow: 0 2px 6px #102b4e08;
+  box-shadow: 0 2px 6px #1a2a3a08;
 }
 
 .adminShell .cmSearchBox {
@@ -965,7 +965,7 @@
   }
 
   .adminShell.adminShellSuper .sidebar {
-    scrollbar-color: #2b4d77 transparent;
+    scrollbar-color: #587a2c transparent;
   }
 }
 
@@ -979,7 +979,7 @@
 }
 
 .adminShell.adminShellSuper .sidebar::-webkit-scrollbar-thumb {
-  background: #2b4d77;
+  background: #587a2c;
   border-radius: 999px;
 }
 
@@ -997,8 +997,8 @@
   padding: 11px 16px 11px 18px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: linear-gradient(135deg, #eef5ff 0%, #ffffff 58%);
-  box-shadow: 0 2px 8px #102b4e0d;
+  background: linear-gradient(135deg, #f1f7eb 0%, #ffffff 58%);
+  box-shadow: 0 2px 8px #1a2a3a0d;
   overflow: hidden;
   margin-bottom: 14px;
 }
@@ -1010,7 +1010,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: linear-gradient(180deg, var(--navy), #f9a006);
+  background: linear-gradient(180deg, var(--navy), #dca03c);
 }
 
 .roleDash .pageHeading h1 {
@@ -1027,7 +1027,7 @@
   height: 2px;
   margin-top: 4px;
   border-radius: 3px;
-  background: #f9a006;
+  background: #dca03c;
 }
 
 .roleDash .pageHeading p {
@@ -1062,7 +1062,7 @@
 
 .roleDash .metricCard:hover {
   border-color: #c5d3e5;
-  box-shadow: 0 4px 12px #102b4e12;
+  box-shadow: 0 4px 12px #1a2a3a12;
 }
 
 .roleDash .metricTop {
@@ -1115,7 +1115,7 @@
 
 .roleDash .saModuleCard:hover {
   border-color: #c5d3e5;
-  box-shadow: 0 4px 12px #102b4e12;
+  box-shadow: 0 4px 12px #1a2a3a12;
 }
 
 .roleDash .saModuleCard > i {
@@ -1250,8 +1250,8 @@
   padding: 8px 14px;
   border-radius: 10px;
   overflow: hidden;
-  background: linear-gradient(118deg, #0b2545 0%, #103763 48%, #17528f 100%);
-  box-shadow: 0 8px 18px #0c274826;
+  background: linear-gradient(118deg, #2a4014 0%, #3c5a1e 48%, #587a2c 100%);
+  box-shadow: 0 8px 18px #3c5a1e26;
 }
 
 .roleDashAccounts .acHero::before {
@@ -1273,7 +1273,7 @@
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+  background: linear-gradient(90deg, #dca03c, rgba(249, 160, 6, 0) 62%);
 }
 
 .roleDashAccounts .acHeroText {
@@ -1284,7 +1284,7 @@
 
 .roleDashAccounts .acEyebrow {
   margin: 0 0 2px;
-  color: #f9a006;
+  color: #dca03c;
   font-size: 9px;
   font-weight: 750;
   letter-spacing: .14em;
@@ -1386,13 +1386,13 @@
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 2px 6px #102b4e08;
+  box-shadow: 0 2px 6px #1a2a3a08;
   transition: border-color .15s ease, box-shadow .15s ease;
 }
 
 .roleDashAccounts .acKpi:hover {
   border-color: #c5d3e5;
-  box-shadow: 0 6px 16px #102b4e12;
+  box-shadow: 0 6px 16px #1a2a3a12;
 }
 
 .roleDashAccounts .acKpiTop {
@@ -1445,7 +1445,7 @@
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #16a34a, #00a84f);
+  background: linear-gradient(90deg, #16a34a, #6e963c);
 }
 
 /* Icon tiles ---------------------------------------------------------- */
@@ -1464,9 +1464,9 @@
   height: 15px;
 }
 
-.roleDashAccounts .acTone-blue { background: #e8eef7; color: #0c2748; }
-.roleDashAccounts .acTone-indigo { background: #e2eeff; color: #2874ed; }
-.roleDashAccounts .acTone-green { background: #dcfbe9; color: #00a84f; }
+.roleDashAccounts .acTone-blue { background: #e7f1dc; color: #3c5a1e; }
+.roleDashAccounts .acTone-indigo { background: #e7f1dc; color: #3c5a1e; }
+.roleDashAccounts .acTone-green { background: #dcfbe9; color: #6e963c; }
 .roleDashAccounts .acTone-amber { background: #fff2c5; color: #c07c00; }
 .roleDashAccounts .acTone-slate { background: #eef2f7; color: #536780; }
 
@@ -1490,7 +1490,7 @@
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
-  box-shadow: 0 2px 6px #102b4e08;
+  box-shadow: 0 2px 6px #1a2a3a08;
 }
 
 .roleDashAccounts .acPanelHead {
@@ -1549,7 +1549,7 @@
 .roleDashAccounts .acModule:hover {
   border-color: #c5d3e5;
   background: #fff;
-  box-shadow: 0 6px 16px #102b4e12;
+  box-shadow: 0 6px 16px #1a2a3a12;
   transform: translateY(-1px);
 }
 
@@ -1709,7 +1709,7 @@
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
-  color: #0c2748;
+  color: #3c5a1e;
   font: inherit;
   font-size: 11.5px;
   font-weight: 650;
@@ -1718,7 +1718,7 @@
 }
 
 .roleDashAccounts .acLinkButton:hover {
-  border-color: #0c2748;
+  border-color: #3c5a1e;
   background: #f7f9fc;
 }
 
@@ -1751,8 +1751,8 @@
   padding: 9px 14px;
   border-radius: 10px;
   overflow: hidden;
-  background: linear-gradient(118deg, #0b2545 0%, #123a63 52%, #1b5b9c 100%);
-  box-shadow: 0 8px 18px #0c274826;
+  background: linear-gradient(118deg, #2a4014 0%, #3c5a1e 52%, #587a2c 100%);
+  box-shadow: 0 8px 18px #3c5a1e26;
 }
 .roleDashAccounts .accountsModuleHero::before {
   content: "";
@@ -1772,13 +1772,13 @@
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #f9a006, rgba(249, 160, 6, 0) 62%);
+  background: linear-gradient(90deg, #dca03c, rgba(249, 160, 6, 0) 62%);
 }
 .roleDashAccounts .accountsModuleHeroText,
 .roleDashAccounts .accountsModuleHeroAside { position: relative; z-index: 1; }
 .roleDashAccounts .accountsModuleEyebrow {
   margin: 0 0 2px;
-  color: #f9a006;
+  color: #dca03c;
   font-size: 9px;
   font-weight: 750;
   letter-spacing: .14em;
@@ -1806,6 +1806,17 @@
 .roleDashAccounts .cmTable { font-size: 11.5px; }
 .roleDashAccounts .cmTable thead th { padding: 8px 11px; font-size: 10px; }
 .roleDashAccounts .cmTable tbody td { padding: 8px 11px; }
+
+/* Keep the Accounts workspace consistently aligned with the worker brand. */
+.roleDashAccounts .saHeaderMeta strong,
+.roleDashAccounts .clientTopbarTitle strong {
+  color: var(--navy);
+}
+
+.roleDashAccounts .acPanelHead h2,
+.roleDashAccounts .acModuleHead strong {
+  color: var(--navy);
+}
 
 @media (max-width: 650px) {
   .roleDashAccounts .accountsModuleHero { align-items: flex-start; flex-direction: column; }

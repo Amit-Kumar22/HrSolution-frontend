@@ -6,7 +6,7 @@
   display: grid;
   grid-template-columns: minmax(340px, 0.8fr) minmax(480px, 1.2fr);
   background: #fff;
-  color: #102b4e;
+  color: #1a2a3a;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -15,7 +15,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 46px clamp(30px, 4vw, 56px);
-  background: #0c2748;
+  background: #3c5a1e;
   color: #fff;
 }
 
@@ -33,8 +33,8 @@
   display: grid;
   place-items: center;
   border-radius: 8px;
-  background: #f9a006;
-  color: #0c2748;
+  background: #ffffff; border: 1px solid #dce4ee;
+  color: #3c5a1e;
   font-size: 18px;
   font-weight: 800;
 }
@@ -66,8 +66,8 @@
   padding: 4px;
   flex: 0 0 auto;
   border-radius: 50%;
-  background: #f9a006;
-  color: #0c2748;
+  background: #ffffff; border: 1px solid #dce4ee;
+  color: #3c5a1e;
   stroke-width: 3;
 }
 .authCopyright { color: #657a95; font-size: 11px; }
@@ -76,7 +76,7 @@
 .authCard { width: min(100%, 430px); }
 .authCard h1 {
   margin: 0 0 8px;
-  color: #0c2748;
+  color: #3c5a1e;
   font-size: 27px;
   letter-spacing: -0.03em;
 }
@@ -102,7 +102,7 @@
 }
 .authSelect { padding-right: 8px; }
 .authInput:focus,
-.authSelect:focus { border-color: #0c2748; box-shadow: 0 0 0 2px #0c274820; }
+.authSelect:focus { border-color: #3c5a1e; box-shadow: 0 0 0 2px #3c5a1e20; }
 .authInput::placeholder { color: #9aa9bb; }
 .authInput:disabled,
 .authSelect:disabled { background: #f5f7fa; color: #8496ad; cursor: not-allowed; }
@@ -122,14 +122,14 @@
   font-size: 11px;
   line-height: 1.5;
 }
-.authCheckboxRow input { width: 15px; height: 15px; margin: 1px 0 0; accent-color: #0c2748; flex: 0 0 auto; }
-.authCheckboxRow a { color: #c95800; font-weight: 650; }
+.authCheckboxRow input { width: 15px; height: 15px; margin: 1px 0 0; accent-color: #3c5a1e; flex: 0 0 auto; }
+.authCheckboxRow a { color: #b8822f; font-weight: 650; }
 
 .authButton {
   height: 44px;
   border: 0;
   border-radius: 7px;
-  background: #0c2748;
+  background: #3c5a1e;
   color: #fff;
   font-size: 13px;
   font-weight: 700;
@@ -169,7 +169,7 @@
 .authAlert--info { background: #eaf1fb; color: #29415e; }
 
 .authLinks { margin-top: 20px; color: #63748b; font-size: 12px; text-align: center; }
-.authLinks a { color: #c95800; font-weight: 700; text-decoration: none; }
+.authLinks a { color: #b8822f; font-weight: 700; text-decoration: none; }
 .authLinks a:hover { text-decoration: underline; }
 .authInlineLinks {
   display: flex;
@@ -214,7 +214,7 @@
   flex: 0 0 auto;
   border-radius: 50%;
   background: #eaf1fb;
-  color: #0c2748;
+  color: #3c5a1e;
   font-size: 11px;
 }
 
@@ -245,7 +245,7 @@
   gap: 12px;
   margin-bottom: 16px;
 }
-.accountModalHead h2 { margin: 0 0 4px; color: #0c2748; font-size: 18px; letter-spacing: -0.02em; }
+.accountModalHead h2 { margin: 0 0 4px; color: #3c5a1e; font-size: 18px; letter-spacing: -0.02em; }
 .accountModalHead p { margin: 0; color: #63748b; font-size: 12px; line-height: 1.5; }
 .accountModalClose {
   flex: 0 0 auto;
@@ -271,14 +271,14 @@ button.accountActionLink { cursor: pointer; }
 
 /* --------------------------- Sessions --------------------------- */
 
-.sessionsShell { min-height: 100vh; background: #f4f7fa; color: #102b4e; font-family: Arial, Helvetica, sans-serif; }
+.sessionsShell { min-height: 100vh; background: #f4f7fa; color: #1a2a3a; font-family: Arial, Helvetica, sans-serif; }
 .sessionsTopbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   padding: 16px clamp(20px, 4vw, 44px);
-  background: #0c2748;
+  background: #3c5a1e;
   color: #fff;
 }
 .sessionsBrand { display: inline-flex; align-items: center; gap: 9px; color: #fff; text-decoration: none; font-weight: 700; }
@@ -288,8 +288,8 @@ button.accountActionLink { cursor: pointer; }
   display: grid;
   place-items: center;
   border-radius: 7px;
-  background: #f9a006;
-  color: #0c2748;
+  background: #ffffff; border: 1px solid #dce4ee;
+  color: #3c5a1e;
   font-weight: 800;
 }
 .sessionsTopActions { display: flex; align-items: center; gap: 10px; }
@@ -323,7 +323,7 @@ button.accountActionLink { cursor: pointer; }
   border-radius: 12px;
   background: #fff;
 }
-.sessionCard--current { border-color: #0c2748; box-shadow: 0 6px 20px rgba(12, 39, 72, 0.08); }
+.sessionCard--current { border-color: #3c5a1e; box-shadow: 0 6px 20px rgba(12, 39, 72, 0.08); }
 .sessionMain { min-width: 0; }
 .sessionTitle { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; font-size: 14px; }
 .sessionBadge {
@@ -366,7 +366,7 @@ button.accountActionLink { cursor: pointer; }
 
 /* ------------------------ Account pages ------------------------- */
 
-.accountShell { min-height: 100vh; background: #f4f7fa; color: #102b4e; font-family: Arial, Helvetica, sans-serif; }
+.accountShell { min-height: 100vh; background: #f4f7fa; color: #1a2a3a; font-family: Arial, Helvetica, sans-serif; }
 .accountContainer { max-width: 960px; margin: 0 auto; padding: 34px clamp(18px, 4vw, 40px) 60px; }
 .accountHeading { margin-bottom: 24px; }
 .accountHeading h1 { margin: 0 0 6px; font-size: 25px; letter-spacing: -0.02em; }
@@ -416,7 +416,7 @@ button.accountActionLink { cursor: pointer; }
   text-decoration: none;
 }
 .accountActionLink:hover { background: #eef3f9; }
-.accountActionLink--primary { border-color: #0c2748; background: #0c2748; color: #fff; }
+.accountActionLink--primary { border-color: #3c5a1e; background: #3c5a1e; color: #fff; }
 .accountActionLink--primary:hover { background: #173b64; }
 
 @media (max-width: 850px) {
@@ -435,7 +435,7 @@ button.accountActionLink { cursor: pointer; }
     align-items: center;
     gap: 9px;
     margin-bottom: 34px;
-    color: #0c2748;
+    color: #3c5a1e;
     text-decoration: none;
   }
   .authMobileBrand strong { font-size: 15px; }
