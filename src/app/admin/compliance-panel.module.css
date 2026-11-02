@@ -102,44 +102,99 @@
   font-size: 13px;
 }
 
-.reportSummary {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 10px;
-  margin: 0;
+.reportSummaryTable {
+  margin-top: 16px;
 }
 
-.reportSummary > div {
-  min-width: 0;
-  padding: 13px;
-  border: 1px solid #e4eaf2;
-  border-radius: 9px;
-  background: #fff;
+.reportSummaryTable th:first-child {
+  width: 34%;
 }
 
-.reportSummary dt {
-  color: #718198;
-  font-size: 10px;
+.reportSummaryTable tbody th {
+  color: #52647a;
+  font-size: 12px;
   font-weight: 700;
-  text-transform: uppercase;
+  text-align: left;
+  text-transform: capitalize;
 }
 
-.reportSummary dd {
-  margin: 5px 0 0;
-  color: #24384f;
+.reportSummaryTable tbody td {
+  color: #1f334b;
   font-size: 13px;
+  font-weight: 600;
   overflow-wrap: anywhere;
 }
 
 .reportPayload {
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
-.reportPayload h2 {
-  margin: 0 0 9px;
+.reportOverview,
+.reportSection {
+  padding: 20px;
+  border: 1px solid #e1e9df;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(40, 68, 29, 0.06);
+}
+
+.reportOverview {
+  background: linear-gradient(135deg, #f8fbf4 0%, #ffffff 72%);
+}
+
+.reportOverviewHeader,
+.reportSectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.reportOverviewHeader h2,
+.reportSectionHeader h2 {
+  margin: 3px 0 0;
   color: #3c5a1e;
-  font-size: 14px;
+  font-size: 20px;
+  line-height: 1.25;
+  text-transform: none;
+}
+
+.reportEyebrow {
+  margin: 0;
+  color: #82906e;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.reportStatus,
+.recordCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #3c6a26;
+  background: #edf6e8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.recordCount {
+  color: #64748b;
+  background: #f2f5f8;
+}
+
+.reportSection {
+  padding: 18px 20px 20px;
+}
+
+.reportSectionHeader {
+  align-items: center;
+  margin-bottom: 14px;
 }
 
 @media (max-width: 640px) {
@@ -156,6 +211,17 @@
   }
 
   .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .reportOverview,
+  .reportSection {
+    padding: 16px;
+  }
+
+  .reportOverviewHeader,
+  .reportSectionHeader {
     align-items: flex-start;
     flex-direction: column;
   }

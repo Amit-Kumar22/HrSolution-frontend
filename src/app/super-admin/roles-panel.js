@@ -15,24 +15,6 @@ import {
 } from "../admin/admin-ui";
 import { roleDescription, roleLabel } from "./account-meta";
 
-const WORKER_DOCUMENT_PERMISSIONS = [
-  {
-    name: "WORKER_DOCUMENT_UPLOAD",
-    module: "WORKER",
-    description: "Upload documents for workers.",
-  },
-  {
-    name: "WORKER_DOCUMENT_EDIT",
-    module: "WORKER",
-    description: "Edit worker document details.",
-  },
-  {
-    name: "WORKER_DOCUMENT_DELETE",
-    module: "WORKER",
-    description: "Delete worker documents.",
-  },
-];
-
 function groupPermissions(permissions) {
   const groups = new Map();
   for (const permission of permissions) {
@@ -68,11 +50,7 @@ export default function RolesPanel() {
         const [roleList, permissionList] = await Promise.all([listRoles(), listPermissions()]);
         if (cancelled) return;
         setRoles(roleList);
-        const permissionNames = new Set(permissionList.map((permission) => permission.name));
-        setPermissions([
-          ...permissionList,
-          ...WORKER_DOCUMENT_PERMISSIONS.filter((permission) => !permissionNames.has(permission.name)),
-        ]);
+        setPermissions(permissionList);
         setLoadError("");
         setActiveRoleName((current) => current || (roleList[0] ? roleList[0].name : ""));
       } catch (error) {
@@ -87,21 +65,24 @@ export default function RolesPanel() {
   }, [reloadToken]);
 
   const activeRole = useMemo(() => roles.find((role) => role.name === activeRoleName) || null, [roles, activeRoleName]);
+  const knownPermissionNames = useMemo(() => new Set(permissions.map((permission) => permission.name)), [permissions]);
 
   const draft = useMemo(() => {
     if (!activeRole) return [];
-    if (draftState.role === activeRole.name) return draftState.values;
-    return Array.isArray(activeRole.permissions) ? [...activeRole.permissions] : [];
-  }, [activeRole, draftState]);
+    const source = draftState.role === activeRole.name
+      ? draftState.values
+      : activeRole.permissions;
+    return Array.isArray(source) ? source.filter((permission) => knownPermissionNames.has(permission)) : [];
+  }, [activeRole, draftState, knownPermissionNames]);
 
   const grouped = useMemo(() => groupPermissions(permissions), [permissions]);
   const isSuperAdmin = activeRoleName === "SUPER_ADMIN";
   const dirty = useMemo(() => {
     if (!activeRole) return false;
-    const current = [...(activeRole.permissions || [])].sort();
+    const current = [...(activeRole.permissions || [])].filter((permission) => knownPermissionNames.has(permission)).sort();
     const next = [...draft].sort();
     return current.length !== next.length || current.some((value, index) => value !== next[index]);
-  }, [activeRole, draft]);
+  }, [activeRole, draft, knownPermissionNames]);
 
   function togglePermission(name) {
     if (isSuperAdmin || !activeRole) return;
@@ -138,7 +119,7 @@ export default function RolesPanel() {
 
       if (!persisted) {
         setSaveError(
-          "The server did not retain these permissions. The worker document permissions must be available in the server's permission catalog to persist.",
+          "The server did not retain these permissions. Refresh the permission catalog and try again.",
         );
         return;
       }

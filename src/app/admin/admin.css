@@ -1954,3 +1954,15 @@ button.adKpi { cursor: pointer; }
   font-size: 11.5px;
   line-height: 1.45;
 }
+/* Reports overview: keep the summary heading compact and readable. */
+.cmReportsPanel .reportOverviewHeader { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.cmReportsPanel .reportOverviewHeader > div { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.cmReportsPanel .reportOverviewHeader .reportEyebrow { flex: 0 0 auto; margin: 0; }
+.cmReportsPanel .reportOverviewHeader h2 { margin: 0; white-space: nowrap; }
+.cmReportsPanel .reportOverviewHeader .reportStatus { flex: 0 0 auto; white-space: nowrap; }
+
+@media (max-width: 640px) {
+  .cmReportsPanel .reportOverviewHeader { align-items: flex-start; }
+  .cmReportsPanel .reportOverviewHeader > div { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .cmReportsPanel .reportOverviewHeader h2 { white-space: normal; }
+}

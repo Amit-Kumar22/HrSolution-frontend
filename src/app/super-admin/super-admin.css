@@ -1831,6 +1831,15 @@
 .roleDashAccounts .cmHead > div:first-child { display: none; }
 .roleDashAccounts .cmHead:not(:has(.cmHeadAction)) { display: none; }
 .roleDashAccounts .holidayPanelHeader { display: none !important; }
+
+/* Reports keeps its section title so users can identify the report area. */
+.roleDashAccounts .cmReportsPanel .cmHead {
+  justify-content: space-between;
+}
+.roleDashAccounts .cmReportsPanel .cmHead > div:first-child {
+  display: block;
+}
+
 .roleDashAccounts .cmPagination { gap: 8px; margin-top: 10px; }
 .roleDashAccounts .cmPagination .cmBtn,
 .roleDashAccounts .cmPagination .cmPageBtn {

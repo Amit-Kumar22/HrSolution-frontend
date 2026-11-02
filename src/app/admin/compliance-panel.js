@@ -810,6 +810,26 @@ function ReportTable({ rows }) {
   );
 }
 
+function ReportSummaryTable({ rows }) {
+  return (
+    <div className="cmTableWrap">
+      <table className={`cmTable ${styles.reportSummaryTable}`}>
+        <thead>
+          <tr><th>Field</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          {rows.map(({ key, value }) => (
+            <tr key={key}>
+              <th scope="row">{reportLabel(key)}</th>
+              <td>{reportValue(key, value)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function ReportPayload({ data }) {
   const { summary, sections } = reportSections(data);
   if (!summary.length && !sections.length) {
@@ -818,13 +838,26 @@ function ReportPayload({ data }) {
   return (
     <div className={styles.reportPayload}>
       {summary.length > 0 && (
-        <dl className={styles.reportSummary}>
-          {summary.map(({ key, value }) => <div key={key}><dt>{reportLabel(key)}</dt><dd>{reportValue(key, value)}</dd></div>)}
-        </dl>
+        <section className={`reportOverview ${styles.reportOverview}`} aria-labelledby="report-overview-title">
+          <div className={`reportOverviewHeader ${styles.reportOverviewHeader}`}>
+            <div>
+              <p className={`reportEyebrow ${styles.reportEyebrow}`}>Report summary</p>
+              <h2 id="report-overview-title">Summary details</h2>
+            </div>
+            <span className={`reportStatus ${styles.reportStatus}`}><Check size={14} /> Loaded</span>
+          </div>
+          <ReportSummaryTable rows={summary} />
+        </section>
       )}
       {sections.map(({ key, rows }) => (
-        <section key={key}>
-          <h2>{reportLabel(key)}</h2>
+        <section className={`reportSection ${styles.reportSection}`} key={key}>
+          <div className={`reportSectionHeader ${styles.reportSectionHeader}`}>
+            <div>
+              <p className={`reportEyebrow ${styles.reportEyebrow}`}>Detailed data</p>
+              <h2>{reportLabel(key)}</h2>
+            </div>
+            <span className={styles.recordCount}>{rows.length} record{rows.length === 1 ? "" : "s"}</span>
+          </div>
           <ReportTable rows={rows} />
         </section>
       ))}
