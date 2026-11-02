@@ -11,8 +11,8 @@ const WORKER_PASSWORD = "Worker@123";
 
 export default function Login() {
   const { signIn } = useAuth();
-  const [email, setEmail] = useState(WORKER_EMAIL);
-  const [password, setPassword] = useState(WORKER_PASSWORD);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
