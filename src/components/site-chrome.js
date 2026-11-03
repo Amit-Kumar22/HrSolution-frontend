@@ -33,7 +33,6 @@ const NAV_ITEMS = [
   ["About Us", "/#about"],
   ["Services", "/#services"],
   ["Industries", "/#industries"],
-  ["Manpower", "/#manpower"],
   ["Careers", "/careers"],
   ["Contact Us", "/#contact"],
 ];
@@ -120,7 +119,11 @@ export function Navbar() {
       <header className="site-header">
         <div className="container nav-inner">
           <Brand />
-          <nav className={`main-nav${open ? " nav-open" : ""}`} aria-label="Main navigation">
+          <nav
+            id="site-navigation"
+            className={`main-nav${open ? " nav-open" : ""}`}
+            aria-label="Main navigation"
+          >
             {NAV_ITEMS.map(([label, href]) =>
               href.startsWith("/careers") ? (
                 <Link key={label} href={href} onClick={() => setOpen(false)}>
@@ -155,6 +158,7 @@ export function Navbar() {
             onClick={() => setOpen(!open)}
             aria-label={open ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={open}
+            aria-controls="site-navigation"
           >
             {open ? <X size={22} /> : <Menu size={22} />}
           </button>

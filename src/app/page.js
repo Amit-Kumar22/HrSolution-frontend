@@ -295,7 +295,8 @@ function About() {
   );
 }
 
-function ServiceCard({ service }) {
+function ServiceCard({ service, index = 0 }) {
+  const [isOpening, setIsOpening] = useState(false);
   const Icon = SERVICE_ICONS[String(service.icon || "").trim().toLowerCase()] || BriefcaseBusiness;
   const heroImage = resolvePublicFileUrl(service.heroImageUrl);
   const summary = service.summary || service.description || "";
@@ -306,23 +307,26 @@ function ServiceCard({ service }) {
   const handleClick = (e) => {
     const target = e.target;
     if (target instanceof Element && (target.closest('a') || target.closest('button'))) return;
-    window.location.href = href;
+    setIsOpening(true);
+    window.setTimeout(() => { window.location.href = href; }, 180);
   };
 
   return (
-    <article className="service-card" tabIndex={0} role="link" aria-label={`Learn more about ${service.title}`} onClick={handleClick} onKeyDown={(e) => {
+    <article className={`service-card${isOpening ? " service-card-opening" : ""}`} style={{ "--card-index": index }} tabIndex={0} role="link" aria-label={`Learn more about ${service.title}`} onClick={handleClick} onKeyDown={(e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        window.location.href = href;
+        setIsOpening(true);
+        window.setTimeout(() => { window.location.href = href; }, 180);
       }
     }}>
+      <div className="service-card-topline"><span>WORKFORCE SOLUTION</span><b>{String(index + 1).padStart(2, "0")}</b></div>
       {heroImage && (
         <PublicImage src={heroImage} alt={service.title || ""} className="service-card-image" fallback={null} />
       )}
       <span className="icon-tile icon-blue"><Icon size={20} /></span>
       <h3>{service.title}</h3>
       {summary && <p>{summary}</p>}
-      <Link href={href} aria-label={`Learn more about ${service.title}`} onClick={(e) => e.stopPropagation()}>
+      <Link href={href} aria-label={`Learn more about ${service.title}`} onClick={(e) => { e.preventDefault(); setIsOpening(true); window.setTimeout(() => { window.location.href = href; }, 180); }}>
         Learn more <ArrowRight size={14} />
       </Link>
     </article>
@@ -341,8 +345,8 @@ function Services() {
         {!loading && servicesError && <SectionFeedback message={servicesError} onRetry={reload} />}
         {!loading && !servicesError && services.length > 0 && (
           <div className="service-grid">
-            {services.map((service) => (
-              <ServiceCard key={service.slug || service.title} service={service} />
+            {services.map((service, index) => (
+              <ServiceCard key={service.slug || service.title} service={service} index={index} />
             ))}
           </div>
         )}
@@ -372,7 +376,7 @@ function Industries() {
             {industries.map((industry, index) => {
               const Icon = INDUSTRY_ICONS[String(industry.icon || "").trim().toLowerCase()] || Building2;
               return (
-                <article className="industry-card" key={industry.slug || industry.name} tabIndex={0}>
+                <article className="industry-card" style={{ "--card-index": index }} key={industry.slug || industry.name} tabIndex={0}>
                   <div className="industry-card-top">
                     <span className="icon-tile icon-amber-light"><Icon size={20} /></span>
                     <span className="industry-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
