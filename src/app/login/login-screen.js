@@ -3,7 +3,24 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, LockKeyhole, TriangleAlert } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Check,
+  CreditCard,
+  Eye,
+  EyeOff,
+  Handshake,
+  Loader2,
+  LockKeyhole,
+  LogIn,
+  Mail,
+  Settings,
+  ShieldCheck,
+  TriangleAlert,
+  UserRound,
+  UserRoundPlus,
+  UsersRound,
+} from "lucide-react";
 import {
   AUTH_SESSION_LOADING,
   clearAuthFlash,
@@ -30,6 +47,7 @@ const styles = {
   mobileFooter: "mobileFooter", forgotLink: "forgotLink", backToLogin: "backToLogin",
   demoPanel: "demoPanel", demoPanelTitle: "demoPanelTitle", demoList: "demoList",
   demoItem: "demoItem", demoRole: "demoRole", demoCreds: "demoCreds",
+  field: "field", fieldIcon: "fieldIcon", passwordToggle: "passwordToggle",
 };
 
 const DEMO_ACCOUNTS = [
@@ -43,6 +61,17 @@ const DEMO_ACCOUNTS = [
   { role: "Worker", email: "worker@gmail.com", password: "Worker@123" },
   { role: "Job Seeker", email: "sumit@gmail.com", password: "Sumit@123" },
 ];
+
+const ROLE_ICONS = {
+  Admin: UserRound,
+  HR: UsersRound,
+  Operations: Settings,
+  Accounts: CreditCard,
+  Client: Handshake,
+  Worker: BriefcaseBusiness,
+  Candidate: UserRoundPlus,
+  Supervisor: ShieldCheck,
+};
 
 function Brand() {
   return (
@@ -61,6 +90,7 @@ export default function LoginScreen() {
   const [view, setView] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [errorStatus, setErrorStatus] = useState(0);
@@ -183,7 +213,10 @@ export default function LoginScreen() {
             <li><Check size={14} />Workforce and payroll information, organised by role</li>
           </ul>
           <div className={styles.roleList} aria-label="Portal user roles">
-            {["Admin", "HR", "Operations", "Accounts", "Client", "Worker", "Candidate", "Supervisor"].map((role) => <span key={role}>{role}</span>)}
+            {["Admin", "HR", "Operations", "Accounts", "Client", "Worker", "Candidate", "Supervisor"].map((role) => {
+              const Icon = ROLE_ICONS[role];
+              return <span key={role}><Icon size={16} aria-hidden="true" />{role}</span>;
+            })}
           </div>
         </div>
         <small className={styles.copyright}>© 2026 Shakti Manpower Services Pvt. Ltd.</small>
@@ -203,32 +236,48 @@ export default function LoginScreen() {
                   <Link className={styles.remember} href="/resend-verification">Resend email verification</Link>
                 )}
                 <label htmlFor="login-email">Email address</label>
-                <input
-                  id="login-email"
-                  name="email"
-                  type="email"
-                  autoComplete="username"
-                  placeholder="name@company.com"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  required
-                />
+                <div className={styles.field}>
+                  <Mail className={styles.fieldIcon} size={16} />
+                  <input
+                    id="login-email"
+                    name="email"
+                    type="email"
+                    autoComplete="username"
+                    placeholder="name@company.com"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    required
+                  />
+                </div>
                 <label htmlFor="login-password">Password</label>
-                <input
-                  id="login-password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  required
-                />
+                <div className={styles.field}>
+                  <LockKeyhole className={styles.fieldIcon} size={16} />
+                  <input
+                    id="login-password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className={styles.passwordToggle}
+                    onClick={() => setShowPassword((value) => !value)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
                 <div className={styles.formOptions}>
                   <label className={styles.remember}><input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />Remember me for 30 days</label>
                   <button type="button" className={styles.forgotLink} onClick={showForgotPassword}>Forgot password?</button>
                 </div>
-                <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Signing in…" : "Log in"}</button>
+                <button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? <><Loader2 size={16} className="spin" />Signing in…</> : <>Log in <LogIn size={19} /></>}
+                </button>
               </form>
               <div className={styles.demoPanel}>
                 <p className={styles.demoPanelTitle}>Demo login accounts</p>
@@ -259,17 +308,20 @@ export default function LoginScreen() {
                 {forgotError && <div className={styles.errorAlert} role="alert"><TriangleAlert size={16} />{forgotError}</div>}
                 {forgotSuccess && <div className={styles.successAlert} role="status"><Check size={16} />{forgotSuccess}</div>}
                 <label htmlFor="forgot-email">Email address</label>
-                <input
-                  id="forgot-email"
-                  name="email"
-                  type="email"
-                  autoComplete="username"
-                  placeholder="name@company.com"
-                  value={forgotEmail}
-                  onChange={(event) => setForgotEmail(event.target.value)}
-                  disabled={Boolean(forgotSuccess)}
-                  required
-                />
+                <div className={styles.field}>
+                  <Mail className={styles.fieldIcon} size={16} />
+                  <input
+                    id="forgot-email"
+                    name="email"
+                    type="email"
+                    autoComplete="username"
+                    placeholder="name@company.com"
+                    value={forgotEmail}
+                    onChange={(event) => setForgotEmail(event.target.value)}
+                    disabled={Boolean(forgotSuccess)}
+                    required
+                  />
+                </div>
                 <button type="submit" disabled={isSendingReset || Boolean(forgotSuccess)}>
                   {isSendingReset ? "Sending…" : "Send reset link"}
                 </button>

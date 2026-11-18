@@ -6,7 +6,6 @@ import {
   ChevronLeft,
   ChevronRight,
   PencilLine,
-  Plus,
   Star,
   Trash2,
 } from "lucide-react";
@@ -18,7 +17,6 @@ import {
   FlashBanner,
   LoadingState,
   Modal,
-  SectionHead,
   useFlash,
 } from "./admin-ui";
 import { getAuthSession, hasPermission, hasRole } from "@/lib/auth";
@@ -201,13 +199,6 @@ export default function HolidayManagementPanel({ session: passedSession, allowMa
     setReloadToken((value) => value + 1);
   }
 
-  function openCreateDialog() {
-    setEditingId("");
-    setForm(buildHolidayFormDefaults(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1)));
-    setFormErrors({});
-    setModalOpen(true);
-  }
-
   function openEditDialog(item) {
     setEditingId(getHolidayId(item));
     setForm({
@@ -296,16 +287,6 @@ export default function HolidayManagementPanel({ session: passedSession, allowMa
 
   return (
     <div className="holidayPanel" style={{ display: "grid", gap: 16 }}>
-      <SectionHead
-        title="Holiday Calendar"
-        description={canManage ? "Manage company holidays and review state-specific calendars." : "Review the official holiday calendar and upcoming public holiday dates."}
-        action={canManage ? (
-          <button type="button" className="primaryButton cmBtn" onClick={openCreateDialog}>
-            <Plus size={14} /> Add Holiday
-          </button>
-        ) : null}
-      />
-
       <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", alignItems: "end" }}>
         <label style={{ display: "grid", gap: 6, fontWeight: 600, color: "#23415d", fontSize: 12 }}>
           From date

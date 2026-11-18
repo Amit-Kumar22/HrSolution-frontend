@@ -50,15 +50,7 @@ export function slugify(value) {
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export function SectionHead({ title, description, action }) {
-  return (
-    <div className="cmHead">
-      <div>
-        <h1>{title}</h1>
-        {description && <p>{description}</p>}
-      </div>
-      {action && <div className="cmHeadAction">{action}</div>}
-    </div>
-  );
+  return action ? <div className="cmHeadAction">{action}</div> : null;
 }
 
 export function StatusPill({ published }) {
